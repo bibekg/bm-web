@@ -1,5 +1,8 @@
 sudo: required
 
+language: 'node_js'
+  - "node"
+
 services:
   - docker
 
@@ -13,4 +16,3 @@ before_install:
   - docker build --build-arg node_environment=staging -t web_staging .
   - docker tag web_staging:latest 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_staging:latest
   - docker push 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_staging:latest
-  
