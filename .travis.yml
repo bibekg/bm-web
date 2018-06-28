@@ -3,11 +3,14 @@ sudo: required
 services:
   - docker
 
+branch:
+  only:
+
 before_install:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin
-  - eval $(aws ecr get-login --region us-west-2)
-  - docker build --build-arg node_environment=$NODE_ENV -t web_$NODE_ENV
-  - docker tag web_$NODE_ENV:latest 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_$NODE_ENV:latest
-  - docker push 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_$NODE_ENV:latest
+  - eval $(aws ecr get-login --no-include-email --region us-west-2 | sed 's|https://||')
+  - docker build --build-arg node_environment=staging -t web_staging
+  - docker tag web_staging:latest 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_staging:latest
+  - docker push 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_staging:latest
   
