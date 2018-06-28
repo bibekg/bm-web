@@ -1,0 +1,22 @@
+<svg width="1440" height="233" viewBox="0 0 1440 233" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Light Wave - Bottom</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(1934 -3592)">
+<g id="Light Wave - Bottom">
+<g id="Lightest - Bottom">
+<use xlink:href="#path0_fill" transform="translate(-1934 3592)" fill="#6EAAFB" fill-opacity="0.1"/>
+</g>
+<g id="Middle - Bottom">
+<use xlink:href="#path1_fill" transform="translate(-1934 3592)" fill="#6ECCFB" fill-opacity="0.1"/>
+</g>
+<g id="Darkest - Bottom">
+<use xlink:href="#path2_fill" transform="translate(-1934 3592)" fill="#6EB2FB" fill-opacity="0.08"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 1440 15.4143L 0 232.912L 0 0L 1440 0L 1440 15.4143Z"/>
+<path id="path1_fill" d="M 1440 13.5012L 0 147.644L 0 0L 1440 0L 1440 13.5012Z"/>
+<path id="path2_fill" d="M 1440 16.2794L 0 187.343L 0 0L 1440 0L 1440 16.2794Z"/>
+</defs>
+</svg>

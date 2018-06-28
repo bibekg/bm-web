@@ -1,0 +1,22 @@
+<svg width="1440" height="134" viewBox="0 0 1440 134" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Wave - Top</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(1934 -1339)">
+<g id="Wave - Top">
+<g id="Lightest-Top">
+<use xlink:href="#path0_fill" transform="matrix(-1 -1.38778e-17 1.38778e-17 -1 -494 1473)" fill="#6EAAFB" fill-opacity="0.39"/>
+</g>
+<g id="Middle-Top">
+<use xlink:href="#path1_fill" transform="matrix(-1 -1.38778e-17 1.38778e-17 -1 -494 1456.46)" fill="#6EAAFB" fill-opacity="0.51"/>
+</g>
+<g id="Darkest-Top">
+<use xlink:href="#path2_fill" transform="matrix(-1 -1.38778e-17 1.38778e-17 -1 -494 1429.29)" fill="#6EAAFB" fill-opacity="0.83"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 240 56.2538C 136.713 15.6033 106.797 0 0 0L 0 134L 1440 134L 1440 93.8248C 1440 93.8248 1299 58.9911 1177 73.2492C 1000.94 93.8248 994 43.4146 880 23.0447C 762.587 2.06497 655.308 18.8882 544.5 56.2538C 411.837 100.989 320.936 88.1078 240 56.2538Z"/>
+<path id="path1_fill" d="M 304.5 74.4231C 201.213 35.5249 106.797 0 0 0L 0 117.462L 1440 117.462L 1440 89.7802C 1440 89.7802 1387.17 47.5087 1146.5 74.4231C 1047.22 85.5253 1007.07 47.8049 922 29.533C 784.5 0 716.308 38.6682 605.5 74.4231C 472.837 117.23 385.436 104.904 304.5 74.4231Z"/>
+<path id="path2_fill" d="M 221.616 53.8289C 118.329 14.9306 106.797 0 0 0L 0 90.2913L 1440 90.2913C 1440 90.2913 1333.2 26.9144 1092.53 53.8289C 993.259 64.9311 905.014 53.8289 836.323 26.9144C 779.062 4.47856 630.251 -3.8147e-06 519.443 35.7549C 386.78 78.5619 302.552 84.3097 221.616 53.8289Z"/>
+</defs>
+</svg>

@@ -1,0 +1,13 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
+  - eval $(aws ecr get-login --region us-west-2)
+  - docker build --build-arg node_environment=$NODE_ENV -t web_$NODE_ENV
+  - docker tag web_$NODE_ENV:latest 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_$NODE_ENV:latest
+  - docker push 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_$NODE_ENV:latest
+  
