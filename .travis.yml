@@ -7,13 +7,12 @@ node_js:
 services:
   - docker
 
-branch:
+branches:
   only:
+    - production
+    - master
+    - bibek/ci # TODO: Remove once done testing
 
 before_install:
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
-  - eval $(aws ecr get-login --no-include-email --region us-west-2 | sed 's|https://||')
-  - docker build --build-arg node_environment=staging -t web_staging .
-  - docker tag web_staging:latest 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_staging:latest
-  - docker push 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_staging:latest
+  - chmod +x deploy.sh
+  - ./deploy.sh
