@@ -33,7 +33,13 @@ docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:latest"
 # Push the built Docker image to the EC2 container registry
 docker push "$ECS_REPO/$APP_NAME:latest"
 
-# Make sure EC2 keyfile has limited permissions so that AWS allows you to SSH with it
+# Build id_rsa_bruinmeet keyfile using ENV var stored in TravisCI settings
+touch id_rsa_bruinmeet
+echo "-----BEGIN RSA PRIVATE KEY-----" >> id_rsa_bruinmeet
+echo $AWS_EC2_PEM >> id_rsa_bruinmeet
+echo "-----END RSA PRIVATE KEY-----" >> id_rsa_bruinmeet
+
+# Need to reduce its permissions to owner-only to make the awscli happy
 chmod 0400 id_rsa_bruinmeet
 # Tell the EC2 instance to re-deploy (which will use this new version we just pushed)
 # Disable "Are you sure you want to connect" message with -o "StrictHostKeychecking no"
