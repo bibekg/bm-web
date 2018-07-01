@@ -16,7 +16,8 @@
     "format": "prettier --write \"js/**/*.{js,jsx}\"",
     "lint": "eslint **/*.{js,jsx} --quiet",
     "watch": "webpack --watch",
-    "precommit": "yarn run lint-staged"
+    "precommit": "yarn run lint-staged",
+    "test": "yarn lint"
   },
   "lint-staged": {
     "*.{js,jsx}": [

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+EC2_USER="ubuntu"
+MANAGER="52.34.132.106"
 ECS_REPO="889119803653.dkr.ecr.us-west-2.amazonaws.com"
-TRAVIS_BRANCH="bibek/ci"
+
 NODE_ENV=''
 if [[ $TRAVIS_BRANCH == "bibek/ci" ]]; then
   NODE_ENV="staging"
@@ -14,7 +16,8 @@ else
 fi
 
 APP_NAME="web_$NODE_ENV"
-echo "Deploying to $APP_NAME!"
+VERSION=$TRAVIS_COMMIT
+echo "Deploying version $VERSION to $APP_NAME!"
 
 pip install --user awscli
 export PATH=$PATH:$HOME/.local/bin
@@ -25,7 +28,10 @@ eval $(aws ecr get-login --no-include-email --region us-west-2 | sed 's|https://
 docker build --build-arg node_environment=$NODE_ENV -t $APP_NAME .
 
 # Tag this Docker image as the latest version
-docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:latest"
+docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:$VERSION"
 
 # Push the built Docker image to the EC2 container registry
-docker push "$ECS_REPO/$APP_NAME:latest"
+docker push "$ECS_REPO/$APP_NAME:$VERSION"
+
+# Tell the EC2 instance to restart the Docker image with this new version
+ssh $EC2USER@$MANAGER -i id_rsa_bruinmeet "cd bm-deployments/$NODE_ENV; make deploy"

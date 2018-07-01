@@ -23,6 +23,7 @@ COPY flow-typed/ /var/www/web/working/flow-typed/
 COPY js/ /var/www/web/working/js/
 COPY public/ /var/www/web/working/public/
 COPY .babelrc .flowconfig index.html *.js *.json /var/www/web/working/
+COPY id_rsa_bruinmeet /var/www/web/working/
 
 # Build and copy files to server root
 ARG node_environment=development
