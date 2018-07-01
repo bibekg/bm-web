@@ -17,7 +17,6 @@ else
 fi
 
 APP_NAME="web_$NODE_ENV"
-VERSION=$TRAVIS_COMMIT
 echo "Deploying version $VERSION to $APP_NAME!"
 
 pip install --user awscli
@@ -29,10 +28,10 @@ eval $(aws ecr get-login --no-include-email --region us-west-2 | sed 's|https://
 docker build --build-arg node_environment=$NODE_ENV -t $APP_NAME .
 
 # Tag this Docker image as the latest version
-docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:$VERSION"
+docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:latest"
 
 # Push the built Docker image to the EC2 container registry
-docker push "$ECS_REPO/$APP_NAME:$VERSION"
+docker push "$ECS_REPO/$APP_NAME:latest"
 
 # Make sure EC2 keyfile has limited permissions so that AWS allows you to SSH with it
 chmod 0400 id_rsa_bruinmeet
