@@ -35,12 +35,15 @@ docker push "$ECS_REPO/$APP_NAME:latest"
 
 # Build id_rsa_bruinmeet keyfile using ENV var stored in TravisCI settings
 touch id_rsa_bruinmeet
-echo "-----BEGIN RSA PRIVATE KEY-----" >> id_rsa_bruinmeet
+# Reduce permissions to owner-only to keep awscli happy
+chmod 0600 id_rsa_bruinmeet
+echo "-----BEGIN RSA PRIVATE KEY-----" > id_rsa_bruinmeet
 echo $AWS_EC2_PEM >> id_rsa_bruinmeet
 echo "-----END RSA PRIVATE KEY-----" >> id_rsa_bruinmeet
 
-# Need to reduce its permissions to owner-only to make the awscli happy
-chmod 0400 id_rsa_bruinmeet
 # Tell the EC2 instance to re-deploy (which will use this new version we just pushed)
 # Disable "Are you sure you want to connect" message with -o "StrictHostKeychecking no"
 ssh -o "StrictHostKeyChecking no" $EC2_USER@$MANAGER -i id_rsa_bruinmeet "cd bm-deployments/$NODE_ENV; make deploy"
+
+# Cleanup
+rm id_rsa_bruinmeet
