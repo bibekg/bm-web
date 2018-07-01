@@ -33,6 +33,8 @@ docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:$VERSION"
 # Push the built Docker image to the EC2 container registry
 docker push "$ECS_REPO/$APP_NAME:$VERSION"
 
-# Tell the EC2 instance to restart the Docker image with this new version
+# Make sure EC2 keyfile has limited permissions so that AWS allows you to SSH with it
 chmod 0400 id_rsa_bruinmeet
+# Tell the EC2 instance to restart the Docker image with this new version
+# Disable "Are you sure you want to connect" message with -o "StrictHostKeychecking no"
 ssh -o "StrictHostKeyChecking no" $EC2_USER@$MANAGER -i id_rsa_bruinmeet "cd bm-deployments/$NODE_ENV; make deploy"
