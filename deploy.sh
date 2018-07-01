@@ -17,7 +17,7 @@ else
 fi
 
 APP_NAME="web_$NODE_ENV"
-echo "Deploying version $VERSION to $APP_NAME!"
+echo "Deploying to $APP_NAME"
 
 pip install --user awscli
 export PATH=$PATH:$HOME/.local/bin
@@ -38,7 +38,7 @@ touch id_rsa_bruinmeet
 # Reduce permissions to owner-only to keep awscli happy
 chmod 0600 id_rsa_bruinmeet
 echo "-----BEGIN RSA PRIVATE KEY-----" > id_rsa_bruinmeet
-echo $AWS_EC2_PEM >> id_rsa_bruinmeet
+echo "$AWS_EC2_PEM" >> id_rsa_bruinmeet
 echo "-----END RSA PRIVATE KEY-----" >> id_rsa_bruinmeet
 
 # Tell the EC2 instance to re-deploy (which will use this new version we just pushed)
