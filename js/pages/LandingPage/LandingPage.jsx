@@ -112,7 +112,7 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
           </TagDiv>
         </BlueWaveBackground>
         <MessageWrapper>
-          <Title>From Us To You BREH</Title>
+          <Title>From Us To You</Title>
           <br />
           <Text paragraph>
             {
