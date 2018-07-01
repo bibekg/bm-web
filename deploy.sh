@@ -34,4 +34,4 @@ docker tag $APP_NAME:latest "$ECS_REPO/$APP_NAME:$VERSION"
 docker push "$ECS_REPO/$APP_NAME:$VERSION"
 
 # Tell the EC2 instance to restart the Docker image with this new version
-ssh $EC2USER@$MANAGER -i id_rsa_bruinmeet "cd bm-deployments/$NODE_ENV; make deploy"
+ssh $EC2_USER@$MANAGER -i id_rsa_bruinmeet "cd bm-deployments/$NODE_ENV; make deploy"
