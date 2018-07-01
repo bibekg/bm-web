@@ -2,21 +2,27 @@
 FROM alpine:3.7
 
 # Install dependencies
-RUN apk update && apk add -U nginx python nodejs
+RUN apk update && apk add -U nginx python nodejs yarn
 
 # Create directories
 #   /working is the build directory
 #   /static is the directory linked to nginx
 RUN mkdir -p /var/www/web/working && mkdir -p /var/www/web/static
 
-# Copy entire current directory into working directory
-COPY * /var/www/web/working/
+# Copy package.json and yarn.lock file into working directory
+COPY package.json yarn.lock /var/www/web/working/
 
-# Run npm install to download all the project dependencies
-RUN cd /var/www/web/working && npm install
+# Install the project dependencies
+RUN cd /var/www/web/working && yarn
 
 # Set the working directory
 WORKDIR /var/www/web/working
+
+# Copy rest of the files into the working directory
+COPY flow-typed/ /var/www/web/working/flow-typed/
+COPY js/ /var/www/web/working/js/
+COPY public/ /var/www/web/working/public/
+COPY .babelrc .flowconfig index.html *.js *.json /var/www/web/working/
 
 # Build and copy files to server root
 ARG node_environment=development
