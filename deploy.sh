@@ -18,7 +18,7 @@ echo "Deploying to $APP_NAME!"
 
 pip install --user awscli
 export PATH=$PATH:$HOME/.local/bin
-eval $$(aws ecr get-login | sed 's|https://||')
+eval $(aws ecr get-login | sed 's|https://||')
 
 # Build the Docker image for this app target from the current directory's contents
 # Pass in the NODE_ENV so it has context
