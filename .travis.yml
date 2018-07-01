@@ -15,4 +15,4 @@ branches:
 
 after_script:
   - chmod +x deploy.sh
-  - ./deploy.sh
+  - ./deploy.sh $AWS_EC2_PEM
