@@ -13,6 +13,6 @@ branches:
     - master
     - bibek/ci # TODO: Remove once done testing
 
-after_install:
+deploy:
   - chmod +x deploy.sh
   - ./deploy.sh
