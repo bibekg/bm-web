@@ -9,20 +9,14 @@ RUN apk update && apk add -U nginx python nodejs
 #   /static is the directory linked to nginx
 RUN mkdir -p /var/www/web/working && mkdir -p /var/www/web/static
 
-# Copy package.json and package-lock.json file into working directory
-COPY *.json /var/www/web/working/
+# Copy entire current directory into working directory
+COPY * /var/www/web/working/
 
 # Run npm install to download all the project dependencies
 RUN cd /var/www/web/working && npm install
 
 # Set the working directory
 WORKDIR /var/www/web/working
-
-# Copy rest of the files into the working directory
-COPY flow-typed/ /var/www/web/working/flow-typed/
-COPY js/ /var/www/web/working/js/
-COPY public/ /var/www/web/working/public/
-COPY .babelrc .flowconfig index.html *.js /var/www/web/working/
 
 # Build and copy files to server root
 ARG node_environment=development
