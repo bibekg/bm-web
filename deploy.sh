@@ -3,10 +3,6 @@
 EC2_USER="ubuntu"
 MANAGER="52.34.132.106"
 ECS_REPO="889119803653.dkr.ecr.us-west-2.amazonaws.com"
-AWS_EC2_PEM=$1
-
-echo $AWS_EC2_PEM
-exit
 
 # Determine the environment to deploy to based on which branch this commit is on
 NODE_ENV=''
