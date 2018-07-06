@@ -21,7 +21,6 @@ APP_NAME="web_$NODE_ENV"
 S3_BUCKET="bruinmeet-$NODE_ENV-app"
 echo "Deploying to the $S3_BUCKET bucket"
 
-S3_BUCKET="bruinmeet-staging-app"
 brew install s3cmd
 s3cmd \
   --access_key=$AWS_ACCESS_KEY_ID \

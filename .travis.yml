@@ -14,7 +14,7 @@ before_deploy:
   yarn build
 
 deploy:
-  - provider: script
-    script: deploy.sh
+  provider: script
+  script: deploy.sh
 
 
