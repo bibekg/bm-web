@@ -5,9 +5,9 @@ node_js:
   - "node"
 
 after_success:
-  yarn build
-  chmod +x deploy.sh
-  ./deploy.sh
+  - yarn build
+  - chmod +x deploy.sh
+  - ./deploy.sh
 
 
 
