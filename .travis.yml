@@ -4,20 +4,10 @@ language: node_js
 node_js:
   - "node"
 
-branches:
-  only:
-    - production
-    - master
-    - bibek/ci # TODO: Remove once done testing
-
-before_deploy:
+after_success:
   yarn build
+  ./deploy.sh
 
-deploy:
-  provider: script
-  script: bash deploy.sh
-  on:
-    all_branches: true
 
 
 
