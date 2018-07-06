@@ -6,6 +6,7 @@ node_js:
 
 after_success:
   yarn build
+  chmod +x deploy.sh
   ./deploy.sh
 
 
