@@ -20,6 +20,9 @@ echo "Deploying to the $S3_BUCKET bucket"
 
 sudo pip install s3cmd
 
+# Need to set NODE_ENV before building bundle
+NODE_ENV=$NODE_ENV yarn build
+
 # Sync our build folder with our S3 bucket
 s3cmd \
   --access_key=$AWS_ACCESS_KEY_ID \
