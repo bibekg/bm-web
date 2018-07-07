@@ -25,4 +25,6 @@ s3cmd \
   --access_key=$AWS_ACCESS_KEY_ID \
   --secret_key=$AWS_SECRET_ACCESS_KEY \
   --region=$AWS_S3_REGION \
+  --acl-public \
+  --delete-removed \
   sync public/* "s3://$S3_BUCKET"
