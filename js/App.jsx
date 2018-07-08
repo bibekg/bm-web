@@ -19,6 +19,7 @@ injectGlobal([
   body {
     font-family: 'Montserrat', sans-serif;
     height: 100%;
+    margin: 0;
   }
 
   #app {
@@ -47,7 +48,6 @@ type PropsType = {
 // App always tries to fill the auth and user Redux stores
 class App extends React.Component<PropsType> {
   constructor(props: PropsType) {
-    console.log(process.env.NODE_ENV)
     super(props)
     // Initialize the Facebook SDK then try to update our Redux auth state with
     // the user's credentials if possible
