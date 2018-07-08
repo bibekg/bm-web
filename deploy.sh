@@ -20,8 +20,12 @@ echo "Deploying to the $S3_BUCKET bucket"
 
 sudo pip install s3cmd
 
-# Need to set NODE_ENV before building bundle
-NODE_ENV=$NODE_ENV yarn build
+# Run the appropriate build script based on ENV
+if [[ $NODE_ENV == "staging" ]]; then
+  yarn build:staging
+elif [[ $NODE_ENV == "production" ]]; then
+  yarn build:production
+fi
 
 # Sync our build folder with our S3 bucket
 s3cmd \

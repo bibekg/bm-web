@@ -8,7 +8,9 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --optimize-minimize",
-    "build-with-stats": "cross-env NODE_ENV=production webpack --optimize-minimize --profile --json > .webpack-stats.json",
+    "build:production": "cross-env NODE_ENV=production yarn build",
+    "build:staging": "cross-env NODE_ENV=staging yarn build",
+    "build:stats": "cross-env NODE_ENV=production webpack --optimize-minimize --profile --json > .webpack-stats.json",
     "view-stats": "webpack-bundle-analyzer .webpack-stats.json public/",
     "analyze-build": "yarn build-with-stats && view-stats",
     "dev": "yarn && cross-env NODE_ENV=development webpack-dev-server",
