@@ -17,7 +17,7 @@ else
   echo "Not deploying"
   exit
 fi
-S3_BUCKET="bruinmeet-$NODE_ENV-app"
+S3_BUCKET="bruinmeet-web-$NODE_ENV"
 echo "Deploying to the $S3_BUCKET bucket"
 
 sudo pip install s3cmd
