@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AWS_S3_REGION="us-west-2"
-STAGING_BRANCH="bibek/ci"
+STAGING_BRANCH="master"
 PRODUCTION_BRANCH="production"
 
 # Determine the S3 bucket to deploy to based on which branch this commit is on
