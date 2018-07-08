@@ -8,8 +8,10 @@ PRODUCTION_BRANCH="production"
 NODE_ENV=''
 if [[ $TRAVIS_BRANCH == $STAGING_BRANCH ]]; then
   NODE_ENV="staging"
+  yarn build:staging
 elif [[ $TRAVIS_BRANCH == $PRODUCTION_BRANCH ]]; then
   NODE_ENV="production"
+  yarn build:production
 else
   # Don't want to deploy if it's not one of the above branches
   echo "Not deploying"
@@ -19,13 +21,6 @@ S3_BUCKET="bruinmeet-$NODE_ENV-app"
 echo "Deploying to the $S3_BUCKET bucket"
 
 sudo pip install s3cmd
-
-# Run the appropriate build script based on ENV
-if [[ $NODE_ENV == "staging" ]]; then
-  yarn build:staging
-elif [[ $NODE_ENV == "production" ]]; then
-  yarn build:production
-fi
 
 # Sync our build folder with our S3 bucket
 s3cmd \
