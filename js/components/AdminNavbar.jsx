@@ -26,7 +26,6 @@ export default function AdminNavbar(): React.Element<*> {
   return (
     <NavWrapper>
       <NavItem to="/admin">Main</NavItem>
-      <NavItem to="/admin/matchmaking">Matchmaking</NavItem>
       <NavItem to="/admin/apidocs">API Docs</NavItem>
       <NavItem to="/admin/components">Components</NavItem>
       <NavItem to="/admin/tools">Admin Tools</NavItem>
