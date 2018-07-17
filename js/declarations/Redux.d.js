@@ -107,10 +107,16 @@ type MarkMatchFeedbackSubmittedActionType = {
   payload: MatchFeedbackType
 }
 
+type MarkDislikeMatchFeedbackSubmittedActionType = {
+  type: ACTIONS.MARK_DISLIKE_MATCH_FEEDBACK_SUBMITTED,
+  payload: DislikeMatchFeedbackType
+}
+
 type MatchActionType =
   | GetMatchSuccessActionType
   | SetRendezvousTimeActionType
   | UpdateLikeStatusActionType
   | MarkMatchFeedbackSubmittedActionType
+  | MarkDislikeMatchFeedbackSubmittedActionType
 
 type MatchStateType = ?MatchType

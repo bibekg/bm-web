@@ -3,6 +3,7 @@
 import axios from 'axios'
 import * as API from 'constants/api-endpoints'
 import * as ACTIONS from 'actions/types'
+import { makeApiRequest } from '.'
 
 export const getMatchSuccess = (match: MatchType) => ({
   type: ACTIONS.GET_MATCH_SUCCESS,
@@ -30,6 +31,11 @@ export const updateLikeStatus = (status: boolean) => ({
 export const markMatchFeedbackSubmitted = (matchFeedback: MatchFeedbackType) => ({
   type: ACTIONS.MARK_MATCH_FEEDBACK_SUBMITTED,
   payload: matchFeedback
+})
+
+export const markDislikeMatchFeedbackSubmitted = (dislikeMatchFeedback: DislikeMatchFeedbackType) => ({
+  type: ACTIONS.MARK_DISLIKE_MATCH_FEEDBACK_SUBMITTED,
+  payload: dislikeMatchFeedback
 })
 
 export const getMatch = (callback: ReduxCallbackType<*>) => (dispatch: *, getState: *) =>
@@ -64,8 +70,12 @@ export const postMatchAction = (likeMatch: boolean, callback: ReduxCallbackType<
       likeMatch
     }
   })
-    .then(() => {
-      dispatch(updateLikeStatus(likeMatch))
+    .then(response => {
+      const { match } = response.data
+      if (match) {
+        dispatch(getMatchSuccess(match))
+        dispatch(updateLikeStatus(likeMatch))
+      }
       if (typeof callback === 'function') callback(null, null)
     })
     .catch(err => {
@@ -102,4 +112,17 @@ export const submitMatchFeedback = (matchFeedback: MatchFeedbackType, callback?:
       if (typeof callback === 'function') callback(err, null)
       // eslint-disable-next-line no-console
       console.log(err)
+    })
+
+export const submitDislikeMatchFeedback = (dmf: DislikeMatchFeedbackType, callback?: ReduxCallbackType<*>) => (
+  dispatch: *,
+  getState: *
+) =>
+  makeApiRequest(API.SUBMIT_DISLIKE_MATCH_FEEDBACK, getState().auth.accessToken, dmf)
+    .then(response => {
+      dispatch(markDislikeMatchFeedbackSubmitted(response.data.dislikeMatchFeedback))
+      if (callback) callback(null, response.data)
+    })
+    .catch(err => {
+      if (callback) callback(err, null)
     })

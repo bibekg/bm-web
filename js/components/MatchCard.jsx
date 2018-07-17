@@ -8,7 +8,7 @@ import SecureUserImage from 'components/SecureUserImage'
 import ProfileTextInfo from 'components/ProfileTextInfo'
 import { colors, breakpoints } from 'styles'
 import { formatQuestion, formatRelationshipType } from 'utilities/user-formatters'
-import MatchmakingTimer from 'components/MatchmakingTimer'
+import MatchedCountdownTimer from 'components/MatchedCountdownTimer'
 
 const ProfileCardDiv = Card.extend`
   padding: 30px;
@@ -70,8 +70,7 @@ const DetailText = Text.extend`
 type PropsType = {
   user: UserType,
   matchBasis: ?Array<UserRelationshipType>,
-  hideContactInfo?: boolean,
-  countDownTime: Date
+  hideContactInfo?: boolean
 }
 
 export default function MatchCard(props: PropsType): React.Element<*> {
@@ -94,7 +93,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
   return (
     <ProfileCardDiv>
       <InfoBannerDiv>
-        <MatchmakingTimer countDownTime={props.countDownTime} />
+        <MatchedCountdownTimer />
         <div>
           <SecureUserImage userId={_id} />
         </div>

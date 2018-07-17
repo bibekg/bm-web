@@ -2,7 +2,9 @@ type MatchParticipantType<T> = {
   user: T,
   likeState: 'pending' | 'liked' | 'disliked',
   updatedAvailability: boolean,
-  matchFeedback: MatchFeedbackType
+  matchFeedback: MatchFeedbackType,
+  sawDislikeFeedbackModal: boolean,
+  dislikeMatchFeedback: DislikeMatchFeedbackType
 }
 
 type MatchVariantType = 'AutoDate' | 'ScheduleFirst'
