@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { Route } from 'react-router-dom'
 import AdminNavbar from 'components/AdminNavbar'
 import AdminMainView from 'components/AdminMainView'
-import AdminMatchmakingView from 'components/AdminMatchmakingView'
 import AdminAPIDocsView from 'components/AdminAPIDocsView'
 import AdminComponentsView from 'components/AdminComponentsView'
 import AdminToolsView from 'components/AdminToolsView'
@@ -54,7 +53,6 @@ class AdminPage extends React.Component<PropsType> {
         </NavWrapper>
         <ContentWrapper>
           <Route exact path="/admin" component={AdminMainView} />
-          <Route exact path="/admin/matchmaking" component={AdminMatchmakingView} />
           <Route exact path="/admin/apidocs" component={AdminAPIDocsView} />
           <Route exact path="/admin/components" component={AdminComponentsView} />
           <Route exact path="/admin/tools" component={AdminToolsView} />
