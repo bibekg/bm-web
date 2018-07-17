@@ -46,8 +46,8 @@ const getDevServer = () => {
   if (NODE_ENV === 'development') {
     return {
       hot: true,
-      publicPath: '/public/',
-      historyApiFallback: true
+      historyApiFallback: true,
+      contentBase: './public'
     }
   } else {
     return undefined

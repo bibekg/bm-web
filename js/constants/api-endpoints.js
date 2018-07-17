@@ -1,7 +1,7 @@
 // @flow
 
 export const BASE_API_URL = {
-  development: 'http://localhost:3000/api',
+  development: 'http://localhost:3000',
   staging: 'https://api.bruinmeat.win',
   production: 'https://api.bruinmeet.com'
 }[process.env.NODE_ENV || 'development']
