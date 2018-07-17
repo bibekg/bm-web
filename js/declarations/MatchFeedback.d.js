@@ -7,3 +7,11 @@ type MatchFeedbackType = {
   satisfaction: MatchSatisfactionType,
   comments: ?string
 }
+
+type DislikeReasonsType = 'lack-detail' | 'unclear-image' | 'unmet-prefs' | 'other'
+
+type DislikeMatchFeedbackType = {
+  matchId: string,
+  dislikeReasons: Array<DislikeReasonsType>,
+  dislikeComments: ?string
+}

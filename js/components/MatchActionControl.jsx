@@ -6,9 +6,10 @@ import { Title, Text } from 'components/typography'
 import AutoDateCard from 'components/AutoDateCard'
 import MatchActionButtons from 'components/MatchActionButtons'
 import MatchCard from 'components/MatchCard'
-import MatchCountdownTimer from 'components/MatchCountdownTimer'
+import UnmatchedCountdownTimer from 'components/UnmatchedCountdownTimer'
 import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import moment from 'moment'
+import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
 
 const MessageWrapper = styled.div`
   margin: 50px 30px;
@@ -16,12 +17,12 @@ const MessageWrapper = styled.div`
 
 type PropsType = {
   user: UserType,
-  match: MatchType,
-  countDownTime: Date
+  match: MatchType
 }
 
 type StateType = {
-  availability: Array<Date>
+  availability: Array<Date>,
+  showDislikeFeedbackModal: boolean
 }
 
 export default class MatchActionControl extends React.Component<PropsType, StateType> {
@@ -30,18 +31,27 @@ export default class MatchActionControl extends React.Component<PropsType, State
   constructor(props: PropsType) {
     super(props)
     this.state = {
-      availability: props.user.availability || []
+      availability: props.user.availability || [],
+      // it's ok to just update state on startup for this, since we only want users to see it once anyway
+      showDislikeFeedbackModal: !props.match.participants.self.sawDislikeFeedbackModal
     }
     this.matchedUser = props.match.participants.match.user
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
-    // In the case that a new match is sent while this component is still active,
+    // In the case that either a match becomes mutual and API sends back hidden informationa,
+    // or a new match is sent while this component is still active,
     // update the "cached" matchedUser value
     // eslint-disable-next-line no-underscore-dangle
-    if (nextProps.match._id !== this.props.match._id) {
+    if (!this.props.match.participants.match.user.firstName || nextProps.match._id !== this.props.match._id) {
       this.matchedUser = nextProps.match.participants.match.user
     }
+  }
+
+  closeDislikeMatchModal = () => {
+    this.setState({
+      showDislikeFeedbackModal: false
+    })
   }
 
   handleAvailabilityChange = (newAvailability: Array<Date>) => {
@@ -145,7 +155,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
       ) {
         return <MatchFeedbackModal user={this.props.user} match={this.props.match} />
       } else {
-        return <MatchCountdownTimer countDownTime={this.props.countDownTime} />
+        return <UnmatchedCountdownTimer />
       }
     } else if (matchState === 'active') {
       if (variants.ScheduleFirst) {
@@ -162,7 +172,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
         } else if (rendezvousState === 'scheduled') {
           // Date is scheduled
           if (participants.self.likeState === 'disliked') {
-            return <MatchCountdownTimer countDownTime={this.props.countDownTime} />
+            return <UnmatchedCountdownTimer />
           } else if (participants.self.likeState === 'pending') {
             return this.renderScheduleFirstMatchMade()
           } else if (participants.self.likeState === 'liked') {
@@ -176,7 +186,15 @@ export default class MatchActionControl extends React.Component<PropsType, State
       } else if (participants.self.likeState === 'disliked') {
         // No ScheduleFirst variant from here on
         // Check your own like state
-        return <MatchCountdownTimer countDownTime={this.props.countDownTime} />
+        return this.state.showDislikeFeedbackModal ? (
+          <DislikeMatchFeedbackModal
+            user={this.props.user}
+            match={this.props.match}
+            onOutClick={this.closeDislikeMatchModal}
+          />
+        ) : (
+          <UnmatchedCountdownTimer />
+        )
       } else if (participants.self.likeState === 'pending') {
         return MatchActionControl.renderHaveMatch()
       } else if (participants.self.likeState === 'liked') {
@@ -218,7 +236,6 @@ export default class MatchActionControl extends React.Component<PropsType, State
             user={this.matchedUser}
             matchBasis={this.props.match.matchBasis}
             hideContactInfo={!showContactInfo}
-            countDownTime={this.props.countDownTime}
           />
         )}
       </div>

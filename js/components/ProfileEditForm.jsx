@@ -39,6 +39,19 @@ const FormItemChildrenWrapper = styled.div`
 const FormPageWrapper = styled.div`
   display: ${props => (props.active ? 'block' : 'none')};
 `
+const DropdownWrapper = styled.div`
+  & > * {
+    position: relative;
+    &:nth-child(1) {
+      z-index: 2;
+    }
+    &:nth-child(2) {
+      z-index: 1;
+    }
+  }
+  position: relative;
+  z-index: 1;
+`
 
 const PageMenu = styled.div`
   display: flex;
@@ -342,12 +355,12 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     this.updateUser({ answers: editedAnswers })
   }
 
-  handleCollegeChange = (name: string, selectedItem: OptionType) => {
+  handleDropdownChange = (name: string, selectedItem: OptionType) => {
     const { editedUser } = this.state
-    if (!editedUser) return
+    if (!editedUser || !(name in editedUser)) return
 
     if (!selectedItem) return
-    this.updateUser({ college: selectedItem.text })
+    this.updateUser({ [name]: selectedItem.text })
   }
 
   isFormValid = (): boolean => {
@@ -425,24 +438,26 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     if (!requiredFieldsOnly) {
       const nonReqItems = [
-        <FormItem name="Major" key="major">
-          <Form.TextInput
-            type="text"
-            name="major"
-            placeholder="Psychology"
-            value={editedUser.major || ''}
-            onChange={this.handleValueChange}
-          />
-        </FormItem>,
-        <FormItem name="College" key="college">
-          <Dropdown
-            name="college"
-            items={USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c))}
-            selectedItem={new DropdownItem(editedUser.college, editedUser.college)}
-            placeholder={USER_PROPS.COLLEGE[0]}
-            onChange={this.handleCollegeChange}
-          />
-        </FormItem>,
+        <DropdownWrapper key="dropdownWrapperMajorCollege">
+          <FormItem name="Major" key="major">
+            <Dropdown
+              name="major"
+              items={USER_PROPS.MAJOR.map(c => new DropdownItem(c, c))}
+              selectedItem={new DropdownItem(editedUser.major, editedUser.major)}
+              placeholder={USER_PROPS.COLLEGE[0]}
+              onChange={this.handleDropdownChange}
+            />
+          </FormItem>
+          <FormItem name="College" key="college">
+            <Dropdown
+              name="college"
+              items={USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c))}
+              selectedItem={new DropdownItem(editedUser.college, editedUser.college)}
+              placeholder={USER_PROPS.COLLEGE[0]}
+              onChange={this.handleDropdownChange}
+            />
+          </FormItem>
+        </DropdownWrapper>,
         <FormItem name="Height" key="height">
           <Slider
             min={USER_PROPS.MIN_HEIGHT}

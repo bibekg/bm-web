@@ -2,8 +2,8 @@
 
 export const BASE_API_URL = {
   development: 'http://localhost:3000/api',
-  staging: 'https://api.bruinmeat.win',
-  production: 'https://api.bruinmeet.com'
+  staging: '/api',
+  production: '/api'
 }[process.env.NODE_ENV || 'development']
 
 const BASE = {
@@ -64,6 +64,11 @@ export const SUBMIT_MATCH_FEEDBACK = {
 export const GET_COUNTDOWN_TIME = {
   URL: `${BASE.user}/countdown`,
   METHOD: 'GET'
+}
+
+export const SUBMIT_DISLIKE_MATCH_FEEDBACK = {
+  URL: `${BASE.user}/dislike-match-feedback`,
+  METHOD: 'POST'
 }
 
 // ///////////////////////////

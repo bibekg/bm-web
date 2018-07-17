@@ -7,7 +7,8 @@ import {
   MARK_RENDEZVOUS_UNSCHEDULABLE,
   MARK_AVAILABILITY_SUBMITTED,
   UPDATE_LIKE_STATUS,
-  MARK_MATCH_FEEDBACK_SUBMITTED
+  MARK_MATCH_FEEDBACK_SUBMITTED,
+  MARK_DISLIKE_MATCH_FEEDBACK_SUBMITTED
 } from 'actions/types'
 
 const DEFAULT_MATCH_STATE = null
@@ -34,6 +35,10 @@ const matchProducer: (MatchStateType, MatchActionType) => MatchStateType = produ
     } else if (action.type === MARK_MATCH_FEEDBACK_SUBMITTED) {
       if (draft && draft.participants && draft.participants.self) {
         draft.participants.self.matchFeedback = action.payload
+      }
+    } else if (action.type === MARK_DISLIKE_MATCH_FEEDBACK_SUBMITTED) {
+      if (draft && draft.participants && draft.participants.self) {
+        draft.participants.self.dislikeMatchFeedback = action.payload
       }
     }
   }
