@@ -71,7 +71,7 @@ const pageRoutes: { [string]: PageRouteType } = {
     exact: false,
     requireAuth: true,
     requireAdmin: true,
-    showNavBar: true
+    showNavBar: false
   },
   signup: {
     component: SignUpPage,

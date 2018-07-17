@@ -7,13 +7,11 @@ import { BASE_API_URL } from 'constants/api-endpoints'
 
 const IFRAME_URL = `${BASE_API_URL}/docs`
 
-const TOP_OFFSET = sizes.navbarHeight + sizes.adminNavbarHeight
-
 const IFrameElement = styled.iframe`
   width: 100%;
   position: fixed;
-  top: ${TOP_OFFSET};
-  height: calc(100vh - ${TOP_OFFSET}px);
+  top: ${sizes.adminNavbarHeight};
+  height: calc(100vh - ${sizes.adminNavbarHeight}px);
   flex: 1 1 auto;
   border: none;
 `
