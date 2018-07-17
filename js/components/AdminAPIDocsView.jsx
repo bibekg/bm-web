@@ -3,8 +3,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { sizes } from 'styles'
+import { BASE_API_URL } from 'constants/api-endpoints'
 
-const DOCS_ROUTE = 'api/docs'
+const IFRAME_URL = `${BASE_API_URL}/docs`
 
 const TOP_OFFSET = sizes.navbarHeight + sizes.adminNavbarHeight
 
@@ -18,10 +19,5 @@ const IFrameElement = styled.iframe`
 `
 
 export default function AdminAPIDocsView(): React.Element<*> {
-  const getIFrameUrl = (): string => {
-    const base = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''
-    return `${base}/${DOCS_ROUTE}`
-  }
-
-  return <IFrameElement title="API Docs" src={getIFrameUrl()} />
+  return <IFrameElement title="API Docs" src={IFRAME_URL} />
 }
