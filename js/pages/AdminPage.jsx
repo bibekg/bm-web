@@ -26,7 +26,6 @@ const NavWrapper = styled.div`
   z-index: 1;
   position: -webkit-sticky;
   position: sticky;
-  top: ${sizes.navbarHeight}px;
   height: ${sizes.adminNavbarHeight}px;
 `
 
