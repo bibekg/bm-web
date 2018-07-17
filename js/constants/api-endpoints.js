@@ -2,8 +2,8 @@
 
 export const BASE_API_URL = {
   development: 'http://localhost:3000/api',
-  staging: '/api',
-  production: '/api'
+  staging: 'https://api.bruinmeat.win',
+  production: 'https://api.bruinmeet.com'
 }[process.env.NODE_ENV || 'development']
 
 const BASE = {

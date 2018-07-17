@@ -19,6 +19,7 @@ injectGlobal([
   body {
     font-family: 'Montserrat', sans-serif;
     height: 100%;
+    margin: 0;
   }
 
   #app {

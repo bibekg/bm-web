@@ -1,13 +1,10 @@
 sudo: required
-
-services:
-  - docker
-
-before_install:
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
-  - eval $(aws ecr get-login --region us-west-2)
-  - docker build --build-arg node_environment=$NODE_ENV -t web_$NODE_ENV
-  - docker tag web_$NODE_ENV:latest 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_$NODE_ENV:latest
-  - docker push 889119803653.dkr.ecr.us-west-2.amazonaws.com/web_$NODE_ENV:latest
-  
+language: node_js
+node_js:
+- node
+after_success:
+- chmod +x deploy.sh
+- "./deploy.sh"
+notifications:
+  slack:
+    secure: M/PZE0Wx6RKP0ocmikffmhpzacqx5m+Fd38mvnvj34qkosEEft0XFV+4pk9n6TRiR177s2plfXVHVHRgpgHg/vJ1Lf/1i9ZYE9ge5cGEmsNxyW63ElSMEf7fy2cuQUXyN48oNLfIyXNBBGKOwBSgPAS2l0RFAfu/gdaGS9GhrWN4z16V+0NOEY7ZBnIBgKeIWk0fZ3wI1E+t31WLZ+UpvRun1/Lv+hvqSjqtLZS8mDM439t+otmd5upoQOiXlw/kL/HDiMZiQCXo/xEQMmP0ULNzwsi0dMnZd7CN+3vGeTFwqdafDSTkWdYB+JjTrWUvAhFDbtlDo0+HbT9ys2+4wFfHjb6GPNUL2cxocLoVGEi8X+R16GWmQtDJcJOs0ok4y9qSGHjsSL9XE5587ZatAoiy5dp5Lm+QhJbuO3tR3I0N/PWQx8KaWVZrmSdfAdEIUhKbnSDUVaRDggGmuE/HZg1lr1yQvq2ckgl4w2SzyMfPyMFnLVMdb5aj31mou/RiWEcL5ZWz8HKYuqvtURdeQA3yRcqgKPlHGzqjPjLYV3L3WVuWJYo5EC4UvstGPR/tLMWAYLC+WqWkSSf3h4hsKndM0wi97malYrQtKFJDo/kOqMke2Q3KTWICCTDAgKojJNk9G8nvBsNENIT8uAPjFq8FwfaNpZp+Ec/yxfJHF84=
