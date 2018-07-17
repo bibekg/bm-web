@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AWS_S3_REGION="us-west-2"
-STAGING_BRANCH="bibek/s3cmd-to-awss3"
+STAGING_BRANCH="master"
 PRODUCTION_BRANCH="production"
 
 # Determine the S3 bucket to deploy to based on which branch this commit is on
@@ -21,8 +21,6 @@ S3_BUCKET="bruinmeet-web-$NODE_ENV"
 echo "Deploying to the $S3_BUCKET bucket"
 
 pip install awscli --upgrade --user
-which aws
-aws --version
 
 # Sync our build folder with our S3 bucket
 aws s3 sync public/ "s3://$S3_BUCKET" --acl public-read --delete
