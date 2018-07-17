@@ -71,7 +71,7 @@ export const postMatchAction = (likeMatch: boolean, callback: ReduxCallbackType<
     }
   })
     .then(response => {
-      const { status, match } = response.data
+      const { match } = response.data
       if (match) {
         dispatch(getMatchSuccess(match))
         dispatch(updateLikeStatus(likeMatch))
