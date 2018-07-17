@@ -21,6 +21,7 @@ S3_BUCKET="bruinmeet-web-$NODE_ENV"
 echo "Deploying to the $S3_BUCKET bucket"
 
 sudo pip install awscli --upgrade --user
+aws --version
 
 # Sync our build folder with our S3 bucket
 aws s3 sync public/ "s3://$S3_BUCKET" --acl public-read --delete
