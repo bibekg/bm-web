@@ -20,7 +20,7 @@ fi
 S3_BUCKET="bruinmeet-web-$NODE_ENV"
 echo "Deploying to the $S3_BUCKET bucket"
 
-sudo pip install awscli --upgrade --user
+sudo pip3 install awscli --upgrade --user
 aws --version
 
 # Sync our build folder with our S3 bucket
