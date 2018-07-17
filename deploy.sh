@@ -20,13 +20,7 @@ fi
 S3_BUCKET="bruinmeet-web-$NODE_ENV"
 echo "Deploying to the $S3_BUCKET bucket"
 
-sudo pip install s3cmd
+pip install awscli --upgrade --user
 
 # Sync our build folder with our S3 bucket
-s3cmd \
-  --access_key=$AWS_ACCESS_KEY_ID \
-  --secret_key=$AWS_SECRET_ACCESS_KEY \
-  --region=$AWS_S3_REGION \
-  --acl-public \
-  --delete-removed \
-  sync public/* "s3://$S3_BUCKET"
+aws s3 sync public/ "s3://$S3_BUCKET" --acl public-read --delete
