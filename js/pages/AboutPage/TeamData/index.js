@@ -7,40 +7,26 @@ const membersData: Array<MemberDataType> = [
       first: 'Dmitri',
       last: 'Brereton'
     },
-    position: 'Product Manager/Back-End Developer',
+    position: 'Product Manager',
     description:
       'Memelord by day, asleep by night. Capable of having a conversation using only pusheen stickers. Usually found anywhere but class.',
     image: require('./images/dmitri-brereton.png')
   },
   {
-    name: {
-      first: 'Karen',
-      last: 'Fann'
-    },
-    position: 'Front-End Developer',
-    description:
-      'Short stack of pancakes but will break your ankles in basketball. Jasmine tea and aesthetic views keep me happy.',
-    image: require('./images/karen-fann.png')
-  },
-  {
-    name: {
-      first: 'Jeffrey',
-      last: 'Chan'
-    },
-    position: 'Back-End Developer',
-    description:
-      "626 native that's waiting for his wings to grow out. The only things that can hold me down are Chipotle, KBBQ, and Dim Sum.",
-    image: require('./images/jeffrey-chan.png')
+    name: { first: 'Meera', last: 'Rachamallu' },
+    position: 'Product Manager',
+    description: 'I keep up with the kardashians, but they can’t keep up with me.',
+    image: require('./images/meera-rachamallu.jpg')
   },
   {
     name: {
       first: 'Bibek',
       last: 'Ghimire'
     },
-    position: 'Front-End Developer',
+    position: 'Tech Lead',
     description:
-      "Nomadic herbivore indigenous to NorCal whose current obsessions include web development, playing guitar, and pondering his life's purpose.",
-    image: require('./images/bibek-ghimire.png')
+      "Nomadic herbivore indigenous to NorCal. Current obsessions include web development, playing guitar, and pondering his life's purpose.",
+    image: require('./images/bibek-ghimire.jpg')
   },
   {
     name: {
@@ -101,14 +87,41 @@ const membersData: Array<MemberDataType> = [
     image: require('./images/joss-glenn.png')
   },
   {
-    name: {
-      first: 'Tiffany',
-      last: 'Yu'
-    },
-    position: 'Designer',
-    description: '"A meme a day keeps the doctor away." I am the embodiment of this quote. The Bay is my Bae.',
-    image: require('./images/tiffany-yu.jpg')
+    name: { first: 'Max', last: 'Wang' },
+    position: 'Front-End Developer',
+    description:
+      'Software developer interested in everything technology-related. Love outdoor adventures, cycling, road trips and aviation.',
+    image: require('./images/max-wang.jpg')
   },
+  {
+    name: { first: 'Luca', last: 'Matsumoto' },
+    position: 'Back-End Developer',
+    description: 'Bay Area native, developer, foodie, caffeine addict, and wannabe big baller. #Dubnation till I die.',
+    image: require('./images/luca-matsumoto.png')
+  },
+  {
+    name: { first: 'Alex', last: 'Zhao' },
+    position: 'Front-End Developer',
+    description:
+      'Bay Area-raised computer science lover who likes starting and abandoning side projects on a monthly basis. Greatest fears include physics midterms and writing bios about himself.',
+    image: require('./images/alex-zhao.jpg')
+  },
+  {
+    name: { first: 'George', last: 'Zhang' },
+    position: 'Front-End Developer',
+    description: 'SoCal best Cal. Catch me taking pictures, writing code, hiking trails, or cheering for the Dodgers.',
+    image: require('./images/george-zhang.jpg')
+  }
+]
+
+export default membersData
+
+/**
+ * Members that have left
+ * TODO: Create a smaller section for people that have contributed to the BM effort but no longer work with us
+ */
+
+/*
   {
     name: {
       first: 'Boon',
@@ -120,6 +133,26 @@ const membersData: Array<MemberDataType> = [
   },
   {
     name: {
+      first: 'Karen',
+      last: 'Fann'
+    },
+    position: 'Front-End Developer',
+    description:
+      'Short stack of pancakes but will break your ankles in basketball. Jasmine tea and aesthetic views keep me happy.',
+    image: require('./images/karen-fann.png')
+  },
+  {
+    name: {
+      first: 'Jeffrey',
+      last: 'Chan'
+    },
+    position: 'Back-End Developer',
+    description:
+      "626 native that's waiting for his wings to grow out. The only things that can hold me down are Chipotle, KBBQ, and Dim Sum.",
+    image: require('./images/jeffrey-chan.png')
+  },
+  {
+    name: {
       first: 'Jimmy',
       last: 'Zhou'
     },
@@ -128,6 +161,4 @@ const membersData: Array<MemberDataType> = [
       "Aspiring physician. Tried to code and then failed; now I'm premed. Reslife Programmer and Avid Events Planner",
     image: require('./images/jimmy-zhou.jpg')
   }
-]
-
-export default membersData
+*/

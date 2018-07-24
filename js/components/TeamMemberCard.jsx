@@ -10,6 +10,11 @@ type PropsType = {
   member: MemberDataType
 }
 
+const NameText = Subtitle.extend`
+  margin-bottom: 0;
+  line-height: 10px;
+`
+
 const MemberCard = Card.extend`
   min-width: 400px;
   max-width: 500px;
@@ -46,7 +51,7 @@ export default function TeamMemberCard(props: PropsType): React.Element<*> {
     <MemberCard>
       <MemberImage src={image} />
       <TextData>
-        <Subtitle align="left">{`${name.first} ${name.last}`}</Subtitle>
+        <NameText align="left">{`${name.first} ${name.last}`}</NameText>
         <PositionText>{position}</PositionText>
         <DescriptionText>{description}</DescriptionText>
       </TextData>
