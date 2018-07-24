@@ -124,7 +124,12 @@ class DeleteMatchTool extends React.Component<PropsType, StateType> {
               // This is to avoid sending all the users twice, once as just users and once under matches.participants.user
               // flow-disable-next-line
               const matchedUser = this.props.users[matchedParticipant.user]
-              acc.push(this.generateDropdownItem(matchedUser))
+              if (matchedUser) {
+                acc.push(this.generateDropdownItem(matchedUser))
+              } else if (process.env.NODE_ENV !== 'production') {
+                // eslint-disable-next-line
+                console.log(`Match participant ${matchedParticipant.user} could not be found in users`)
+              }
             }
             return acc
           }
