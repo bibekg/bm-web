@@ -24,7 +24,8 @@ const membersData: Array<MemberDataType> = [
       last: 'Ghimire'
     },
     position: 'Tech Lead',
-    description: 'I write code and play guitar, occasionally at the same time.',
+    description:
+      "Nomadic herbivore indigenous to NorCal. Current obsessions include web development, playing guitar, and pondering his life's purpose.",
     image: require('./images/bibek-ghimire.jpg')
   },
   {
