@@ -32,7 +32,10 @@ const WaveDiv = UpsideDownTopWave.extend`
 `
 
 const FormPageContainer = PageContainer({
-  noBackground: true
+  noBackground: true,
+  maxWidth: {
+    large: '650px'
+  }
 }).extend`
   display: flex;
   flex-direction: column;
