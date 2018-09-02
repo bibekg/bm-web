@@ -64,7 +64,7 @@ const OuterRing = styled.div`
 const InnerRing = styled.div`
   width: 100%;
   height: 100%;
-  border: 10px solid ${colors.white};
+  border: 10px solid transparent;
 `
 
 const StyledUserImage = styled.div`
@@ -171,8 +171,8 @@ class UserImage extends React.Component<PropsType, StateType> {
   render(): React.Element<*> {
     return (
       <Wrapper size={this.props.size}>
-        <OuterRing size={this.props.size} updating={this.state.updating} />
-        <InnerRing size={this.props.size}>
+        <OuterRing className="outer-ring" size={this.props.size} updating={this.state.updating} />
+        <InnerRing className="inner-ring" size={this.props.size}>
           <StyledUserImage updating={this.state.updating} src={this.props.src} size={this.props.size}>
             {this.props.editable && this.renderUpdatePictureUnit()}
           </StyledUserImage>
