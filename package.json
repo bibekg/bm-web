@@ -19,7 +19,7 @@
     "lint": "eslint **/*.{js,jsx} --quiet",
     "watch": "webpack --watch",
     "precommit": "yarn run lint-staged",
-    "test": "jest js/test"
+    "test": "jest js/test --coverage"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -110,6 +110,7 @@
   },
   "jest": {
     "moduleFileExtensions": ["js", "jsx"],
-    "moduleDirectories": ["node_modules", "js"]
+    "moduleDirectories": ["node_modules", "js"],
+    "collectCoverageFrom": ["js/**"]
   }
 }
