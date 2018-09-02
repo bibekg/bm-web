@@ -19,7 +19,7 @@
     "lint": "eslint **/*.{js,jsx} --quiet",
     "watch": "webpack --watch",
     "precommit": "yarn run lint-staged",
-    "test": "yarn lint"
+    "test": "jest js/test"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -74,6 +74,7 @@
     "babel-preset-react-app": "^3.1.1",
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.7",
+    "enzyme": "^3.5.0",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.0.1",
     "eslint-config-prettier": "^2.9.0",
@@ -89,12 +90,14 @@
     "file-loader": "^1.1.5",
     "flow-bin": "^0.57.3",
     "husky": "^0.14.3",
+    "jest": "^23.5.0",
+    "jest-styled-components": "^6.1.1",
     "lint-staged": "^7.1.2",
     "moxios": "0.4.0",
     "nodemon": "1.11.0",
     "prettier": "1.9.2",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-test-renderer": "15.5.4",
+    "react-test-renderer": "^15.0.0",
     "style-loader": "^0.19.1",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-dev-server": "2.4.5"
@@ -104,5 +107,9 @@
     "semi": false,
     "printWidth": 120,
     "tabWidth": 2
+  },
+  "jest": {
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleDirectories": ["node_modules", "js"]
   }
 }
