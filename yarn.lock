@@ -2148,6 +2148,10 @@ domexception@^1.0.0:
   dependencies:
     webidl-conversions "^4.0.2"
 
+dotty@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/dotty/-/dotty-0.1.0.tgz#da371ccd931a37282f8f7f77adada7d54539708a"
+
 downshift@^1.31.11:
   version "1.31.11"
   resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.31.11.tgz#182d94c79daa9be0f6544def694f7d8bfa3359d4"

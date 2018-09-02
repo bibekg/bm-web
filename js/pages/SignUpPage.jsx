@@ -8,6 +8,7 @@ import { Title } from 'components/typography'
 import { UpsideDownTopWave } from 'components/waves'
 import Brand from 'components/Brand'
 import SecureUserImage from 'components/SecureUserImage'
+import PageContainer from 'components/PageContainer'
 import { breakpoints, colors } from 'styles'
 import * as SignUp from 'components/SignUp'
 import * as actions from 'actions'
@@ -28,6 +29,14 @@ const WaveDiv = UpsideDownTopWave.extend`
   @media (min-width: ${breakpoints.navFold}px) {
     height: 10vw;
   }
+`
+
+const FormPageContainer = PageContainer({
+  noBackground: true
+}).extend`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const FormWrapper = styled.div`
@@ -76,14 +85,16 @@ class SignUpPage extends React.Component<PropsType> {
 
         <WaveDiv />
 
-        <FormWrapper>
-          <UserGreeting>
-            <SecureUserImage userId={userId} />
-            <Title>{`Hi, ${user.name.first}.`}</Title>
-          </UserGreeting>
+        <FormPageContainer>
+          <FormWrapper>
+            <UserGreeting>
+              <SecureUserImage userId={userId} />
+              <Title>{`Hi, ${user.name.first}.`}</Title>
+            </UserGreeting>
 
-          {SignUpPage.renderSignUpForm(user)}
-        </FormWrapper>
+            {SignUpPage.renderSignUpForm(user)}
+          </FormWrapper>
+        </FormPageContainer>
       </SignUpPageWrapper>
     ) : null
   }
