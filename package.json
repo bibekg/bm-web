@@ -19,7 +19,7 @@
     "lint": "eslint **/*.{js,jsx} --quiet",
     "watch": "webpack --watch",
     "precommit": "yarn run lint-staged",
-    "test": "jest js/test --coverage"
+    "test": "jest ./test --coverage"
   },
   "lint-staged": {
     "*.{js,jsx}": [
