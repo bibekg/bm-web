@@ -24,7 +24,8 @@ const constants = {
   breakpoints: {
     navFold: 900,
     feedbackFold: 700,
-    profileCard: 700
+    profileCard: 700,
+    medium: 768
   },
   fonts: {
     primary: {
