@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageContainer optionless render 1`] = `
+.c0 {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #dbedff;
+}
+
+@media (min-width: 768px) {
+  .c0 {
+    padding: 50px 20px;
+  }
+
+  .c0 > * {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 767px) {
+  .c0 {
+    padding: 25px 10px;
+  }
+
+  .c0 > * {
+    max-width: 90%;
+  }
+}
+
+<div
+  className="c0"
+/>
+`;
+
+exports[`PageContainer with options 1`] = `
+.c0 {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .c0 {
+    padding: 50px 20px;
+  }
+
+  .c0 > * {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 767px) {
+  .c0 {
+    padding: 25px 10px;
+  }
+
+  .c0 > * {
+    max-width: 20%;
+  }
+}
+
+<div
+  className="c0"
+/>
+`;
