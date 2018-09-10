@@ -51,6 +51,7 @@
     "react-dom": "15.5.4",
     "react-redux": "^5.0.6",
     "react-router-dom": "4.1.1",
+    "react-schedule-selector": "^1.0.3",
     "redux": "^3.7.2",
     "redux-thunk": "2.2.0",
     "styled-components": "2.0.0",
@@ -65,6 +66,7 @@
     "babel-loader": "7.0.0",
     "babel-plugin-dynamic-import-node": "1.0.2",
     "babel-plugin-react-app": "^0.0.0",
+    "babel-plugin-styled-components": "^1.6.4",
     "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "6.24.1",
@@ -109,8 +111,16 @@
     "tabWidth": 2
   },
   "jest": {
-    "moduleFileExtensions": ["js", "jsx"],
-    "moduleDirectories": ["node_modules", "js"],
-    "collectCoverageFrom": ["js/**"]
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "js"
+    ],
+    "collectCoverageFrom": [
+      "js/**"
+    ]
   }
 }
