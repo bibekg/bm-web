@@ -772,6 +772,12 @@ babel-plugin-react-app@^0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-app/-/babel-plugin-react-app-0.0.0.tgz#270fd196cc0c43913a4cfc2678f3de311ed94ded"
 
+babel-plugin-styled-components@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.6.4.tgz#24677e5b37a85b04aed855a5f81f1c7bfec77784"
+  dependencies:
+    lodash "^4.17.10"
+
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-async-functions/-/babel-plugin-syntax-async-functions-6.13.0.tgz#cad9cad1191b5ad634bf30ae0872391e0647be95"
@@ -2247,7 +2253,7 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.0.0"
     whatwg-url "^6.4.0"
 
-date-fns@^1.27.2:
+date-fns@^1.27.2, date-fns@^1.29.0:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
@@ -7020,6 +7026,12 @@ react-router@^4.1.1:
     path-to-regexp "^1.7.0"
     prop-types "^15.5.4"
     warning "^3.0.0"
+
+react-schedule-selector@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-schedule-selector/-/react-schedule-selector-1.0.3.tgz#88dc1e666e79b47462eefa1f8e4b1935a8e56ea0"
+  dependencies:
+    date-fns "^1.29.0"
 
 react-test-renderer@^15.0.0:
   version "15.6.2"

@@ -8,7 +8,7 @@ import { Title, Text } from 'components/typography'
 import Button from 'components/Button'
 import Card from 'components/Card'
 import { breakpoints, colors } from 'styles'
-import AvailabilitySelector from 'components/AvailabilitySelector'
+import ScheduleSelector from 'react-schedule-selector'
 
 const StyledCard = Card.extend`
   display: flex;
@@ -83,7 +83,13 @@ class AutoDateCard extends React.Component<PropsType, StateType> {
         <Title>When are you available for a date?</Title>
         {this.state.errorMessage && <ErrorMessage>{this.state.errorMessage}</ErrorMessage>}
         <SelectorWrapper>
-          <AvailabilitySelector availability={this.state.availabilityDraft} onChange={this.handleAvailabilityChange} />
+          <ScheduleSelector
+            numDays={7}
+            minTime={9}
+            maxTime={23}
+            selection={this.state.availabilityDraft}
+            onChange={this.handleAvailabilityChange}
+          />
         </SelectorWrapper>
         <Button onClick={this.submit} primary>
           Submit
