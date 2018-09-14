@@ -56,6 +56,7 @@ const CheckboxItem = styled.div`
     border: 2px solid ${colors.lightBlue};
     border-radius: 5px;
     cursor: pointer;
+    ${'' /* Prevent checkbox from shrinking when option text is long */} flex-srhink: 1;
 
     .real-checkmark {
       display: none;
