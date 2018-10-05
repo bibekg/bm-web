@@ -19,7 +19,8 @@ const constants = {
   shadow: '10px 2px 30px rgba(0, 0, 0, 0.15)',
   sizes: {
     navbarHeight: 70,
-    adminNavbarHeight: 50
+    adminNavbarHeight: 50,
+    profileEditWidth: 650
   },
   breakpoints: {
     navFold: 900,
