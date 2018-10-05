@@ -58,9 +58,8 @@ const ResendSpan = styled.span`
 
 const Footnote = Text.extend`
   color: ${colors.white};
-  font-size: 14px;
   margin-top: 20px;
-  max-width: 410px;
+  max-width: 400px;
 `
 
 const Strong = styled.span`
