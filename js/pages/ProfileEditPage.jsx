@@ -6,7 +6,12 @@ import { Header } from 'components/typography'
 import { colors } from 'styles'
 import ProfileEditForm from 'components/ProfileEditForm'
 
-const PageWrapper = PageContainer({ maxWidth: { large: 55 } }).extend`
+const PageWrapper = PageContainer({
+  noBackground: true,
+  maxWidth: {
+    large: '650px'
+  }
+}).extend`
   display: flex;
   flex-direction: column;
   align-items: center;
