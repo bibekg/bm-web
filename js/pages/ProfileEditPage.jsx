@@ -3,13 +3,13 @@
 import * as React from 'react'
 import PageContainer from 'components/PageContainer'
 import { Header } from 'components/typography'
-import { colors } from 'styles'
+import { colors, sizes } from 'styles'
 import ProfileEditForm from 'components/ProfileEditForm'
 
 const PageWrapper = PageContainer({
   noBackground: true,
   maxWidth: {
-    large: '650px'
+    large: `${sizes.profileEditWidth}px`
   }
 }).extend`
   display: flex;

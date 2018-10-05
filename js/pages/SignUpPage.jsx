@@ -9,7 +9,7 @@ import { UpsideDownTopWave } from 'components/waves'
 import Brand from 'components/Brand'
 import SecureUserImage from 'components/SecureUserImage'
 import PageContainer from 'components/PageContainer'
-import { breakpoints, colors } from 'styles'
+import { breakpoints, colors, sizes } from 'styles'
 import * as SignUp from 'components/SignUp'
 import * as actions from 'actions'
 
@@ -34,7 +34,7 @@ const WaveDiv = UpsideDownTopWave.extend`
 const FormPageContainer = PageContainer({
   noBackground: true,
   maxWidth: {
-    large: '650px'
+    large: `${sizes.profileEditWidth}px`
   }
 }).extend`
   display: flex;
