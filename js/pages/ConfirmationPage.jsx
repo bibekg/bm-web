@@ -56,6 +56,12 @@ const ResendSpan = styled.span`
   cursor: pointer;
 `
 
+const Footnote = Text.extend`
+  color: ${colors.white};
+  margin-top: 20px;
+  max-width: 400px;
+`
+
 const Strong = styled.span`
   font-weight: 400;
   color: ${colors.white};
@@ -132,6 +138,9 @@ class ConfirmationPage extends React.Component<PropsType, StateType> {
             We sent a verification email to your UCLA email address. Please verify your account to continue.
           </ConfirmationText>
           {this.props.isLoggedIn && this.renderResend()}
+          <Footnote>
+            *Please note, if the confirmation link does not work, try clicking again or opening in a different browser.
+          </Footnote>
         </ContentDiv>
       </WrapperDiv>
     )
