@@ -17,16 +17,12 @@ const WhiteHeader = Header.extend`
   letter-spacing: 5px;
 `
 
-const WhiteTitle = Title.extend.attrs({
-  align: 'left'
-})`
+const WhiteTitle = styled(Title)`
   font-size: 30px;
   color: white;
 `
 
-const WhiteSubtitle = Subtitle.extend.attrs({
-  align: 'left'
-})`
+const WhiteSubtitle = styled(Subtitle)`
   color: white;
   letter-spacing: 2px;
 `
@@ -35,9 +31,9 @@ export default function SiteDownPage(): React.Element<*> {
   return (
     <BlueWaveBackground>
       <PageWrapper>
-        <WhiteHeader>OOPS!</WhiteHeader>
-        <WhiteTitle>{"Something's wrong with our servers..."}</WhiteTitle>
-        <WhiteSubtitle>{"We're actively trying to fix the issue so please try again in a little while."}</WhiteSubtitle>
+        <WhiteHeader>BRB</WhiteHeader>
+        <WhiteTitle align="left">{"We're making some improvements to BruinMeet."}</WhiteTitle>
+        <WhiteSubtitle align="left">{"Sit tight, we'll be back soon."}</WhiteSubtitle>
       </PageWrapper>
     </BlueWaveBackground>
   )
