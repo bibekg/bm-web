@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Header } from 'components/typography'
 import TeamMemberCard from 'components/TeamMemberCard'
 import { UpsideDownLightWave } from 'components/waves'
-import teamData from './TeamData'
+import { currentMembers, alumni } from './TeamData'
 
 const BannerDiv = styled.div`
   padding-top: 70px;
@@ -36,7 +36,17 @@ export default function AboutPage(): React.Element<*> {
           </BannerDiv>
 
           <TeamGrid>
-            {teamData.map((member: MemberDataType) => (
+            {currentMembers.map((member: MemberDataType) => (
+              <TeamMemberCard key={`${member.name.first} ${member.name.last}`} member={member} />
+            ))}
+          </TeamGrid>
+
+          <BannerDiv>
+            <Header>Alumni</Header>
+          </BannerDiv>
+
+          <TeamGrid>
+            {alumni.map((member: MemberDataType) => (
               <TeamMemberCard key={`${member.name.first} ${member.name.last}`} member={member} />
             ))}
           </TeamGrid>

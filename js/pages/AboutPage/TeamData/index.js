@@ -1,17 +1,7 @@
 // @flow
 /* eslint-disable global-require */
 
-const membersData: Array<MemberDataType> = [
-  {
-    name: {
-      first: 'Dmitri',
-      last: 'Brereton'
-    },
-    position: 'Product Manager',
-    description:
-      'Memelord by day, asleep by night. Capable of having a conversation using only pusheen stickers. Usually found anywhere but class.',
-    image: require('./images/dmitri-brereton.png')
-  },
+export const currentMembers: Array<MemberDataType> = [
   {
     name: { first: 'Meera', last: 'Rachamallu' },
     position: 'Product Manager',
@@ -47,15 +37,6 @@ const membersData: Array<MemberDataType> = [
     description:
       'Passionate programmer, amateur coffee enthusiast, professional nor-cal native, and only a bit of a kook.',
     image: require('./images/aidan-wolk.png')
-  },
-  {
-    name: {
-      first: 'Ken',
-      last: 'Gu'
-    },
-    position: 'Machine Learning Developer',
-    description: 'I like to ball and I like to think I can shoot as well Lonzo Ball.',
-    image: require('./images/ken-gu.png')
   },
   {
     name: {
@@ -111,25 +92,56 @@ const membersData: Array<MemberDataType> = [
     position: 'Front-End Developer',
     description: 'SoCal best Cal. Catch me taking pictures, writing code, hiking trails, or cheering for the Dodgers.',
     image: require('./images/george-zhang.jpg')
+  },
+  {
+    name: { first: 'Isra', last: 'Ameen' },
+    position: 'Designer',
+    description:
+      'New Yorker who realized the west coast is the best coast. Ex coffee addict finding new meaning to life through photography, design, and Appalachian folk music.',
+    image: require('./images/isra-ameen.png')
+  },
+  {
+    name: { first: 'Maliha', last: 'Lakhani' },
+    position: 'Marketing',
+    description: 'Tall, clumsy giant.',
+    image: require('./images/maliha-lakhani.jpg')
+  },
+  {
+    name: { first: 'Sijay', last: 'Liu' },
+    position: 'Back-End Developer',
+    description: 'Often preoccupied with games and play. Occasional hipster. Ask me about my social anxiety.',
+    image: require('./images/sijay-liu.jpg')
+  },
+  {
+    name: { first: 'Jack', last: 'Van Boening' },
+    position: 'Front-End Developer',
+    description: 'Developer, hip-hop enthusiast, and professional 2k player from Sac-Town. LeBron is the GOAT.',
+    image: require('./images/jack-van-boening.png')
+  },
+  {
+    name: { first: 'Pratyusha', last: 'Majumder' },
+    position: 'Data Analyst',
+    description:
+      'Wakes up every morning with the joy and excitement of wanting to go directly back to sleep. Very outdoorsy; camped out for a One Direction concert once.',
+    image: require('./images/pratyusha-majumder.jpg')
   }
 ]
-
-export default membersData
 
 /**
  * Members that have left
  * TODO: Create a smaller section for people that have contributed to the BM effort but no longer work with us
  */
 
-/*
+export const alumni: Array<MemberDataType> = [
   {
     name: {
-      first: 'Boon',
-      last: 'Xin Tan'
+      first: 'Dmitri',
+      last: 'Brereton'
     },
-    position: 'Operations',
-    description: 'Enjoy watching people playing game without actually playing it. Malfunctioned without caffeine.',
-    image: require('./images/boon-xin-tan.jpg')
+    position: 'Product Manager',
+    description:
+      'Memelord by day, asleep by night. Capable of having a conversation using only pusheen stickers. Usually found anywhere but class.',
+    image: require('./images/dmitri-brereton.png')
   },
   {
     name: {
@@ -153,12 +165,20 @@ export default membersData
   },
   {
     name: {
-      first: 'Jimmy',
-      last: 'Zhou'
+      first: 'Ken',
+      last: 'Gu'
+    },
+    position: 'Machine Learning Developer',
+    description: 'I like to ball and I like to think I can shoot as well Lonzo Ball.',
+    image: require('./images/ken-gu.png')
+  },
+  {
+    name: {
+      first: 'Boon',
+      last: 'Xin Tan'
     },
     position: 'Operations',
-    description:
-      "Aspiring physician. Tried to code and then failed; now I'm premed. Reslife Programmer and Avid Events Planner",
-    image: require('./images/jimmy-zhou.jpg')
+    description: 'Enjoy watching people playing game without actually playing it. Malfunctioned without caffeine.',
+    image: require('./images/boon-xin-tan.jpg')
   }
-*/
+]
