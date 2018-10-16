@@ -36,8 +36,8 @@ const navBarWrapper = (WrappedComponent: React.ComponentType<{}>, darkFooter: ?b
     </NavBarWrapper>
     <WrappedComponentWrapper>
       <WrappedComponent />
+      <Footer dark={darkFooter || false} />
     </WrappedComponentWrapper>
-    <Footer dark={darkFooter || false} />
   </Container>
 )
 

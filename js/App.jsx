@@ -27,8 +27,11 @@ injectGlobal([
     height: 100%;
   }
 
-  body.disable-scroll {
+  .disable-scroll {
     overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
   }
 
   *, *:before, *:after {
