@@ -18,6 +18,7 @@ const FeedbackCardWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   text-align: center;
+  padding-bottom: 30px;
 `
 
 const FormWrapper = styled.div`
