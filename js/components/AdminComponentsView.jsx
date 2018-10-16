@@ -112,7 +112,7 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
         >
           Open Modal
         </Button>
-        {this.state.showModal ? (
+        {this.state.showModal && (
           <Modal
             onOutClick={() =>
               this.setState({
@@ -122,7 +122,7 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
           >
             This is a modal
           </Modal>
-        ) : null}
+        )}
       </PageWrapper>
     )
   }
