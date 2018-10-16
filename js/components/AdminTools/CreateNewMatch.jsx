@@ -57,7 +57,7 @@ type StateType = {
   variants: Array<string>
 }
 
-const VARIANT_OPTIONS = [{ id: 'AutoDate', text: 'Auto Date' }, { id: 'ScheduleFirst', text: 'Schedule First' }]
+const VARIANT_OPTIONS = []
 
 const toggleArrayValue = <T>(arr: Array<T>, value: T): Array<T> => {
   if (arr.indexOf(value) === -1) {
