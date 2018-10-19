@@ -7,7 +7,7 @@ type MatchParticipantType<T> = {
   dislikeMatchFeedback: DislikeMatchFeedbackType
 }
 
-type MatchVariantType = 'AutoDate' | 'ScheduleFirst'
+type MatchVariantType = null
 
 type MatchType = {
   _id: string,
@@ -23,10 +23,7 @@ type MatchType = {
   matchBasis: Array<UserRelationshipType>,
   rendezvousState: 'scheduled' | 'unscheduled' | 'unschedulable',
   rendezvousTime: Date,
-  variants: {
-    AutoDate: boolean,
-    ScheduleFirst: boolean
-  }
+  variants: {}
 }
 
 // Reflects the Match edge in the exact shape as on DB (user-independent)
@@ -39,7 +36,5 @@ type MatchEdgeType = {
   matchBasis: Array<UserRelationshipType>,
   rendezvousState: 'scheduled' | 'unscheduled' | 'unschedulable',
   rendezvousTime: Date,
-  variants: {
-    AutoDate: boolean
-  }
+  variants: {}
 }
