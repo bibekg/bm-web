@@ -57,7 +57,7 @@ type StateType = {
   variants: Array<string>
 }
 
-const VARIANT_OPTIONS = [{ id: 'AutoDate', text: 'Auto Date' }, { id: 'ScheduleFirst', text: 'Schedule First' }]
+const VARIANT_OPTIONS = []
 
 const toggleArrayValue = <T>(arr: Array<T>, value: T): Array<T> => {
   if (arr.indexOf(value) === -1) {
@@ -146,15 +146,20 @@ class CreateNewMatch extends React.Component<PropsType, StateType> {
           </div>
         </MatchWrapper>
 
-        <Text bold center>
-          with the following variants
-        </Text>
-        <Form.CheckboxGroup
-          name="variants"
-          options={VARIANT_OPTIONS}
-          selectedOptions={this.state.variants}
-          onChange={this.handleChange}
-        />
+        {VARIANT_OPTIONS &&
+          VARIANT_OPTIONS.length > 0 && (
+            <div>
+              <Text bold center>
+                with the following variants
+              </Text>
+              <Form.CheckboxGroup
+                name="variants"
+                options={VARIANT_OPTIONS}
+                selectedOptions={this.state.variants}
+                onChange={this.handleChange}
+              />
+            </div>
+          )}
 
         <Button disabled={!this.validForSubmission()} primary onClick={this.submit}>
           Create Match
