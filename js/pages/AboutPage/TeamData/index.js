@@ -241,8 +241,3 @@ export const sortByAll = makeCompoundSorter([
     'Marketing'
   ])
 ])
-
-// Establishes the following sort order
-// - Product manager
-// - Tech lead
-// - Sort by join
