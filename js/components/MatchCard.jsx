@@ -9,6 +9,7 @@ import ProfileTextInfo from 'components/ProfileTextInfo'
 import { colors, breakpoints } from 'styles'
 import { formatQuestion, formatRelationshipType } from 'utilities/user-formatters'
 import MatchedCountdownTimer from 'components/MatchedCountdownTimer'
+import { copy } from 'product-copy'
 
 const ProfileCardDiv = Card.extend`
   padding: 30px;
@@ -84,7 +85,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
         </div>
       ))
     ) : (
-      <Text>Your match has not yet filled out any fun fact questions ):</Text>
+      <Text>{copy.match_card.fun_questions}</Text>
     )
   }
 
@@ -102,8 +103,8 @@ export default function MatchCard(props: PropsType): React.Element<*> {
 
       <DetailedInfoColumns>
         <div>
-          <Title align="left">About Me</Title>
-          <BoldSpanText>Bio</BoldSpanText>
+          <Title align="left">{copy.match_card.about}</Title>
+          <BoldSpanText>{copy.match_card.bio}</BoldSpanText>
           {bio &&
             bio.split('\n').map(p => (
               <DetailText paragraph key={p}>
@@ -111,7 +112,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
               </DetailText>
             ))}
           <br />
-          <BoldSpanText>{`You're both looking for: `}</BoldSpanText>
+          <BoldSpanText>{copy.match_card.looking}</BoldSpanText>
           {/* this implementation assumes there is always an intersection in relationship types */}
           <DetailText paragraph>
             {props.matchBasis && props.matchBasis.length > 0

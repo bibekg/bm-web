@@ -11,6 +11,7 @@ import * as Form from 'components/form'
 import SecureUserImage from 'components/SecureUserImage'
 import * as actions from 'actions'
 import { colors } from 'styles'
+import { copy } from 'product-copy'
 
 const FeedbackCardWrapper = styled.div`
   display: flex;
@@ -119,7 +120,7 @@ class MatchFeedbackModal extends React.Component<PropsType, StateType> {
     return (
       <Modal>
         <FeedbackCardWrapper>
-          <Subtitle>We hope your match went well!</Subtitle>
+          <Subtitle>{copy.match_feedback.title}</Subtitle>
 
           <SecureUserImage size={100} userId={matchId} />
 
@@ -153,7 +154,7 @@ class MatchFeedbackModal extends React.Component<PropsType, StateType> {
           <Form.Label>{'Any other comments?'}</Form.Label>
           <CommentsTextarea name="comments" rows={5} value={comments || ''} onChange={this.handleCommentsChange} />
 
-          <Text>Your responses will not be shared with your match.</Text>
+          <Text>{copy.match_feedback.response}</Text>
           <Button primary disabled={!this.isReadyToSubmit()} onClick={this.handleSubmit}>
             Submit
           </Button>

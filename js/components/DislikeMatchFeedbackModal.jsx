@@ -11,6 +11,7 @@ import Modal from 'components/Modal'
 import * as Form from 'components/form'
 import SecureUserImage from 'components/SecureUserImage'
 import * as actions from 'actions'
+import { copy } from 'product-copy'
 
 const FeedbackCardWrapper = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ const FeedbackCardWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   text-align: center;
+  padding-bottom: 30px;
 `
 
 const FormWrapper = styled.div`
@@ -166,9 +168,9 @@ class DislikeMatchFeedbackModal extends React.Component<PropsType, StateType> {
     return (
       <Modal onOutClick={this.props.onOutClick}>
         <FeedbackCardWrapper>
-          <Subtitle>{"We're sorry you didn't like your match!"}</Subtitle>
+          <Subtitle>{copy.dislike_match.apology}</Subtitle>
           <SecureUserImage size={100} userId={this.props.match.participants.match.user._id} />
-          <Text>Please consider giving us some (optional) feedback.</Text>
+          <Text>{copy.dislike_match.feedback}</Text>
 
           <FormWrapper>
             <FormItem name="Options">
@@ -187,7 +189,7 @@ class DislikeMatchFeedbackModal extends React.Component<PropsType, StateType> {
             />
           </FormWrapper>
 
-          <Text>Your responses will not be shared with your match.</Text>
+          <Text>{copy.dislike_match.response}</Text>
           <Button primary disabled={!this.isFormValid()} onClick={this.submit}>
             Submit
           </Button>
