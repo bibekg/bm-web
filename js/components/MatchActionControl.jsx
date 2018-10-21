@@ -10,6 +10,7 @@ import UnmatchedCountdownTimer from 'components/UnmatchedCountdownTimer'
 import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import moment from 'moment'
 import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
+import { copy } from 'product-copy'
 
 const MessageWrapper = styled.div`
   margin: 50px 30px;
@@ -60,14 +61,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
 
   static renderHaveMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>You have a match!</Title>
+      <Title>{copy.match_action_control.match}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
 
   static renderWaitingForMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>Currently waiting for your match to respond</Title>
+      <Title>{copy.match_action_control.match_waiting}</Title>
     </MessageWrapper>
   )
 
@@ -75,7 +76,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   renderMatchMade = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
-      <Text center>What now? Message each other and pick a place or activity!</Text>
+      <Text center>{copy.match_action_control.mutal_like}</Text>
     </MessageWrapper>
   )
 
@@ -91,14 +92,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
               )}`
             : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
         </Title>
-        <Text center>What now? Message each other and pick a place or activity!</Text>
+        <Text center>{copy.match_action_control.mutal_like}</Text>
       </MessageWrapper>
     )
   }
 
   renderUnschedulableRendezvous = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{"Oh no! It looks like your schedules aren't compatible for this week"}</Title>
+      <Title>{copy.match_action_control.schedule_bad}</Title>
       <Text center>{`Message ${this.matchedUser.name.first} to ask when they are available for a date!`}</Text>
     </MessageWrapper>
   )
