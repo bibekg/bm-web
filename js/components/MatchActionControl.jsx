@@ -61,7 +61,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
 
   static renderHaveMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{copy.matchActionControl.match}</Title>
+      <Title>{copy.matchActionControl.haveMatch}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
@@ -76,7 +76,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   renderMatchMade = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
-      <Text center>{copy.matchActionControl.mutalLike}</Text>
+      <Text center>{copy.matchActionControl.mutualLike}</Text>
     </MessageWrapper>
   )
 
@@ -92,7 +92,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
               )}`
             : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
         </Title>
-        <Text center>{copy.matchActionControl.mutalLike}</Text>
+        <Text center>{copy.matchActionControl.mutualLike}</Text>
       </MessageWrapper>
     )
   }

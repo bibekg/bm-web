@@ -85,7 +85,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
         </div>
       ))
     ) : (
-      <Text>{copy.matchCard.funQuestions}</Text>
+      <Text>{copy.matchCard.missingFunQuestions}</Text>
     )
   }
 
