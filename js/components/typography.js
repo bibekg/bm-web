@@ -22,7 +22,7 @@ export const Header = styled.div`
 
 export const Title = styled.h1`
   font-size: 30px;
-  font-weight: 400;
+  font-weight: bold;
   color: ${colors.black};
   text-align: ${props => props.align || 'center'};
 
@@ -43,7 +43,7 @@ export const Subtitle = styled(Title)`
 
 export const Text = styled.p`
   font-size: ${props => (props.size ? props.size : 14)}px;
-  font-weight: ${props => (props.bold ? 400 : 300)};
+  ${props => (props.bold ? 'font-weight: bold;' : '')};
   line-height: ${props => 14 * (props.paragraph ? 2.0 : 1.37)}px;
   color: ${props => (props.color ? props.color : colors.grey)};
   ${props => props.center && 'text-align: center;'} letter-spacing: 0.8px;

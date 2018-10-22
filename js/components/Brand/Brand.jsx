@@ -18,6 +18,10 @@ const StyledLink = styled(Link)`
   align-items: center;
 `
 
+const BoldText = styled.span`
+  font-weight: bold;
+`
+
 const Img = styled.img`
   width: 35px;
   height: 35px;
@@ -31,7 +35,7 @@ export default function Brand(): React.Element<*> {
     <BrandDiv>
       <StyledLink to="/">
         <Logo />
-        Bruin<strong>Meet</strong>
+        bruin<BoldText>meet</BoldText>
       </StyledLink>
     </BrandDiv>
   )
