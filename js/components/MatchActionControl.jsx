@@ -61,14 +61,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
 
   static renderHaveMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{copy.match_action_control.match}</Title>
+      <Title>{copy.matchActionControl.match}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
 
   static renderWaitingForMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{copy.match_action_control.match_waiting}</Title>
+      <Title>{copy.matchActionControl.matchWaiting}</Title>
     </MessageWrapper>
   )
 
@@ -76,7 +76,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   renderMatchMade = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
-      <Text center>{copy.match_action_control.mutal_like}</Text>
+      <Text center>{copy.matchActionControl.mutalLike}</Text>
     </MessageWrapper>
   )
 
@@ -92,14 +92,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
               )}`
             : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
         </Title>
-        <Text center>{copy.match_action_control.mutal_like}</Text>
+        <Text center>{copy.matchActionControl.mutalLike}</Text>
       </MessageWrapper>
     )
   }
 
   renderUnschedulableRendezvous = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{copy.match_action_control.schedule_bad}</Title>
+      <Title>{copy.matchActionControl.scheduleBad}</Title>
       <Text center>{`Message ${this.matchedUser.name.first} to ask when they are available for a date!`}</Text>
     </MessageWrapper>
   )

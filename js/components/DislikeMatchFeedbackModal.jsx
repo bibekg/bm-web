@@ -168,9 +168,9 @@ class DislikeMatchFeedbackModal extends React.Component<PropsType, StateType> {
     return (
       <Modal onOutClick={this.props.onOutClick}>
         <FeedbackCardWrapper>
-          <Subtitle>{copy.dislike_match.apology}</Subtitle>
+          <Subtitle>{copy.dislikeMatch.apology}</Subtitle>
           <SecureUserImage size={100} userId={this.props.match.participants.match.user._id} />
-          <Text>{copy.dislike_match.feedback}</Text>
+          <Text>{copy.dislikeMatch.feedback}</Text>
 
           <FormWrapper>
             <FormItem name="Options">
@@ -189,7 +189,7 @@ class DislikeMatchFeedbackModal extends React.Component<PropsType, StateType> {
             />
           </FormWrapper>
 
-          <Text>{copy.dislike_match.response}</Text>
+          <Text>{copy.dislikeMatch.response}</Text>
           <Button primary disabled={!this.isFormValid()} onClick={this.submit}>
             Submit
           </Button>

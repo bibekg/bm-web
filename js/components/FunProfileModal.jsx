@@ -129,8 +129,8 @@ class FunProfileModal extends React.Component<PropsType, StateType> {
     return (
       <Modal>
         <Header>
-          <Title>{copy.fun_questions.title}</Title>
-          <Text>{copy.fun_questions.message}</Text>
+          <Title>{copy.funQuestions.title}</Title>
+          <Text>{copy.funQuestions.message}</Text>
         </Header>
         <FormWrapper>{this.getFunQuestionsFormItems()}</FormWrapper>
         <SubmitButtonDiv>

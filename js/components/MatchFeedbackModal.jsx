@@ -120,7 +120,7 @@ class MatchFeedbackModal extends React.Component<PropsType, StateType> {
     return (
       <Modal>
         <FeedbackCardWrapper>
-          <Subtitle>{copy.match_feedback.title}</Subtitle>
+          <Subtitle>{copy.matchFeedback.title}</Subtitle>
 
           <SecureUserImage size={100} userId={matchId} />
 
@@ -154,7 +154,7 @@ class MatchFeedbackModal extends React.Component<PropsType, StateType> {
           <Form.Label>{'Any other comments?'}</Form.Label>
           <CommentsTextarea name="comments" rows={5} value={comments || ''} onChange={this.handleCommentsChange} />
 
-          <Text>{copy.match_feedback.response}</Text>
+          <Text>{copy.matchFeedback.response}</Text>
           <Button primary disabled={!this.isReadyToSubmit()} onClick={this.handleSubmit}>
             Submit
           </Button>
