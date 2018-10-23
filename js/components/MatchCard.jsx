@@ -14,6 +14,7 @@ import FoldSwitch from 'components/FoldSwitch'
 
 const ProfileCardDiv = Card.extend`
   padding: 30px;
+  padding-bottom: ${props => (props.foldable ? 0 : 30)}px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -123,7 +124,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
     const { _id, bio } = this.props.user
 
     return (
-      <ProfileCardDiv>
+      <ProfileCardDiv foldable={this.props.foldable}>
         <InfoBannerDiv>
           <MatchedCountdownTimer />
           <div>
@@ -156,7 +157,13 @@ class MatchCard extends React.Component<PropsType, StateType> {
           </DetailedInfoColumns>
         )}
 
-        {this.props.foldable && <FoldSwitch isFolded={this.state.isFolded} onClick={this.handleFold} />}
+        {this.props.foldable && (
+          <FoldSwitch
+            isFolded={this.state.isFolded}
+            onClick={this.handleFold}
+            text="Learn more about your match by clicking below!"
+          />
+        )}
       </ProfileCardDiv>
     )
   }
