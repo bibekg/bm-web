@@ -4,8 +4,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Header, Title, Subtitle, Text } from 'components/typography'
 import Button from 'components/Button'
+import Checkbox from 'components/Checkbox'
 import Dropdown, { DropdownItem } from 'components/Dropdown'
 import Break from 'components/Break'
+import Toggle from 'components/Toggle'
 import type { OptionType } from 'components/Dropdown'
 import * as Icons from 'components/icons'
 
@@ -78,6 +80,14 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
         <Button disabled>Disabled Button</Button>
 
         <Break verticalSpacing="50px" />
+
+        <Checkbox checked={true} onClick={() => {}} />
+        <Checkbox checked={true} onClick={() => {}} />
+        <Toggle toggled={true} onClick={() => {}} />
+        <Toggle toggled={true} onClick={() => {}} />
+
+        <Break verticalSpacing="50px" />
+
         <div>
           <Dropdown
             name="dropdownJNames"
