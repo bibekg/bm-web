@@ -430,7 +430,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
           required
           type="text"
           name="first"
-          placeholder="First Name"
+          placeholder="Joe"
           value={editedUser.name.first || ''}
           onChange={this.handleValueChange}
         />
@@ -440,7 +440,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
           required
           type="text"
           name="last"
-          placeholder="Last Name"
+          placeholder="Bruin"
           value={editedUser.name.last || ''}
           onChange={this.handleValueChange}
         />
