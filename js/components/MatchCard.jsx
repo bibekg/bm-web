@@ -34,23 +34,8 @@ const InfoBannerDiv = styled.div`
   }
 `
 
-// this animation is hacky and disgusting. sorry.
-// Since CSS can't transition from 0 to auto, the only nonhacky solution
-// is to either listen for window height or write some crazy custom functions
-// that generate+inject keyframes based on before/after states. The latter is
-// performant but complicated, so instead we transition max-heights, setting
-// the end max-height to a number we'll ~probably~ never reach on any screen size.
-// This causes the animation speed to differ when opening/closing, but we take what
-// we can get ;)
-
 const DetailedInfoColumns = styled.div`
   display: flex;
-  overflow: hidden;
-
-  /* hopefully no screen size will ever hit max-height 1000px */
-  max-height: ${props => (props.isFolded ? 0 : 1000)}px;
-  transform-origin: top;
-  transition: max-height 2s;
 
   @media (max-width: ${breakpoints.profileCard - 1}px) {
     flex-flow: column nowrap;
@@ -59,9 +44,8 @@ const DetailedInfoColumns = styled.div`
   }
   @media (min-width: ${breakpoints.profileCard}px) {
     flex-flow: row nowrap;
-    max-height: ${props => (props.isFolded ? 0 : 1500)}px; /* or 1500px on mobile */
-    padding: 0 20px ${props => (props.isFolded ? 0 : 20)}px;
-    transition: max-height 2s, padding 1s;
+    padding: 20px;
+
     & > * {
       flex: 1;
       &:not(:last-child) {
@@ -159,27 +143,29 @@ class MatchCard extends React.Component<PropsType, StateType> {
           <ProfileTextInfo user={this.props.user} hideContactInfo={this.props.hideContactInfo} />
         </InfoBannerDiv>
 
-        <DetailedInfoColumns isFolded={this.state.isFolded}>
-          <div>
-            <Title align="left">About Me</Title>
-            <BoldSpanText>Bio</BoldSpanText>
-            {bio &&
-              bio.split('\n').map(p => (
-                <DetailText paragraph key={p}>
-                  {p}
-                </DetailText>
-              ))}
-            <br />
-            <BoldSpanText>{`You're both looking for: `}</BoldSpanText>
-            {/* this implementation assumes there is always an intersection in relationship types */}
-            <DetailText paragraph>
-              {this.props.matchBasis && this.props.matchBasis.length > 0
-                ? this.props.matchBasis.map(formatRelationshipType).join(', ')
-                : 'any'}
-            </DetailText>
-          </div>
-          <div>{this.renderFunQuestionAnswers()}</div>
-        </DetailedInfoColumns>
+        {!this.state.isFolded && (
+          <DetailedInfoColumns isFolded={this.state.isFolded}>
+            <div>
+              <Title align="left">About Me</Title>
+              <BoldSpanText>Bio</BoldSpanText>
+              {bio &&
+                bio.split('\n').map(p => (
+                  <DetailText paragraph key={p}>
+                    {p}
+                  </DetailText>
+                ))}
+              <br />
+              <BoldSpanText>{`You're both looking for: `}</BoldSpanText>
+              {/* this implementation assumes there is always an intersection in relationship types */}
+              <DetailText paragraph>
+                {this.props.matchBasis && this.props.matchBasis.length > 0
+                  ? this.props.matchBasis.map(formatRelationshipType).join(', ')
+                  : 'any'}
+              </DetailText>
+            </div>
+            <div>{this.renderFunQuestionAnswers()}</div>
+          </DetailedInfoColumns>
+        )}
 
         {this.props.foldable && (
           <AccordionDropdown>
