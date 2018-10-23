@@ -30,7 +30,7 @@ const constants = {
   },
   fonts: {
     primary: {
-      family: 'Montserrat, sans-serif'
+      family: '"Quicksand", sans-serif'
     }
   }
 }

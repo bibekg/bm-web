@@ -17,6 +17,7 @@ type UserEthnicityType =
   | 'Native American'
   | 'Pacific Islander'
   | 'Arab'
+  | 'Middle Eastern'
   | 'Other'
 
 type UserRelationshipType = 'long' | 'short' | 'hookup' | 'friendship'
