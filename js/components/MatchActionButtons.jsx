@@ -19,8 +19,7 @@ const MatchActionButtonsDiv = styled.div`
 
 type PropsType = {
   postMatchAction: (boolean, ?ReduxCallbackType<*>) => void,
-  getUser: () => void,
-  scheduleFirst: boolean
+  getUser: () => void
 }
 
 function MatchActionButtons(props: PropsType): React.Element<*> {
@@ -35,9 +34,9 @@ function MatchActionButtons(props: PropsType): React.Element<*> {
   return (
     <MatchActionButtonsDiv>
       <Button onClick={handleLikeAction} primary>
-        {props.scheduleFirst ? 'Going' : 'Like'}
+        Like
       </Button>
-      <Button onClick={handleDislikeAction}>{props.scheduleFirst ? "Can't Go" : 'Dislike'}</Button>
+      <Button onClick={handleDislikeAction}>Dislike</Button>
     </MatchActionButtonsDiv>
   )
 }

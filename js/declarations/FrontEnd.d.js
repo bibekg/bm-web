@@ -15,6 +15,7 @@ type MemberDataType = {
   },
   position: string,
   description: string,
+  joined: Date,
   image: string
 }
 
