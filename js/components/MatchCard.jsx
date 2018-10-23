@@ -10,6 +10,7 @@ import { colors, breakpoints } from 'styles'
 import { formatQuestion, formatRelationshipType } from 'utilities/user-formatters'
 import MatchedCountdownTimer from 'components/MatchedCountdownTimer'
 import { ExpandMoreIcon } from 'components/icons'
+import { copy } from 'product-copy'
 
 const ProfileCardDiv = Card.extend`
   padding: 30px;
@@ -120,7 +121,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
         </div>
       ))
     ) : (
-      <Text>Your match has not yet filled out any fun fact questions ):</Text>
+      <Text>{copy.matchCard.missingFunQuestions}</Text>
     )
   }
 
@@ -146,8 +147,8 @@ class MatchCard extends React.Component<PropsType, StateType> {
         {!this.state.isFolded && (
           <DetailedInfoColumns isFolded={this.state.isFolded}>
             <div>
-              <Title align="left">About Me</Title>
-              <BoldSpanText>Bio</BoldSpanText>
+              <Title align="left">{copy.matchCard.about}</Title>
+              <BoldSpanText>{copy.matchCard.bio}</BoldSpanText>
               {bio &&
                 bio.split('\n').map(p => (
                   <DetailText paragraph key={p}>
@@ -155,7 +156,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
                   </DetailText>
                 ))}
               <br />
-              <BoldSpanText>{`You're both looking for: `}</BoldSpanText>
+              <BoldSpanText>{copy.matchCard.looking}</BoldSpanText>
               {/* this implementation assumes there is always an intersection in relationship types */}
               <DetailText paragraph>
                 {this.props.matchBasis && this.props.matchBasis.length > 0

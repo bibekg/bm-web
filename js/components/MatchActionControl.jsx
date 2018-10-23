@@ -10,6 +10,7 @@ import UnmatchedCountdownTimer from 'components/UnmatchedCountdownTimer'
 import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import moment from 'moment'
 import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
+import { copy } from 'product-copy'
 
 const MessageWrapper = styled.div`
   margin: 50px 30px;
@@ -60,14 +61,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
 
   static renderHaveMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>You have a match!</Title>
+      <Title>{copy.matchActionControl.haveMatch}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
 
   static renderWaitingForMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>Currently waiting for your match to respond</Title>
+      <Title>{copy.matchActionControl.matchWaiting}</Title>
     </MessageWrapper>
   )
 
@@ -75,7 +76,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   renderMatchMade = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
-      <Text center>What now? Message each other and pick a place or activity!</Text>
+      <Text center>{copy.matchActionControl.mutualLike}</Text>
     </MessageWrapper>
   )
 
@@ -91,38 +92,15 @@ export default class MatchActionControl extends React.Component<PropsType, State
               )}`
             : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
         </Title>
-        <Text center>What now? Message each other and pick a place or activity!</Text>
+        <Text center>{copy.matchActionControl.mutualLike}</Text>
       </MessageWrapper>
     )
   }
 
   renderUnschedulableRendezvous = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{"Oh no! It looks like your schedules aren't compatible for this week"}</Title>
+      <Title>{copy.matchActionControl.scheduleBad}</Title>
       <Text center>{`Message ${this.matchedUser.name.first} to ask when they are available for a date!`}</Text>
-    </MessageWrapper>
-  )
-
-  renderScheduleFirstFindingMatch = (): React.Element<*> => (
-    <MessageWrapper>
-      <Title>Finding you a match!</Title>
-    </MessageWrapper>
-  )
-
-  renderScheduleFirstMatchMade = (): React.Element<*> => {
-    const { rendezvousTime } = this.props.match
-    return (
-      <MessageWrapper>
-        <Title>You have a date!</Title>
-        <Text center>{moment(rendezvousTime).format('dddd M/D/Y [at] hA')}</Text>
-        <MatchActionButtons scheduleFirst />
-      </MessageWrapper>
-    )
-  }
-
-  renderScheduleFirstWaitingForRSVP = (): React.Element<*> => (
-    <MessageWrapper>
-      <Title>Currently waiting for your match to RSVP</Title>
     </MessageWrapper>
   )
 
@@ -130,8 +108,6 @@ export default class MatchActionControl extends React.Component<PropsType, State
     const { match } = this.props
     // Hide match if the user has disliked their match
     if (match.participants.self.likeState === 'disliked') return false
-    // If ScheduleFirst, show match if it was successfully scheduled
-    if (match.variants.ScheduleFirst) return match.rendezvousState === 'scheduled'
     // Otherwise, show match if it isn't ended
     return match.state !== 'ended'
   }
@@ -139,7 +115,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   renderMatchAction(): ?React.Element<*> {
     const { user, match } = this.props
 
-    const { state: matchState, rendezvousState, participants, variants } = match
+    const { state: matchState, rendezvousState, participants } = match
 
     // The following logic should perfectly reflect the flowchart on the BruinMeet Match Flow wiki page:
     // https://github.com/bibekg/Bruin-Meet/wiki/Match-Flow
@@ -158,33 +134,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
         return <UnmatchedCountdownTimer />
       }
     } else if (matchState === 'active') {
-      if (variants.ScheduleFirst) {
-        if (rendezvousState === 'unscheduled') {
-          if (participants.self.updatedAvailability) {
-            return this.renderScheduleFirstFindingMatch()
-          } else {
-            return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
-          }
-        } else if (rendezvousState === 'unschedulable') {
-          // This should never happen!
-          // Backend save me
-          return null // TODO: This is a bad boy, we want to know if this happens
-        } else if (rendezvousState === 'scheduled') {
-          // Date is scheduled
-          if (participants.self.likeState === 'disliked') {
-            return <UnmatchedCountdownTimer />
-          } else if (participants.self.likeState === 'pending') {
-            return this.renderScheduleFirstMatchMade()
-          } else if (participants.self.likeState === 'liked') {
-            if (participants.match.likeState === 'pending' || participants.match.likeState === 'disliked') {
-              return this.renderScheduleFirstWaitingForRSVP()
-            } else if (participants.match.likeState === 'liked') {
-              return this.renderRendezvousScheduled()
-            }
-          }
-        }
-      } else if (participants.self.likeState === 'disliked') {
-        // No ScheduleFirst variant from here on
+      if (participants.self.likeState === 'disliked') {
         // Check your own like state
         return this.state.showDislikeFeedbackModal ? (
           <DislikeMatchFeedbackModal
@@ -202,18 +152,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
         if (participants.match.likeState === 'disliked' || participants.match.likeState === 'pending') {
           return MatchActionControl.renderWaitingForMatch()
         } else if (participants.match.likeState === 'liked') {
-          if (variants.AutoDate) {
-            if (rendezvousState === 'unschedulable') {
-              return this.renderUnschedulableRendezvous()
-            } else if (rendezvousState === 'scheduled') {
-              return this.renderRendezvousScheduled()
-            } else if (participants.self.updatedAvailability) {
-              return MatchActionControl.renderWaitingForMatch()
-            } else if (user.availability) {
-              return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
-            }
-          } else {
-            return this.renderMatchMade()
+          if (rendezvousState === 'unschedulable') {
+            return this.renderUnschedulableRendezvous()
+          } else if (rendezvousState === 'scheduled') {
+            return this.renderRendezvousScheduled()
+          } else if (participants.self.updatedAvailability) {
+            return MatchActionControl.renderWaitingForMatch()
+          } else if (user.availability) {
+            return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
           }
         }
       }

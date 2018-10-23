@@ -10,6 +10,7 @@ import * as USER_PROPS from 'constants/user-props'
 import Button from 'components/Button'
 import Modal from 'components/Modal'
 import * as actions from 'actions'
+import { copy } from 'product-copy'
 
 const FormItemWrapper = styled.div`
   margin: 20px 0;
@@ -128,12 +129,8 @@ class FunProfileModal extends React.Component<PropsType, StateType> {
     return (
       <Modal>
         <Header>
-          <Title>Introducing Fun Profile Questions!</Title>
-          <Text>
-            {
-              "Share a little bit more about yourself with your match. Unfortunately, this pop-up won't go away until you do."
-            }
-          </Text>
+          <Title>{copy.funQuestions.title}</Title>
+          <Text>{copy.funQuestions.message}</Text>
         </Header>
         <FormWrapper>{this.getFunQuestionsFormItems()}</FormWrapper>
         <SubmitButtonDiv>

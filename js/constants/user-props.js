@@ -13,6 +13,7 @@ export const ETHNICITY = [
   'Native American',
   'Pacific Islander',
   'Arab',
+  'Middle Eastern',
   'Other'
 ]
 

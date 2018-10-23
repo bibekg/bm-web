@@ -1,7 +1,6 @@
 // @flow
 
 export const placeholderMixin = `
-  font-family: 'Montserrat', sans-serif;
   ::-webkit-input-placeholder {
     color: ##AAAAAA;
     opacity: 0.5;

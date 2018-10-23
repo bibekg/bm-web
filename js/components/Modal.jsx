@@ -15,7 +15,7 @@ const ModalWrapper = styled.div`
   left: 0;
 
   @media (max-width: ${breakpoints.navFold - 1}px) {
-    padding: 100px 15px 20px 15px;
+    padding: 100px 15px 80px 15px;
   }
 
   @media (min-width: ${breakpoints.navFold}px) {
@@ -31,7 +31,7 @@ const ModalCard = Card.extend`
   }
 
   @media (min-width: ${breakpoints.navFold}px) {
-    padding: 50px;
+    padding: 30px 50px 50px;
   }
 `
 
