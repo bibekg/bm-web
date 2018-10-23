@@ -195,7 +195,7 @@ export const alumni: Array<MemberDataType> = [
   }
 ]
 
-const sortByPosition = positions => (a: MemberDataType, b: MemberDataType) => {
+const sortByPosition = positions => (a: MemberDataType, b: MemberDataType): number => {
   const aPosition = positions.indexOf(a.position)
   const bPosition = positions.indexOf(b.position)
 
@@ -204,7 +204,7 @@ const sortByPosition = positions => (a: MemberDataType, b: MemberDataType) => {
   return (aPosition === -1 ? Infinity : aPosition) - (bPosition === -1 ? Infinity : bPosition)
 }
 
-export const sortByJoinDate = (a: MemberDataType, b: MemberDataType) => {
+export const sortByJoinDate = (a: MemberDataType, b: MemberDataType): number => {
   const aTime = a.joined.getTime()
   const bTime = b.joined.getTime()
   return aTime - bTime
@@ -219,8 +219,9 @@ type SortComparatorType = (a: MemberDataType, b: MemberDataType) => number
  * It will first try to sort by A
  * If two entities are equal for the A comparator, sort using B, and so on
  */
-const makeCompoundSorter = (criteria: Array<SortComparatorType>) => (a: MemberDataType, b: MemberDataType) => {
-  for (let criterion of criteria) {
+const makeCompoundSorter = (criteria: Array<SortComparatorType>) => (a: MemberDataType, b: MemberDataType): number => {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const criterion of criteria) {
     const result = criterion(a, b)
     if (result !== 0) {
       return result
