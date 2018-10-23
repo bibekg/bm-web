@@ -60,8 +60,9 @@ const CheckboxItem = styled.div`
 
     .real-checkmark {
       display: none;
-      width: 50%;
-      height: 50%;
+      width: 70%;
+      height: 70%;
+      border-radius: 2px;
       background-color: ${colors.blue};
     }
   }
