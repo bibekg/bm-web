@@ -9,8 +9,8 @@ import ProfileTextInfo from 'components/ProfileTextInfo'
 import { colors, breakpoints } from 'styles'
 import { formatQuestion, formatRelationshipType } from 'utilities/user-formatters'
 import MatchedCountdownTimer from 'components/MatchedCountdownTimer'
-import { ExpandMoreIcon } from 'components/icons'
 import { copy } from 'product-copy'
+import FoldSwitch from 'components/FoldSwitch'
 
 const ProfileCardDiv = Card.extend`
   padding: 30px;
@@ -87,18 +87,6 @@ type StateType = {
   isFolded: boolean
 }
 
-const AccordionDropdown = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const AccordionSwitchDiv = styled.div`
-  transform: rotate(${(state: StateType) => (state.isFolded ? '0' : '180')}deg);
-  transform-origin: center;
-  transition: 0.2s;
-`
-
 class MatchCard extends React.Component<PropsType, StateType> {
   static defaultProps = {
     foldable: false
@@ -145,7 +133,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
         </InfoBannerDiv>
 
         {!this.state.isFolded && (
-          <DetailedInfoColumns isFolded={this.state.isFolded}>
+          <DetailedInfoColumns>
             <div>
               <Title align="left">{copy.matchCard.about}</Title>
               <BoldSpanText>{copy.matchCard.bio}</BoldSpanText>
@@ -168,13 +156,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
           </DetailedInfoColumns>
         )}
 
-        {this.props.foldable && (
-          <AccordionDropdown>
-            <AccordionSwitchDiv isFolded={this.state.isFolded} onClick={this.handleFold}>
-              <ExpandMoreIcon fill={'#76AFFB'} size={40} />
-            </AccordionSwitchDiv>
-          </AccordionDropdown>
-        )}
+        {this.props.foldable && <FoldSwitch isFolded={this.state.isFolded} onClick={this.handleFold} />}
       </ProfileCardDiv>
     )
   }
