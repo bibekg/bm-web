@@ -1,9 +1,13 @@
 // @flow
-
+// DEVELOPEMENT ONLY ESLINT DISABLES
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-expressions */
 import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
+import type { FormProps } from 'redux-form'
 import { Text, Subtitle } from 'components/typography'
 import Button from 'components/Button'
 import Slider from 'components/Slider'
@@ -113,7 +117,7 @@ type PropsType = {
   // Props mapped from Redux state
   user: ?UserType,
   editUser: (UserType, () => void) => void
-}
+} & FormProps
 
 type StateType = {
   editedUser: ?UserType,
@@ -144,6 +148,89 @@ const FormItem = (props: FormItemPropsType) => (
     <FormItemChildrenWrapper>{props.children}</FormItemChildrenWrapper>
   </FormItemWrapper>
 )
+
+const FormTextInputItem = ({ input, options }) => (
+  <FormItem name={options.itemName} key={options.itemKey}>
+    <Form.TextInput
+      required
+      type="text"
+      name={options.inputName}
+      placeholder={options.placeholder}
+      value={input.value}
+    />
+  </FormItem>
+)
+
+const FormSliderItem = ({ input, options }) => (
+  <FormItem name={options.itemName} key={options.itemKey}>
+    <Slider
+      min={options.valueMin}
+      max={options.valueMax}
+      marks={options.valueLabels}
+      value={input.value}
+      formatter={(n: ?number) => String(n)}
+      showLabel
+    />
+  </FormItem>
+)
+
+const FormRadioGroupItem = ({ input, options }) => (
+  <FormItem required name={options.itemName} key={options.itemKey}>
+    <Form.RadioGroup
+      required
+      name={options.inputName}
+      options={options.radioGroupOptions}
+      selected={input.value}
+      onChange={() => {}}
+    />
+  </FormItem>
+)
+
+const FormCheckboxItem = ({ input, options }) => (
+  <FormItem name={options.itemName} key={options.itemKey}>
+    <Form.CheckboxGroup
+      anyable
+      name={options.inputName}
+      options={options.checkboxGroupOptions}
+      selectedOptions={input.value && input.value.map(String)}
+      onChange={() => {}}
+      onToggleAny={() => {}}
+    />
+  </FormItem>
+)
+
+const FormDeropdownItem = ({ input, options }) => (
+  <FormItem name={options.itemName} key={options.itemKey}>
+    <Dropdown
+      name={options.inputName}
+      items={options.dropdownItems}
+      selectedItem={new DropdownItem(options.input.value, options.input.value)}
+      placeholder={options.placeholder}
+      onChange={() => {}}
+    />
+  </FormItem>
+)
+
+let ProfileEditFormBasicPage = (props: Record<>): React.Element => {
+  const { handleSubmit } = props
+  const nameOptions = {
+    itemName: 'First Name',
+    itemKey: 'firstName',
+    inputName: 'first',
+    placeholder: 'Joe'
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <Field options={nameOptions} component={FormTextInputItem} />
+    </form>
+  )
+}
+
+ProfileEditFormBasicPage = reduxForm({
+  form: 'wizard', // <------ same form name
+  destroyOnUnmount: false, // <------ preserve form data
+  forceUnregisterOnUnmount: true // <------ unregister fields on unmount
+})(ProfileEditFormBasicPage)
 
 class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
@@ -866,7 +953,9 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
             conditional rendering since that would make form items on inactive
             pages inaccessible for validation using this.isFormValid().
           */}
-          <FormPageWrapper active={!paginate || page === 'basic'}>{this.getBasicFormItems()}</FormPageWrapper>
+          <FormPageWrapper active={!paginate || page === 'basic'}>
+            <ProfileEditFormBasicPage onSubmit={this.props.onSubmit} />
+          </FormPageWrapper>
           <FormPageWrapper active={!paginate || page === 'personal'}>{this.getPersonalFormItems()}</FormPageWrapper>
           <FormPageWrapper active={!paginate || page === 'preferences'}>
             {this.getPreferencesFormItems()}
