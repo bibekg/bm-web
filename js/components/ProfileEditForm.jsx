@@ -119,7 +119,7 @@ type StateType = {
   editedUser: ?UserType,
   editComplete: boolean,
   errorMessage: ?string,
-  page: ?FormPageType,
+  pageIndex: ?number,
   relTypeChosen: boolean,
   genderPreferenceChosen: boolean
 }
@@ -149,6 +149,9 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
   relTypeCheckboxGroup: ?HTMLElement
   genderPreferenceCheckboxGroup: ?HTMLElement
+  handleValueChange: (SyntheticInputEvent<*>) => void
+
+  PAGES = ['basic', 'preferences', 'contact', 'personal']
 
   static defaultProps = {
     paginate: null,
@@ -162,12 +165,13 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
       editedUser: props.user,
       editComplete: false,
       errorMessage: null,
-      page: props.paginate ? 'basic' : null,
+      pageIndex: props.paginate ? 0 : null,
       relTypeChosen: Boolean(props.user && props.user.relationshipType && props.user.relationshipType.length > 0),
       genderPreferenceChosen: Boolean(
         props.user && props.user.genderPreference && props.user.genderPreference.length > 0
       )
     }
+    this.handleValueChange = this.handleValueChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -257,7 +261,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
   // For all fields controlled with a Form component (e.g. TextInput, Textarea,
   // etc.), this handler will suffice
-  handleValueChange = (event: SyntheticInputEvent<*>) => {
+  handleValueChange(event: SyntheticInputEvent<*>) {
     const { editedUser } = this.state
     if (!editedUser) return
     const { name, value } = event.target
@@ -298,6 +302,22 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         if (oldKey) {
           this.updateUser({ [name]: toggleArrayValue(oldKey, value) })
         }
+        break
+
+      case 'first':
+      case 'last':
+        if (this.state.editedUser) {
+          this.setState({
+            editedUser: {
+              ...this.state.editedUser,
+              name: {
+                ...this.state.editedUser.name,
+                [name]: value
+              }
+            }
+          })
+        }
+
         break
 
       // Remaining fields work fine with direct value assignment
@@ -405,6 +425,26 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
 
     const items = [
+      <FormItem name="First Name" key="firstName">
+        <Form.TextInput
+          required
+          type="text"
+          name="first"
+          placeholder="Joe"
+          value={editedUser.name.first || ''}
+          onChange={this.handleValueChange}
+        />
+      </FormItem>,
+      <FormItem name="Last Name" key="lastName">
+        <Form.TextInput
+          required
+          type="text"
+          name="last"
+          placeholder="Bruin"
+          value={editedUser.name.last || ''}
+          onChange={this.handleValueChange}
+        />
+      </FormItem>,
       <FormItem name="Age" key="age">
         <Slider
           min={USER_PROPS.MIN_AGE}
@@ -687,7 +727,8 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   getPageItems(): Array<React.Element<*>> {
-    const { page } = this.state
+    const { pageIndex } = this.state
+    const page = pageIndex != null ? this.PAGES[pageIndex] : null
     return page
       ? {
           basic: this.getBasicFormItems(),
@@ -699,7 +740,8 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   getPageMessage(): string {
-    const { page } = this.state
+    const { pageIndex } = this.state
+    const page = pageIndex != null ? this.PAGES[pageIndex] : null
     return page
       ? {
           basic: 'Tell us about yourself.',
@@ -711,41 +753,26 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   nextPage = () => {
-    const { page } = this.state
-    if (page) {
-      const nextPage = {
-        basic: 'personal',
-        personal: 'preferences',
-        preferences: 'contact',
-        contact: null
-      }[page]
-      if (nextPage) {
-        this.setState({ page: nextPage })
-        window.scrollTo(0, 0)
-      }
+    const { pageIndex } = this.state
+    if (pageIndex != null && pageIndex + 1 < this.PAGES.length) {
+      this.setState({ pageIndex: pageIndex + 1 })
+      window.scrollTo(0, 0)
     }
   }
 
   previousPage = () => {
-    const { page } = this.state
-    if (page) {
-      const previousPage = {
-        basic: null,
-        personal: 'basic',
-        preferences: 'personal',
-        contact: 'preferences'
-      }[page]
-      if (previousPage) {
-        this.setState({ page: previousPage })
-        window.scrollTo(0, 0)
-      }
+    const { pageIndex } = this.state
+    if (pageIndex != null && pageIndex - 1 >= 0) {
+      this.setState({ pageIndex: pageIndex - 1 })
+      window.scrollTo(0, 0)
     }
   }
 
   // eslint-disable-next-line
   selectPage(selected: FormPageType) {
-    if (selected) {
-      this.setState({ page: selected })
+    const pageIndex = this.PAGES.indexOf(selected)
+    if (selected && pageIndex > -1) {
+      this.setState({ pageIndex })
       window.scrollTo(0, 0)
     }
   }
@@ -777,19 +804,20 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   renderNavButtons(isFormValid: boolean): React.Node {
     const { paginate } = this.props
     if (paginate === 'process') {
-      const { page } = this.state
+      const { pageIndex } = this.state
+      const page = pageIndex != null ? this.PAGES[pageIndex] : null
       return page
         ? {
             basic: this.renderNextButton(),
-            personal: [
-              React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
-              React.cloneElement(this.renderNextButton(), { key: 'next' })
-            ],
             preferences: [
               React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
               React.cloneElement(this.renderNextButton(), { key: 'next' })
             ],
             contact: [
+              React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
+              React.cloneElement(this.renderNextButton(), { key: 'next' })
+            ],
+            personal: [
               React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
               React.cloneElement(this.renderSubmitButton(isFormValid), { key: 'submit' })
             ]
@@ -801,8 +829,9 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   renderPageMenu(): React.Node {
-    const { page } = this.state
-    const labels = ['Basic', 'Personal', 'Preferences', 'Contact']
+    const { pageIndex } = this.state
+    const page = pageIndex != null ? this.PAGES[pageIndex] : null
+    const labels = ['Basic', 'Preferences', 'Contact', 'Personal']
 
     const renderPageButton = (p: *) => (
       <PageButton active={page === p.toLowerCase()} key={p} onClick={() => this.selectPage(p.toLowerCase())}>
@@ -815,7 +844,8 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
   render(): ?React.Element<*> {
     const { redirect, paginate } = this.props
-    const { editedUser, editComplete, errorMessage, page } = this.state
+    const { editedUser, editComplete, errorMessage, pageIndex } = this.state
+    const page = pageIndex != null ? this.PAGES[pageIndex] : null
     const isFormValid = this.isFormValid()
 
     if (editComplete) return <Redirect push to={redirect} />
@@ -846,7 +876,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
         {// If the form has invalid data supplied and user is on final page, display that error
         (!isFormValid &&
-          page === 'contact' && (
+          page === 'personal' && (
             <ErrorDisplay>Uh oh... you either left out a required field or entered an invalid value.</ErrorDisplay>
           )) ||
           // Otherwise, if there's some error (probably with the POST request), display that error

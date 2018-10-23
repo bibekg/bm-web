@@ -10,6 +10,7 @@ import Break from 'components/Break'
 import Toggle from 'components/Toggle'
 import type { OptionType } from 'components/Dropdown'
 import * as Icons from 'components/icons'
+import Modal from 'components/Modal'
 
 const PageWrapper = styled.div`
   padding: 20px 5%;
@@ -24,7 +25,8 @@ type PropsType = {}
 
 type StateType = {
   dropdownItems: Array<OptionType>,
-  selectedDropdownItem: ?OptionType
+  selectedDropdownItem: ?OptionType,
+  showModal: boolean
 }
 
 export default class AdminComponentsView extends React.Component<PropsType, StateType> {
@@ -44,7 +46,8 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
         new DropdownItem('j', 'Jared'),
         new DropdownItem('k', 'Jamal')
       ],
-      selectedDropdownItem: null
+      selectedDropdownItem: null,
+      showModal: false
     }
   }
 
@@ -108,6 +111,28 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
           <Icons.SnapchatIcon />
           <Icons.ExpandMoreIcon />
         </div>
+
+        <Break verticalSpacing="50px" />
+        <Button
+          onClick={() =>
+            this.setState({
+              showModal: true
+            })
+          }
+        >
+          Open Modal
+        </Button>
+        {this.state.showModal && (
+          <Modal
+            onOutClick={() =>
+              this.setState({
+                showModal: false
+              })
+            }
+          >
+            This is a modal
+          </Modal>
+        )}
       </PageWrapper>
     )
   }
