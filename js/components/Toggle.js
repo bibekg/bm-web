@@ -12,6 +12,7 @@ const ToggleFrame = styled.div`
   border-radius: 6px;
   column-count: 2;
   column-gap: 0px;
+  cursor: pointer;
   opacity: ${props => (props.toggled ? 1 : 0.5)};
 `
 
@@ -26,7 +27,7 @@ const ToggleInner = styled.div`
 
 type PropsType = {
   toggled: boolean,
-  onClick: () => void
+  onClick: (SyntheticInputEvent<*>) => void
 }
 
 export default function Toggle(props: PropsType): React.Element<*> {
