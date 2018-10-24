@@ -7,7 +7,7 @@ import { Text } from 'components/typography'
 
 type PropsType = {
   isFolded: boolean,
-  text: ?string,
+  text?: string,
   onClick: () => void
 }
 
