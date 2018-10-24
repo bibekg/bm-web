@@ -149,14 +149,15 @@ const FormItem = (props: FormItemPropsType) => (
   </FormItemWrapper>
 )
 
-const FormTextInputItem = ({ input, options }) => (
+const FormTextInputItem = ({ input, options, name }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
     <Form.TextInput
       required
-      type="text"
-      name={options.inputName}
+      {...input}
+      name={name}
       placeholder={options.placeholder}
-      value={input.value}
+      type="text"
+      // value={input.value}
     />
   </FormItem>
 )
@@ -199,7 +200,7 @@ const FormCheckboxItem = ({ input, options }) => (
   </FormItem>
 )
 
-const FormDeropdownItem = ({ input, options }) => (
+const FormDropdownItem = ({ input, options }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
     <Dropdown
       name={options.inputName}
@@ -211,26 +212,52 @@ const FormDeropdownItem = ({ input, options }) => (
   </FormItem>
 )
 
+const createFormInitialValues = (state: Record<>): Record<> => {
+  console.log('createFormInitialValues: ')
+  console.log(state)
+  const res = {
+    firstName: state.user.firstName,
+    lastName: state.user.lastName
+  }
+  console.log(res)
+  return res
+}
+
 let ProfileEditFormBasicPage = (props: Record<>): React.Element => {
   const { handleSubmit } = props
-  const nameOptions = {
+  const firstNameOptions = {
     itemName: 'First Name',
-    itemKey: 'firstName',
-    inputName: 'first',
+    itemKey: 'first',
     placeholder: 'Joe'
+  }
+  const lastNameOptions = {
+    itemName: 'Last Name',
+    itemKey: 'last',
+    placeholder: 'Bruin'
   }
   return (
     <form onSubmit={handleSubmit}>
-      <Field options={nameOptions} component={FormTextInputItem} />
+      <Field name="firstName" options={firstNameOptions} component={FormTextInputItem} />
+      <Field name="lastName" options={lastNameOptions} component={FormTextInputItem} />
+      <Button primary type="submit">
+        Next
+      </Button>
     </form>
   )
 }
 
 ProfileEditFormBasicPage = reduxForm({
-  form: 'wizard', // <------ same form name
-  destroyOnUnmount: false, // <------ preserve form data
-  forceUnregisterOnUnmount: true // <------ unregister fields on unmount
+  form: 'profileEdit',
+  destroyOnUnmount: false, // preserve form data
+  forceUnregisterOnUnmount: true // unregister fields on unmount
 })(ProfileEditFormBasicPage)
+
+ProfileEditFormBasicPage = connect(
+  (state: Record<>): Record<> => ({
+    initialValues: createFormInitialValues(state)
+  }),
+  {}
+)(ProfileEditFormBasicPage)
 
 class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
@@ -937,43 +964,49 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     if (editComplete) return <Redirect push to={redirect} />
 
-    return editedUser ? (
-      <FormWrapper>
-        <form
-          ref={(form: ?HTMLFormElement) => {
-            this.formElement = form
-          }}
-        >
-          {paginate === 'process' && <Subtitle>{this.getPageMessage()}</Subtitle>}
-          {paginate === 'menu' && this.renderPageMenu()}
+    return (
+      <ProfileEditFormBasicPage
+        onSubmit={values => {
+          console.log(values)
+        }}
+      />
+    )
 
-          {/*
-            Rendering all form items at all times but using an an `active` prop
-            to display only the page that user is on. This is preferred over
-            conditional rendering since that would make form items on inactive
-            pages inaccessible for validation using this.isFormValid().
-          */}
-          <FormPageWrapper active={!paginate || page === 'basic'}>
-            <ProfileEditFormBasicPage onSubmit={this.props.onSubmit} />
-          </FormPageWrapper>
-          <FormPageWrapper active={!paginate || page === 'personal'}>{this.getPersonalFormItems()}</FormPageWrapper>
-          <FormPageWrapper active={!paginate || page === 'preferences'}>
-            {this.getPreferencesFormItems()}
-          </FormPageWrapper>
-          <FormPageWrapper active={!paginate || page === 'contact'}>{this.getContactFormItems()}</FormPageWrapper>
-        </form>
+    // return editedUser ? (
+    //   <FormWrapper>
+    //     <form
+    //       ref={(form: ?HTMLFormElement) => {
+    //         this.formElement = form
+    //       }}
+    //     >
+    //       {paginate === 'process' && <Subtitle>{this.getPageMessage()}</Subtitle>}
+    //       {paginate === 'menu' && this.renderPageMenu()}
 
-        {// If the form has invalid data supplied and user is on final page, display that error
-        (!isFormValid &&
-          page === 'personal' && (
-            <ErrorDisplay>Uh oh... you either left out a required field or entered an invalid value.</ErrorDisplay>
-          )) ||
-          // Otherwise, if there's some error (probably with the POST request), display that error
-          (errorMessage && <ErrorDisplay>{errorMessage}</ErrorDisplay>)}
+    //       {/*
+    //         Rendering all form items at all times but using an an `active` prop
+    //         to display only the page that user is on. This is preferred over
+    //         conditional rendering since that would make form items on inactive
+    //         pages inaccessible for validation using this.isFormValid().
+    //       */}
+    //       <FormPageWrapper active={!paginate || page === 'basic'}></FormPageWrapper>
+    //       <FormPageWrapper active={!paginate || page === 'personal'}>{this.getPersonalFormItems()}</FormPageWrapper>
+    //       <FormPageWrapper active={!paginate || page === 'preferences'}>
+    //         {this.getPreferencesFormItems()}
+    //       </FormPageWrapper>
+    //       <FormPageWrapper active={!paginate || page === 'contact'}>{this.getContactFormItems()}</FormPageWrapper>
+    //     </form>
 
-        <NavigationButtons>{this.renderNavButtons(isFormValid)}</NavigationButtons>
-      </FormWrapper>
-    ) : null
+    //     {// If the form has invalid data supplied and user is on final page, display that error
+    //     (!isFormValid &&
+    //       page === 'personal' && (
+    //         <ErrorDisplay>Uh oh... you either left out a required field or entered an invalid value.</ErrorDisplay>
+    //       )) ||
+    //       // Otherwise, if there's some error (probably with the POST request), display that error
+    //       (errorMessage && <ErrorDisplay>{errorMessage}</ErrorDisplay>)}
+
+    //     <NavigationButtons>{this.renderNavButtons(isFormValid)}</NavigationButtons>
+    //   </FormWrapper>
+    // ) : null
   }
 }
 
