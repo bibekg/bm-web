@@ -21,7 +21,8 @@ type ReduxStateType = {
   auth: AuthenticationStateType,
   user: UserStateType,
   admin: AdminStateType,
-  match: MatchStateType
+  match: MatchStateType,
+  form: Object // handled by redux-form
 }
 
 // Authentication State

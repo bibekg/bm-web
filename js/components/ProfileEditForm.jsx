@@ -151,24 +151,17 @@ const FormItem = (props: FormItemPropsType) => (
 
 const FormTextInputItem = ({ input, options, name }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
-    <Form.TextInput
-      required
-      {...input}
-      name={name}
-      placeholder={options.placeholder}
-      type="text"
-      // value={input.value}
-    />
+    <Form.TextInput required {...input} name={name} placeholder={options.placeholder} type="text" />
   </FormItem>
 )
 
 const FormSliderItem = ({ input, options }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
     <Slider
+      {...input}
       min={options.valueMin}
       max={options.valueMax}
       marks={options.valueLabels}
-      value={input.value}
       formatter={(n: ?number) => String(n)}
       showLabel
     />
@@ -177,21 +170,15 @@ const FormSliderItem = ({ input, options }) => (
 
 const FormRadioGroupItem = ({ input, options }) => (
   <FormItem required name={options.itemName} key={options.itemKey}>
-    <Form.RadioGroup
-      required
-      name={options.inputName}
-      options={options.radioGroupOptions}
-      selected={input.value}
-      onChange={() => {}}
-    />
+    <Form.RadioGroup required {...input} options={options.radioGroupOptions} selected={input.value} />
   </FormItem>
 )
 
-const FormCheckboxItem = ({ input, options }) => (
+const FormCheckboxItem = ({ input, options, name }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
     <Form.CheckboxGroup
       anyable
-      name={options.inputName}
+      name={name}
       options={options.checkboxGroupOptions}
       selectedOptions={input.value && input.value.map(String)}
       onChange={() => {}}
@@ -200,31 +187,40 @@ const FormCheckboxItem = ({ input, options }) => (
   </FormItem>
 )
 
-const FormDropdownItem = ({ input, options }) => (
+const FormDropdownItem = ({ input, options, name }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
     <Dropdown
-      name={options.inputName}
+      {...input}
+      name={name}
       items={options.dropdownItems}
-      selectedItem={new DropdownItem(options.input.value, options.input.value)}
+      selectedItem={new DropdownItem(input.value, input.value)}
       placeholder={options.placeholder}
-      onChange={() => {}}
+      onChange={(dropdownName, newItem) => {
+        input.onChange(newItem.text)
+      }}
     />
   </FormItem>
 )
 
-const createFormInitialValues = (state: Record<>): Record<> => {
-  console.log('createFormInitialValues: ')
-  console.log(state)
-  const res = {
-    firstName: state.user.firstName,
-    lastName: state.user.lastName
-  }
-  console.log(res)
-  return res
-}
+const FormTextareaItem = ({ input, options, name }) => (
+  <FormItem required name={options.itemName} key={options.itemKey}>
+    <Form.Textarea required {...input} name={name} rows={5} />
+  </FormItem>
+)
 
-let ProfileEditFormBasicPage = (props: Record<>): React.Element => {
+const createFormInitialValues = (state: ReduxStateType): { [string]: string } => ({
+  firstName: state.user.firstName,
+  lastName: state.user.lastName,
+  age: state.user.age,
+  year: state.user.year.toString(),
+  gender: state.user.gender,
+  major: state.user.major,
+  college: state.user.college
+})
+
+let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
+
   const firstNameOptions = {
     itemName: 'First Name',
     itemKey: 'first',
@@ -235,10 +231,52 @@ let ProfileEditFormBasicPage = (props: Record<>): React.Element => {
     itemKey: 'last',
     placeholder: 'Bruin'
   }
+  const ageOptions = {
+    itemName: 'Age',
+    itemKey: 'age',
+    valueMin: USER_PROPS.MIN_AGE,
+    valueMax: USER_PROPS.MAX_AGE,
+    valueLabels: USER_PROPS.AGE_LABELS
+  }
+  const yearOptions = {
+    itemName: 'Year',
+    itemKey: 'year',
+    radioGroupOptions: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
+  }
+  const genderOptions = {
+    itemName: 'Gender',
+    itemKey: 'gender',
+    radioGroupOptions: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
+  }
+
+  const majorOptions = {
+    itemName: 'Major',
+    itemKey: 'major',
+    dropdownItems: USER_PROPS.MAJOR.map(c => new DropdownItem(c, c)),
+    placeholder: USER_PROPS.MAJOR[0]
+  }
+  const collegeOptions = {
+    itemName: 'College',
+    itemKey: 'college',
+    dropdownItems: USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c)),
+    placeholder: USER_PROPS.COLLEGE[0]
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <Field name="firstName" options={firstNameOptions} component={FormTextInputItem} />
       <Field name="lastName" options={lastNameOptions} component={FormTextInputItem} />
+      <Field name="age" options={ageOptions} component={FormSliderItem} />
+      {/* TODO: handle int-string conversion for initial value & onChange */}
+      <Field name="year" options={yearOptions} component={FormRadioGroupItem} />
+      <Field name="gender" options={genderOptions} component={FormRadioGroupItem} />
+
+      {/* Non-required fields */}
+      <DropdownWrapper key="dropdownWrapperMajorCollege">
+        <Field name="major" options={majorOptions} component={FormDropdownItem} />
+        <Field name="college" options={collegeOptions} component={FormDropdownItem} />
+      </DropdownWrapper>
+
       <Button primary type="submit">
         Next
       </Button>
@@ -253,11 +291,36 @@ ProfileEditFormBasicPage = reduxForm({
 })(ProfileEditFormBasicPage)
 
 ProfileEditFormBasicPage = connect(
-  (state: Record<>): Record<> => ({
+  (state: ReduxStateType): { [string]: { string: string } } => ({
     initialValues: createFormInitialValues(state)
   }),
   {}
 )(ProfileEditFormBasicPage)
+
+let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
+  const { handleSubmit } = props
+
+  const bioOptions = {
+    itemName: 'Bio',
+    itemKey: 'bio'
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Field name="bio" options={bioOptions} component={FormTextareaItem} />
+
+      <Button primary type="submit">
+        Next
+      </Button>
+    </form>
+  )
+}
+
+ProfileEditFormPersonalPage = reduxForm({
+  form: 'profileEdit',
+  destroyOnUnmount: false, // preserve form data
+  forceUnregisterOnUnmount: true // unregister fields on unmount
+})(ProfileEditFormPersonalPage)
 
 class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
@@ -538,80 +601,10 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
       return []
     }
 
-    const items = [
-      <FormItem name="First Name" key="firstName">
-        <Form.TextInput
-          required
-          type="text"
-          name="first"
-          placeholder="Joe"
-          value={editedUser.name.first || ''}
-          onChange={this.handleValueChange}
-        />
-      </FormItem>,
-      <FormItem name="Last Name" key="lastName">
-        <Form.TextInput
-          required
-          type="text"
-          name="last"
-          placeholder="Bruin"
-          value={editedUser.name.last || ''}
-          onChange={this.handleValueChange}
-        />
-      </FormItem>,
-      <FormItem name="Age" key="age">
-        <Slider
-          min={USER_PROPS.MIN_AGE}
-          max={USER_PROPS.MAX_AGE}
-          marks={USER_PROPS.AGE_LABELS}
-          value={editedUser.age}
-          formatter={(n: ?number) => String(n)}
-          showLabel
-          onChange={this.handleAgeChange}
-        />
-      </FormItem>,
-      <FormItem required name="Year" key="year">
-        <Form.RadioGroup
-          required
-          name="year"
-          options={USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))}
-          selected={String(editedUser.year) || ''}
-          onChange={this.handleValueChange}
-        />
-      </FormItem>,
-      <FormItem required name="Gender" key="gender">
-        <Form.RadioGroup
-          required
-          name="gender"
-          options={USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))}
-          selected={editedUser.gender || ''}
-          onChange={this.handleValueChange}
-        />
-      </FormItem>
-    ]
+    const items = []
 
     if (!requiredFieldsOnly) {
       const nonReqItems = [
-        <DropdownWrapper key="dropdownWrapperMajorCollege">
-          <FormItem name="Major" key="major">
-            <Dropdown
-              name="major"
-              items={USER_PROPS.MAJOR.map(c => new DropdownItem(c, c))}
-              selectedItem={new DropdownItem(editedUser.major, editedUser.major)}
-              placeholder={USER_PROPS.COLLEGE[0]}
-              onChange={this.handleDropdownChange}
-            />
-          </FormItem>
-          <FormItem name="College" key="college">
-            <Dropdown
-              name="college"
-              items={USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c))}
-              selectedItem={new DropdownItem(editedUser.college, editedUser.college)}
-              placeholder={USER_PROPS.COLLEGE[0]}
-              onChange={this.handleDropdownChange}
-            />
-          </FormItem>
-        </DropdownWrapper>,
         <FormItem name="Height" key="height">
           <Slider
             min={USER_PROPS.MIN_HEIGHT}
@@ -964,13 +957,29 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     if (editComplete) return <Redirect push to={redirect} />
 
-    return (
-      <ProfileEditFormBasicPage
-        onSubmit={values => {
-          console.log(values)
-        }}
-      />
-    )
+    if (pageIndex === 0) {
+      return (
+        <ProfileEditFormBasicPage
+          onSubmit={values => {
+            console.log(values)
+            this.nextPage()
+          }}
+        />
+      )
+    }
+
+    if (pageIndex === 1) {
+      return (
+        <ProfileEditFormPersonalPage
+          onSubmit={values => {
+            console.log(values)
+            this.nextPage()
+          }}
+        />
+      )
+    }
+
+    return null
 
     // return editedUser ? (
     //   <FormWrapper>
