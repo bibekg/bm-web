@@ -22,17 +22,16 @@ const ProfileCardDiv = Card.extend`
 
 const InfoBannerDiv = styled.div`
   display: flex;
+  align-items: center;
   & > * {
     padding: 20px;
   }
 
   @media (max-width: ${breakpoints.profileCard - 1}px) {
     flex-flow: column nowrap;
-    align-items: center;
   }
   @media (min-width: ${breakpoints.profileCard}px) {
     flex-flow: row nowrap;
-    align-items: flex-start;
   }
 `
 
