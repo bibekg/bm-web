@@ -17,6 +17,7 @@ import {
 } from 'utilities/user-formatters'
 import { colors, breakpoints } from 'styles'
 import DeactivateModal from 'components/DeactivateModal'
+import { copy } from 'product-copy'
 
 const ProfileCardDiv = Card.extend`
   padding: 30px;
@@ -143,8 +144,8 @@ class ProfileCard extends React.Component<PropsType, StateType> {
       ))
     ) : (
       <div>
-        <Text>{"It looks like you don't have any!"}</Text>
-        <Text>{"Click 'Edit' and fill out your fun fact questions under 'Bio'"}</Text>
+        <Text>{copy.profileCard.funQuestionsMissing}</Text>
+        <Text>{copy.profileCard.funQuestionsCallToAction}</Text>
       </div>
     )
   }

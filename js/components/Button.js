@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'styled-components'
-import { colors } from 'styles'
+import { colors, fonts } from 'styles'
 
 export type ButtonPropsType = {
   primary?: boolean,
@@ -49,11 +49,11 @@ const Button = styled.button`
   border-radius: 50px;
   display: inline-block;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: bold;
   letter-spacing: 0.8px;
   padding: 7px 20px;
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: ${fonts.primary.family};
   text-transform: uppercase;
   background-color: ${(props: ButtonPropsType) => getBackgroundColor(props)};
   border: solid 2px ${(props: ButtonPropsType) => getBorderColor(props)};
