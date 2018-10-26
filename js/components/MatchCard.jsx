@@ -157,11 +157,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
         )}
 
         {this.props.foldable && (
-          <FoldSwitch
-            isFolded={this.state.isFolded}
-            onClick={this.handleFold}
-            text="Learn more about your match by clicking below!"
-          />
+          <FoldSwitch isFolded={this.state.isFolded} onClick={this.handleFold} text={copy.foldSwitch.text} />
         )}
       </ProfileCardDiv>
     )
