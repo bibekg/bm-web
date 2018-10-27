@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should refold and rerender text when isFolded set to true 1`] = `
+exports[`<FoldSwitch /> should refold and rerender text when isFolded set to true 1`] = `
 <styled.div
   onClick={[Function]}
 >
@@ -18,7 +18,7 @@ exports[`should refold and rerender text when isFolded set to true 1`] = `
 </styled.div>
 `;
 
-exports[`should render correctly folded with options 1`] = `
+exports[`<FoldSwitch /> should render correctly folded with options 1`] = `
 <styled.div
   onClick={[Function]}
 >
@@ -36,7 +36,7 @@ exports[`should render correctly folded with options 1`] = `
 </styled.div>
 `;
 
-exports[`should render correctly with no options 1`] = `
+exports[`<FoldSwitch /> should render correctly with no options 1`] = `
 <styled.div
   onClick={[Function]}
 >
@@ -51,7 +51,7 @@ exports[`should render correctly with no options 1`] = `
 </styled.div>
 `;
 
-exports[`should unfold and unrender text when isFolded set to false 1`] = `
+exports[`<FoldSwitch /> should unfold and unrender text when isFolded set to false 1`] = `
 <styled.div
   onClick={[Function]}
 >
