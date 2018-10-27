@@ -46,6 +46,8 @@ function FoldSwitch(props: PropsType): React.Element<*> {
 }
 
 FoldSwitch.defaultProps = {
+  isFolded: false,
+  onClick: () => {},
   iconColor: colors.lightBlue
 }
 
