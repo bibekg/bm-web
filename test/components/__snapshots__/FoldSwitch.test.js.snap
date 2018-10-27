@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should refold and rerender text when isFolded set to true 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.p>
+    Test text
+  </styled.p>
+  <styled.div
+    isFolded={true}
+  >
+    <ExpandMoreIcon
+      fill="#123456"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`should render correctly folded with options 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.p>
+    Test text
+  </styled.p>
+  <styled.div
+    isFolded={true}
+  >
+    <ExpandMoreIcon
+      fill="#123456"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`should render correctly with no options 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.div
+    isFolded={false}
+  >
+    <ExpandMoreIcon
+      fill="rgba(162, 198, 248, 1)"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`should unfold and unrender text when isFolded set to false 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.div
+    isFolded={false}
+  >
+    <ExpandMoreIcon
+      fill="#123456"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
