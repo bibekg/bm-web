@@ -5,6 +5,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import styled, { injectGlobal } from 'styled-components'
+import { fonts } from 'styles'
 import * as actions from 'actions'
 import pages from 'pages'
 import SiteDownPage from 'pages/SiteDownPage'
@@ -18,7 +19,7 @@ import 'polyfills'
 injectGlobal([
   `
   body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: ${fonts.primary.family};
     height: 100%;
     margin: 0;
   }

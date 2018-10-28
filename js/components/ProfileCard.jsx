@@ -144,8 +144,8 @@ class ProfileCard extends React.Component<PropsType, StateType> {
       ))
     ) : (
       <div>
-        <Text>{copy.profile_card.fun_questions_a}</Text>
-        <Text>{copy.profile_card.fun_questions_b}</Text>
+        <Text>{copy.profileCard.funQuestionsMissing}</Text>
+        <Text>{copy.profileCard.funQuestionsCallToAction}</Text>
       </div>
     )
   }

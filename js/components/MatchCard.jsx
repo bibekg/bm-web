@@ -85,7 +85,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
         </div>
       ))
     ) : (
-      <Text>{copy.match_card.fun_questions}</Text>
+      <Text>{copy.matchCard.missingFunQuestions}</Text>
     )
   }
 
@@ -103,8 +103,8 @@ export default function MatchCard(props: PropsType): React.Element<*> {
 
       <DetailedInfoColumns>
         <div>
-          <Title align="left">{copy.match_card.about}</Title>
-          <BoldSpanText>{copy.match_card.bio}</BoldSpanText>
+          <Title align="left">{copy.matchCard.about}</Title>
+          <BoldSpanText>{copy.matchCard.bio}</BoldSpanText>
           {bio &&
             bio.split('\n').map(p => (
               <DetailText paragraph key={p}>
@@ -112,7 +112,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
               </DetailText>
             ))}
           <br />
-          <BoldSpanText>{copy.match_card.looking}</BoldSpanText>
+          <BoldSpanText>{copy.matchCard.looking}</BoldSpanText>
           {/* this implementation assumes there is always an intersection in relationship types */}
           <DetailText paragraph>
             {props.matchBasis && props.matchBasis.length > 0
