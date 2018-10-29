@@ -10,6 +10,7 @@ import UnmatchedCountdownTimer from 'components/UnmatchedCountdownTimer'
 import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import moment from 'moment'
 import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
+import { copy } from 'product-copy'
 
 const MessageWrapper = styled.div`
   margin: 50px 30px;
@@ -43,7 +44,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
     // or a new match is sent while this component is still active,
     // update the "cached" matchedUser value
     // eslint-disable-next-line no-underscore-dangle
-    if (!this.props.match.participants.match.user.firstName || nextProps.match._id !== this.props.match._id) {
+    if (!this.props.match.participants.match.user.name.first || nextProps.match._id !== this.props.match._id) {
       this.matchedUser = nextProps.match.participants.match.user
     }
   }
@@ -60,14 +61,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
 
   static renderHaveMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>You have a match!</Title>
+      <Title>{copy.matchActionControl.haveMatch}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
 
   static renderWaitingForMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>Currently waiting for your match to respond</Title>
+      <Title>{copy.matchActionControl.matchWaiting}</Title>
     </MessageWrapper>
   )
 
@@ -75,7 +76,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   renderMatchMade = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
-      <Text center>What now? Message each other and pick a place or activity!</Text>
+      <Text center>{copy.matchActionControl.mutualLike}</Text>
     </MessageWrapper>
   )
 
@@ -91,14 +92,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
               )}`
             : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
         </Title>
-        <Text center>What now? Message each other and pick a place or activity!</Text>
+        <Text center>{copy.matchActionControl.mutualLike}</Text>
       </MessageWrapper>
     )
   }
 
   renderUnschedulableRendezvous = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{"Oh no! It looks like your schedules aren't compatible for this week"}</Title>
+      <Title>{copy.matchActionControl.scheduleBad}</Title>
       <Text center>{`Message ${this.matchedUser.name.first} to ask when they are available for a date!`}</Text>
     </MessageWrapper>
   )
