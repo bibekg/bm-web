@@ -53,14 +53,14 @@ export const currentMembers: Array<MemberDataType> = [
     position: 'Front-End Developer',
     description:
       'Software developer interested in everything technology-related. Love outdoor adventures, cycling, road trips and aviation.',
-    joined: new Date('2018-04-01T00:00:00.000Z'),
+    joined: new Date('2018-05-07T00:00:00.000Z'),
     image: require('./images/max-wang.jpg')
   },
   {
     name: { first: 'Luca', last: 'Matsumoto' },
     position: 'Back-End Developer',
     description: 'Bay Area native, developer, foodie, caffeine addict, and wannabe big baller. #Dubnation till I die.',
-    joined: new Date('2018-04-01T00:00:00.000Z'),
+    joined: new Date('2018-04-09T00:00:00.000Z'),
     image: require('./images/luca-matsumoto.png')
   },
   {
@@ -68,14 +68,14 @@ export const currentMembers: Array<MemberDataType> = [
     position: 'Front-End Developer',
     description:
       'Bay Area-raised computer science lover who likes starting and abandoning side projects on a monthly basis. Greatest fears include physics midterms and writing bios about himself.',
-    joined: new Date('2018-04-01T00:00:00.000Z'),
+    joined: new Date('2018-04-09T00:00:00.000Z'),
     image: require('./images/alex-zhao.jpg')
   },
   {
     name: { first: 'George', last: 'Zhang' },
     position: 'Front-End Developer',
     description: 'SoCal best Cal. Catch me taking pictures, writing code, hiking trails, or cheering for the Dodgers.',
-    joined: new Date('2018-04-01T00:00:00.000Z'),
+    joined: new Date('2018-05-07T00:00:00.000Z'),
     image: require('./images/george-zhang.jpg')
   },
   {
@@ -220,9 +220,8 @@ type SortComparatorType = (a: MemberDataType, b: MemberDataType) => number
  * If two entities are equal for the A comparator, sort using B, and so on
  */
 const makeCompoundSorter = (criteria: Array<SortComparatorType>) => (a: MemberDataType, b: MemberDataType): number => {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const criterion of criteria) {
-    const result = criterion(a, b)
+  for (let i = 0; i < criteria.length; i += 1) {
+    const result = criteria[i](a, b)
     if (result !== 0) {
       return result
     }
