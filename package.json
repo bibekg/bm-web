@@ -77,6 +77,8 @@
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.7",
     "enzyme": "^3.5.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.0.1",
     "eslint-config-prettier": "^2.9.0",
@@ -111,6 +113,10 @@
     "tabWidth": 2
   },
   "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setupTests.js",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx"
