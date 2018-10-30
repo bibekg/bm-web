@@ -40,7 +40,6 @@ const FoldedText = Text.extend`
 function FoldSwitch(props: PropsType): React.Element<*> {
   return (
     <FoldSwitchDiv onClick={props.onClick}>
-      {/* props.isFolded && props.text && <FoldedText>{props.text}</FoldedText> */}
       {props.text && <FoldedText isFolded={props.isFolded}>{props.text}</FoldedText>}
       <RotateDiv isFolded={props.isFolded}>
         <ExpandMoreIcon fill={props.iconColor} size={40} />
