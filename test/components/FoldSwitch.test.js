@@ -29,6 +29,9 @@ describe('<FoldSwitch />', () => {
 
     // check that fill color is correct
     expect(wrapper.find('ExpandMoreIcon').prop('fill')).toEqual('#123456')
+
+    // check that arrow rotation is correct
+    expect(wrapper.childAt(1)).toHaveStyleRule('transform', 'rotate(0deg)')
   })
 
   test('should unfold and unrender text when isFolded set to false', () => {
@@ -41,6 +44,9 @@ describe('<FoldSwitch />', () => {
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(0).prop('isFolded')).toEqual(false)
+
+    // check that arrow rotation is correct
+    expect(wrapper.childAt(1)).toHaveStyleRule('transform', 'rotate(180deg)')
   })
 
   test('should refold and rerender text when isFolded set to true', () => {
@@ -59,6 +65,9 @@ describe('<FoldSwitch />', () => {
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(1).prop('isFolded')).toEqual(true)
+
+    // check that arrow rotation is correct
+    expect(wrapper.childAt(1)).toHaveStyleRule('transform', 'rotate(0deg)')
   })
 
   test('should handle onClick correctly', () => {
