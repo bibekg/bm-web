@@ -31,13 +31,17 @@ const FoldedText = Text.extend`
   margin: 0;
   text-align: center;
 
-  /* TODO: add a fade out animation to this text */
+  visibility: ${props => (props.isFolded ? 'visible' : 'hidden')};
+  opacity: ${props => (props.isFolded ? 1 : 0)}; /* 1 if folded, 0 if not */
+  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  ${props => props.isFolded && 'transition-delay: 0s'};
 `
 
 function FoldSwitch(props: PropsType): React.Element<*> {
   return (
     <FoldSwitchDiv onClick={props.onClick}>
-      {props.isFolded && props.text && <FoldedText>{props.text}</FoldedText>}
+      {/* props.isFolded && props.text && <FoldedText>{props.text}</FoldedText> */}
+      {props.text && <FoldedText isFolded={props.isFolded}>{props.text}</FoldedText>}
       <RotateDiv isFolded={props.isFolded}>
         <ExpandMoreIcon fill={props.iconColor} size={40} />
       </RotateDiv>
