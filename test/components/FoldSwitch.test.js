@@ -16,13 +16,13 @@ describe('<FoldSwitch />', () => {
     expect(wrapper).toMatchSnapshot()
 
     // check that text is present and correct
-    expect(wrapper.children()).toHaveLength(2)
     expect(
       wrapper
         .childAt(0)
         .children()
         .text()
     ).toEqual('Test text')
+    expect(wrapper.childAt(0)).toHaveStyleRule('visibility', 'visible')
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(1).prop('isFolded')).toEqual(true)
@@ -36,8 +36,8 @@ describe('<FoldSwitch />', () => {
     wrapper.setProps({ isFolded: false })
     expect(wrapper).toMatchSnapshot()
 
-    // check that text is not present
-    expect(wrapper.children()).toHaveLength(1)
+    // check that text is not visible
+    expect(wrapper.childAt(0)).toHaveStyleRule('visibility', 'hidden')
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(0).prop('isFolded')).toEqual(false)
@@ -49,13 +49,13 @@ describe('<FoldSwitch />', () => {
     expect(wrapper).toMatchSnapshot()
 
     // check that text exists again
-    expect(wrapper.children()).toHaveLength(2)
     expect(
       wrapper
         .childAt(0)
         .children()
         .text()
     ).toEqual('Test text')
+    expect(wrapper.childAt(0)).toHaveStyleRule('visibility', 'visible')
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(1).prop('isFolded')).toEqual(true)

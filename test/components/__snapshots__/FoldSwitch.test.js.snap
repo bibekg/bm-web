@@ -4,7 +4,9 @@ exports[`<FoldSwitch /> should refold and rerender text when isFolded set to tru
 <styled.div
   onClick={[Function]}
 >
-  <styled.p>
+  <styled.p
+    isFolded={true}
+  >
     Test text
   </styled.p>
   <styled.div
@@ -22,7 +24,9 @@ exports[`<FoldSwitch /> should render correctly folded with options 1`] = `
 <styled.div
   onClick={[Function]}
 >
-  <styled.p>
+  <styled.p
+    isFolded={true}
+  >
     Test text
   </styled.p>
   <styled.div
@@ -55,6 +59,11 @@ exports[`<FoldSwitch /> should unfold and unrender text when isFolded set to fal
 <styled.div
   onClick={[Function]}
 >
+  <styled.p
+    isFolded={false}
+  >
+    Test text
+  </styled.p>
   <styled.div
     isFolded={false}
   >
