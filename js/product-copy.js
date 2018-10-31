@@ -33,5 +33,8 @@ export const copy = {
   profileCard: {
     funQuestionsMissing: "It looks like you don't have any!",
     funQuestionsCallToAction: "Click 'Edit' and fill out your fun fact questions under 'Bio'"
+  },
+  foldSwitch: {
+    text: 'Learn more about your match by clicking below!'
   }
 }
