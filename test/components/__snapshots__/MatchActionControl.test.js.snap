@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot tests renders correctly with default render logic 1`] = `
+<div>
+  <styled.div>
+    <styled.h1>
+      You have a match!
+    </styled.h1>
+    <Connect(MatchActionButtons) />
+  </styled.div>
+  <MatchCard
+    foldable={true}
+    hideContactInfo={true}
+    matchBasis={Array []}
+    user={
+      Object {
+        "_id": "1234",
+        "active": true,
+        "age": 20,
+        "answers": Array [],
+        "availability": Array [],
+        "bio": "Hey",
+        "blindDateParticipant": true,
+        "college": "School of Engineering and Applied Sciences",
+        "currentMatch": "string",
+        "dateAvailability": Array [],
+        "dislikeMatch": true,
+        "email": "string",
+        "ethnicity": Array [],
+        "gender": "male",
+        "hasProfile": true,
+        "height": 72,
+        "instagram": "string",
+        "isAdmin": true,
+        "likeMatch": true,
+        "major": "Computer Science",
+        "matchHistory": [Function],
+        "matchRatings": Array [],
+        "name": Object {
+          "first": "Jack",
+          "last": "Van Boening",
+        },
+        "phone": "string",
+        "preferenceMap": [Function],
+        "preferenceStack": Array [],
+        "profileId": "1234",
+        "profilePic": "profpic",
+        "receiveTexts": true,
+        "rendezvousState": "unscheduled",
+        "rendezvousTime": null,
+        "snapchat": "string",
+        "variants": [Function],
+        "verified": true,
+        "voted": true,
+        "year": 2,
+      }
+    }
+  />
+</div>
+`;

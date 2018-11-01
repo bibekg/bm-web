@@ -22,10 +22,7 @@
     "test": "jest ./test --coverage"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "yarn format",
-      "git add"
-    ]
+    "*.{js,jsx}": ["yarn format", "git add"]
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -114,19 +111,13 @@
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/test/setupTests.js",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "js"
-    ],
-    "collectCoverageFrom": [
-      "js/**"
-    ]
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/test/__mocks__/fileMock.js"
+    },
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleDirectories": ["node_modules", "js"],
+    "collectCoverageFrom": ["js/**"]
   }
 }
