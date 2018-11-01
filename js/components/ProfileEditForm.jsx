@@ -6,7 +6,7 @@ import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import { Text, Subtitle } from 'components/typography'
 import Button from 'components/Button'
@@ -162,7 +162,7 @@ const FormSliderItem = ({ input, options }) => (
       min={options.valueMin}
       max={options.valueMax}
       marks={options.valueLabels}
-      formatter={(n: ?number) => String(n)}
+      formatter={options.valueFormatter}
       showLabel
     />
   </FormItem>
@@ -174,18 +174,57 @@ const FormRadioGroupItem = ({ input, options }) => (
   </FormItem>
 )
 
-const FormCheckboxItem = ({ input, options, name }) => (
-  <FormItem name={options.itemName} key={options.itemKey}>
-    <Form.CheckboxGroup
-      anyable
-      name={name}
-      options={options.checkboxGroupOptions}
-      selectedOptions={input.value && input.value.map(String)}
-      onChange={() => {}}
-      onToggleAny={() => {}}
-    />
-  </FormItem>
-)
+const FormCheckboxItem = ({ fields, options }): React.Element<*> => {
+  const selectedOptions = []
+  fields.forEach((value, index) => {
+    // eslint-disable-next-line eqeqeq
+    if (value != undefined) {
+      selectedOptions.push(String(fields.get(index)))
+    }
+  })
+  console.log('selectedOptions = ')
+  console.log(selectedOptions)
+
+  return (
+    <FormItem name={options.itemName} key={options.itemKey}>
+      <Form.CheckboxGroup
+        anyable
+        name={fields.name}
+        options={options.checkboxGroupOptions}
+        selectedOptions={selectedOptions}
+        onChange={(event: SyntheticInputEvent<*>) => {
+          // NOTE: seems like there's no "replace" method to modify an element at index in "fields"
+          // this .remove() and .insert() approach triggers component re-render twice, which may cause undesired behavior in the future
+          fields.remove(event.target.id)
+          if (event.target.checked) {
+            fields.insert(event.target.id, event.target.value)
+          }
+
+          /*
+          console.log('After onChange, selectedOptions = ')
+          console.log(
+            fields
+              .getAll()
+              // eslint-disable-next-line eqeqeq
+              .filter(value => value != undefined)
+              .map(String)
+          )
+          */
+        }}
+        onToggleAny={(allSelected, fieldName) => {
+          const allOptions = {
+            ethnicity: USER_PROPS.ETHNICITY
+          }
+          fields.removeAll()
+          // Going to select everything if not everything are selected now
+          if (!allSelected) {
+            allOptions[fieldName].forEach((value, index) => fields.insert(index, value))
+          }
+        }}
+      />
+    </FormItem>
+  )
+}
 
 const FormDropdownItem = ({ input, options, name }) => (
   <FormItem name={options.itemName} key={options.itemKey}>
@@ -208,15 +247,30 @@ const FormTextareaItem = ({ input, options, name }) => (
   </FormItem>
 )
 
-const createFormInitialValues = (state: ReduxStateType): { [string]: string } => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  age: state.user.age,
-  year: state.user.year.toString(),
-  gender: state.user.gender,
-  major: state.user.major,
-  college: state.user.college
-})
+const createFormInitialValues = (state: ReduxStateType): { [string]: string } => {
+  const ethnicityValues = []
+  for (let index = 0; index < state.user.ethnicity.length; index += 1) {
+    ethnicityValues[USER_PROPS.ETHNICITY.indexOf(state.user.ethnicity[index])] = state.user.ethnicity[index]
+  }
+
+  /*
+  for (let index = 0; index < ethnicityValues.length; index += 1) {
+    console.log(`Initial ethnicity: index = ${index}, value = ${ethnicityValues[index]}`)
+  }
+  */
+
+  return {
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+    age: state.user.age,
+    year: state.user.year.toString(),
+    gender: state.user.gender,
+    major: state.user.major,
+    college: state.user.college,
+    height: state.user.height,
+    ethnicity: ethnicityValues
+  }
+}
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
@@ -236,7 +290,8 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     itemKey: 'age',
     valueMin: USER_PROPS.MIN_AGE,
     valueMax: USER_PROPS.MAX_AGE,
-    valueLabels: USER_PROPS.AGE_LABELS
+    valueLabels: USER_PROPS.AGE_LABELS,
+    valueFormatter: (n: ?number) => String(n)
   }
   const yearOptions = {
     itemName: 'Year',
@@ -261,6 +316,19 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     dropdownItems: USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c)),
     placeholder: USER_PROPS.COLLEGE[0]
   }
+  const heightOptions = {
+    itemName: 'Height',
+    itemKey: 'height',
+    valueMin: USER_PROPS.MIN_HEIGHT,
+    valueMax: USER_PROPS.MAX_HEIGHT,
+    valueLabels: USER_PROPS.HEIGHT_LABELS,
+    valueFormatter: (n: ?number) => (n ? formatHeight(n) : '')
+  }
+  const ethnicityOptions = {
+    itemName: 'Ethnicity',
+    itemKey: 'ethnicity',
+    checkboxGroupOptions: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -272,10 +340,12 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       <Field name="gender" options={genderOptions} component={FormRadioGroupItem} />
 
       {/* Non-required fields */}
-      <DropdownWrapper key="dropdownWrapperMajorCollege">
+      <DropdownWrapper>
         <Field name="major" options={majorOptions} component={FormDropdownItem} />
         <Field name="college" options={collegeOptions} component={FormDropdownItem} />
       </DropdownWrapper>
+      <Field name="height" options={heightOptions} component={FormSliderItem} />
+      <FieldArray name="ethnicity" options={ethnicityOptions} component={FormCheckboxItem} />
 
       <Button primary type="submit">
         Next
@@ -605,17 +675,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     if (!requiredFieldsOnly) {
       const nonReqItems = [
-        <FormItem name="Height" key="height">
-          <Slider
-            min={USER_PROPS.MIN_HEIGHT}
-            max={USER_PROPS.MAX_HEIGHT}
-            marks={USER_PROPS.HEIGHT_LABELS}
-            value={editedUser.height}
-            formatter={(n: ?number) => (n ? formatHeight(n) : '')}
-            showLabel
-            onChange={this.handleHeightChange}
-          />
-        </FormItem>,
         <FormItem name="Ethnicity" key="ethnicity">
           <Form.CheckboxGroup
             name="ethnicity"

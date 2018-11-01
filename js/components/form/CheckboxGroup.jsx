@@ -23,16 +23,19 @@ export default function CheckboxGroup(props: PropsType): React.Element<*> {
   const handleAnyClick = () => {
     const { selectedOptions, options, onToggleAny, name } = props
     const allSelected = selectedOptions.length === options.length
+    console.log('handleAnyClick: selectedOptions = ')
+    console.log(selectedOptions)
     onToggleAny(allSelected, name)
   }
 
   const { innerRef, name, selectedOptions, onChange, options, anyable } = props
   return (
     <CheckboxGroupDiv innerRef={innerRef}>
-      {options.map(option => (
+      {options.map((option, index) => (
         <CheckboxInput
           key={option.id}
           name={name}
+          index={index}
           value={option}
           checked={selectedOptions.indexOf(option.id) !== -1}
           onChange={onChange}
@@ -41,6 +44,7 @@ export default function CheckboxGroup(props: PropsType): React.Element<*> {
       {anyable && (
         <CheckboxInput
           name={name}
+          index={options.length}
           value={{ id: 'any', text: 'Any' }}
           checked={options.length === selectedOptions.length}
           onChange={handleAnyClick}

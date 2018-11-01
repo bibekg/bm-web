@@ -80,6 +80,7 @@ export type OptionType = {
 
 type PropsType = {
   name: string,
+  index: number,
   value: OptionType,
   checked: boolean,
   onChange: (SyntheticInputEvent<*>) => void
@@ -91,6 +92,7 @@ export default function CheckboxInput(props: PropsType): React.Element<*> {
       <input
         type="checkbox"
         name={props.name}
+        id={props.index}
         value={props.value.id}
         checked={props.checked}
         onChange={props.onChange}
