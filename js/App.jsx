@@ -22,7 +22,6 @@ injectGlobal([
     font-family: ${fonts.primary.family};
     height: 100%;
     margin: 0;
-    overflow-x: hidden;
   }
 
   #app {
