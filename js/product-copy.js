@@ -33,5 +33,14 @@ export const copy = {
   profileCard: {
     funQuestionsMissing: "It looks like you don't have any!",
     funQuestionsCallToAction: "Click 'Edit' and fill out your fun fact questions under 'Bio'"
+  },
+  foldSwitch: {
+    text: 'Learn more about your match by clicking below!'
+  },
+  siteDownPage: {
+    header: 'BRB 😘',
+    title: "We're making some scheduled improvements to BruinMeet.",
+    subtitle:
+      "Good luck on your midterms, Bruins! We'll be back faster than you can say Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon"
   }
 }

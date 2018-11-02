@@ -182,6 +182,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
             user={this.matchedUser}
             matchBasis={this.props.match.matchBasis}
             hideContactInfo={!showContactInfo}
+            foldable
           />
         )}
       </div>
