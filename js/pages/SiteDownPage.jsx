@@ -31,9 +31,13 @@ export default function SiteDownPage(): React.Element<*> {
   return (
     <BlueWaveBackground>
       <PageWrapper>
-        <WhiteHeader>BRB</WhiteHeader>
-        <WhiteTitle align="left">{"We're making some improvements to BruinMeet."}</WhiteTitle>
-        <WhiteSubtitle align="left">{"Sit tight, we'll be back soon."}</WhiteSubtitle>
+        <WhiteHeader>BRB 😘</WhiteHeader>
+        <WhiteTitle align="left">{"We're making some scheduled improvements to BruinMeet."}</WhiteTitle>
+        <WhiteSubtitle align="left">
+          {
+            "Good luck on your midterms, Bruins! We'll be back faster than you can say Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon"
+          }
+        </WhiteSubtitle>
       </PageWrapper>
     </BlueWaveBackground>
   )
