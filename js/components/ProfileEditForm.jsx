@@ -215,11 +215,12 @@ const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string
     major: state.user.major,
     college: state.user.college,
     height: state.user.height,
-    ethnicity: USER_PROPS.ETHNICITY.map(value => state.user.ethnicity.indexOf(value) >= 0)
+    ethnicity: USER_PROPS.ETHNICITY.map(value => state.user.ethnicity.indexOf(value) >= 0),
+    questions: {}
   }
 
   state.user.answers.forEach(entry => {
-    initialValues[entry.question] = entry.answer
+    initialValues.questions[entry.question] = entry.answer
   })
 
   return initialValues
@@ -323,28 +324,17 @@ ProfileEditFormBasicPage = connect(
 // +-----------------+
 // |  Personal Form  |
 // +-----------------+
-// eslint-disable-next-line arrow-body-style
-const createPersonalFormInitialValues = (state: ReduxStateType): { [string]: string } => {
-  const initialValues = {}
-  state.user.answers.forEach(entry => {
-    initialValues[entry.question] = entry.answer
-  })
-  return initialValues
-}
-
 let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit } = props
+  const { previousPage, handleSubmit } = props
 
   const bioOptions = { name: 'bio', question: 'Bio' }
   const questionsOptions = []
   Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
-    questionsOptions.push({ name: entry[0], question: entry[1] })
+    questionsOptions.push({ name: `questions[${entry[0]}]`, question: entry[1] })
   })
   let fieldOptions = []
   fieldOptions.push(bioOptions)
   fieldOptions = fieldOptions.concat(questionsOptions)
-
-  console.log(fieldOptions)
 
   return (
     <form onSubmit={handleSubmit}>
@@ -352,6 +342,9 @@ let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
         <Field key={option.name} name={option.name} options={option} component={FormTextareaItem} />
       ))}
 
+      <Button primary onClick={previousPage}>
+        Previous
+      </Button>
       <Button primary type="submit">
         Next
       </Button>
@@ -642,37 +635,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         }
       })
     }
-  }
-
-  getPersonalFormItems(): Array<React.Element<*>> {
-    const { editedUser } = this.state
-    if (!editedUser) {
-      return []
-    }
-
-    const items = [
-      <FormItem required name="Bio" key="bio">
-        <Form.Textarea required name="bio" rows={5} value={editedUser.bio || ''} onChange={this.handleValueChange} />
-      </FormItem>
-    ]
-
-    Object.keys(USER_PROPS.QUESTIONS).forEach(qitem => {
-      const question = USER_PROPS.QUESTIONS[qitem]
-      const answerObject = editedUser.answers.find(aqPair => aqPair.question === qitem)
-      items.push(
-        <FormItem required name={question} key={qitem}>
-          <Form.Textarea
-            required
-            name={qitem}
-            rows={5}
-            value={answerObject ? answerObject.answer : ''}
-            onChange={this.handleQuestionValueChange}
-          />
-        </FormItem>
-      )
-    })
-
-    return items
   }
 
   getPreferencesFormItems(): Array<React.Element<*>> {
@@ -983,6 +945,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     if (pageIndex === 1) {
       return (
         <ProfileEditFormPersonalPage
+          previousPage={this.previousPage}
           onSubmit={values => {
             console.log(values)
             this.nextPage()
