@@ -13,16 +13,12 @@ exports[`snapshot test renders correctly with default render logic 1`] = `
         "active": true,
         "age": 20,
         "answers": Array [],
-        "availability": Array [
-          1995-12-17T11:24:00.000Z,
-        ],
+        "availability": Array [],
         "bio": "I love BruinMeet",
         "blindDateParticipant": true,
         "college": "School of Engineering and Applied Sciences",
         "currentMatch": "string",
-        "dateAvailability": Array [
-          1995-12-17T11:24:00.000Z,
-        ],
+        "dateAvailability": Array [],
         "dislikeMatch": true,
         "email": "joe@ucla.edu",
         "ethnicity": Array [

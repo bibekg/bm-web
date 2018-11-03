@@ -34,8 +34,8 @@ export const mockUser = {
   dislikeMatch: true,
 
   // RENDEZVOUS FIELDS
-  dateAvailability: [new Date('December 17, 1995 03:24:00')],
-  availability: [new Date('December 17, 1995 03:24:00')],
+  dateAvailability: [],
+  availability: [],
   rendezvousState: 'unscheduled',
   rendezvousTime: null,
 
