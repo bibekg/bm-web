@@ -173,55 +173,10 @@ const FormRadioGroupItem = ({ input, options }) => (
     <Form.RadioGroup required {...input} options={options.radioGroupOptions} selected={input.value} />
   </FormItem>
 )
-/*
-  const selectedOptions = []
-  fields.forEach((name, index) => {
-    // eslint-disable-next-line eqeqeq
-    if (fields.get(index) != '_null') {
-      selectedOptions.push(String(fields.get(index)))
-    }
-  })
-  console.log('selectedOptions = ')
-  console.log(selectedOptions)
-  */
-const FormCheckboxItem = ({ fields, options }): React.Element<*> => (
-  // <div>{fields.map((name, index) => <Field name={name} component="input" type="checkbox" />)}</div>
-  <FormItem name={options.itemName} key={options.itemKey}>
-    <Form.CheckboxGroup
-      anyable
-      name={fields.name}
-      options={options.checkboxGroupOptions}
-      selectedOptions={fields
-        .getAll()
-        .filter(value => value !== '_null')
-        .map(String)}
-      // onChange={(event: SyntheticInputEvent<*>) => {
-      //   // NOTE: seems like there's no "replace" method to modify an element at index in "fields"
-      //   // this .remove() and .insert() approach triggers component re-render twice, which may cause undesired behavior in the future
-      //   fields.remove(event.target.id)
-      //   fields.insert(event.target.id, event.target.checked ? event.target.value : '_null')
 
-      //   const selectedOptionsPrint = []
-      //   fields.forEach((name, index) => {
-      //     // eslint-disable-next-line eqeqeq
-      //     if (fields.get(index) != '_null') {
-      //       selectedOptionsPrint.push(String(fields.get(index)))
-      //     }
-      //   })
-      //   console.log('After onChange, selectedOptions = ')
-      //   console.log(selectedOptionsPrint)
-      // }}
-      // onToggleAny={(allSelected, fieldName) => {
-      //   const allOptions = {
-      //     ethnicity: USER_PROPS.ETHNICITY
-      //   }
-      //   fields.removeAll()
-      //   // Going to select everything if not everything are selected now
-      //   for (let index = 0; index < allOptions[fieldName].length; index += 1) {
-      //     allSelected ? fields.insert(index, '_null') : fields.insert(index, allOptions[fieldName][index])
-      //   }
-      // }}
-    />
+const FormCheckboxItem = ({ fields, options }) => (
+  <FormItem name={options.itemName} key={options.itemKey}>
+    <Form.CheckboxGroup anyable name={fields.name} options={options.checkboxGroupOptions} />
   </FormItem>
 )
 
@@ -246,26 +201,8 @@ const FormTextareaItem = ({ input, options, name }) => (
   </FormItem>
 )
 
+// eslint-disable-next-line arrow-body-style
 const createFormInitialValues = (state: ReduxStateType): { [string]: string } => {
-  const ethnicityValues = []
-  /*
-  for (let index = 0; index < state.user.ethnicity.length; index += 1) {
-    ethnicityValues[USER_PROPS.ETHNICITY.indexOf(state.user.ethnicity[index])] = state.user.ethnicity[index]
-  }
-  */
-
-  for (let index = 0; index < USER_PROPS.ETHNICITY.length; index += 1) {
-    ethnicityValues.push(
-      state.user.ethnicity.indexOf(USER_PROPS.ETHNICITY[index]) >= 0 ? USER_PROPS.ETHNICITY[index] : '_null'
-    )
-  }
-
-  /*
-  for (let index = 0; index < ethnicityValues.length; index += 1) {
-    console.log(`Initial ethnicity: index = ${index}, value = ${ethnicityValues[index]}`)
-  }
-  */
-
   return {
     firstName: state.user.firstName,
     lastName: state.user.lastName,
@@ -275,7 +212,7 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
     major: state.user.major,
     college: state.user.college,
     height: state.user.height,
-    ethnicity: ethnicityValues
+    ethnicity: USER_PROPS.ETHNICITY.map(value => state.user.ethnicity.indexOf(value) >= 0)
   }
 }
 

@@ -14,45 +14,37 @@ type PropsType = {
   name: string,
   anyable: boolean,
   options: Array<OptionType>,
-  selectedOptions: Array<string>,
+  // selectedOptions: Array<string>,
   onChange: (SyntheticInputEvent<*>) => void,
-  onToggleAny: (boolean, string) => void,
+  // onToggleAny: (boolean, string) => void,
   innerRef?: HTMLElement => void
 }
 
-const CheckboxInputItem = ({ input, options, name }) => (
-  <CheckboxInput {...input} key={options.id} name={name} index={options.index} value={options} />
-)
-
 export default function CheckboxGroup(props: PropsType): React.Element<*> {
+  /*
   const handleAnyClick = () => {
     const { selectedOptions, options, onToggleAny, name } = props
-    const allSelected = selectedOptions.length === options.length
-    console.log('handleAnyClick: selectedOptions = ')
-    console.log(selectedOptions)
     onToggleAny(allSelected, name)
   }
+  */
 
-  const { innerRef, name, selectedOptions, options, anyable } = props
+  const { innerRef, name, options } = props
+  // eslint-disable-next-line no-shadow
+  const CheckboxInputField = ({ input, entry, name }) => (
+    <CheckboxInput {...input} key={entry.id} name={name} value={entry} />
+  )
   return (
     <CheckboxGroupDiv innerRef={innerRef}>
-      {options.map((option, index): React.Element<*> => {
-        const checkboxInputItemOptions = {
-          ...option,
-          index
-        }
-
-        return (
-          <Field
-            key={option.id}
-            name={`ethnicity[${index}]`}
-            component={CheckboxInputItem}
-            options={checkboxInputItemOptions}
-            type="checkbox"
-          />
-        )
-      })}
-      {anyable && (
+      {options.map((option, index): React.Element<*> => (
+        <Field
+          key={option.id}
+          name={`${name}[${index}]`}
+          component={CheckboxInputField}
+          entry={option}
+          type="checkbox"
+        />
+      ))}
+      {/* {anyable && (
         <CheckboxInput
           name={name}
           index={options.length}
@@ -60,21 +52,12 @@ export default function CheckboxGroup(props: PropsType): React.Element<*> {
           checked={options.length === selectedOptions.length}
           onChange={handleAnyClick}
         />
-      )}
+      )} */}
     </CheckboxGroupDiv>
   )
 }
 
 CheckboxGroup.defaultProps = {
-  anyable: false,
-  onToggleAny: () => {}
+  anyable: false
+  // onToggleAny: () => {}
 }
-
-/* <CheckboxInput
-    key={option.id}
-    name={name}
-    index={index}
-    value={option}
-    checked={selectedOptions.indexOf(option.id) !== -1}
-    onChange={onChange}
-  /> */
