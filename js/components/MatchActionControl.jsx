@@ -59,48 +59,48 @@ export default class MatchActionControl extends React.Component<PropsType, State
     this.setState({ availability: newAvailability })
   }
 
-  static renderHaveMatch = (): React.Element<*> => (
+  static HaveMatch = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.haveMatch}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
 
-  static renderWaitingForMatch = (): React.Element<*> => (
+  static WaitingForMatch = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.matchWaiting}</Title>
     </MessageWrapper>
   )
 
   // both user and match like each other
-  renderMatchMade = (): React.Element<*> => (
+  static MatchMade = (matchedUser: UserType): React.Element<*> => (
     <MessageWrapper>
-      <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
+      <Title>{`Congrats! You and ${matchedUser.name.first} both liked each other!`}</Title>
       <Text center>{copy.matchActionControl.mutualLike}</Text>
     </MessageWrapper>
   )
 
   // both user and match like each other
-  renderRendezvousScheduled = (): React.Element<*> => {
-    const { rendezvousTime } = this.props.match
+  static RendezvousScheduled = (props: PropsType, matchedUser: UserType): React.Element<*> => {
+    const { rendezvousTime } = props.match
     return (
       <MessageWrapper>
         <Title>
           {rendezvousTime
-            ? `Congrats! You and ${this.matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
+            ? `Congrats! You and ${matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
                 'dddd M/D/Y [at] hA'
               )}`
-            : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
+            : `Congrats! You and ${matchedUser.name.first} both liked each other!`}
         </Title>
         <Text center>{copy.matchActionControl.mutualLike}</Text>
       </MessageWrapper>
     )
   }
 
-  renderUnschedulableRendezvous = (): React.Element<*> => (
+  static UnschedulableRendezvous = (matchedUser: UserType): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.scheduleBad}</Title>
-      <Text center>{`Message ${this.matchedUser.name.first} to ask when they are available for a date!`}</Text>
+      <Text center>{`Message ${matchedUser.name.first} to ask when they are available for a date!`}</Text>
     </MessageWrapper>
   )
 
@@ -146,18 +146,18 @@ export default class MatchActionControl extends React.Component<PropsType, State
           <UnmatchedCountdownTimer />
         )
       } else if (participants.self.likeState === 'pending') {
-        return MatchActionControl.renderHaveMatch()
+        return <MatchActionControl.HaveMatch />
       } else if (participants.self.likeState === 'liked') {
         // Check matched users's like state
         if (participants.match.likeState === 'disliked' || participants.match.likeState === 'pending') {
-          return MatchActionControl.renderWaitingForMatch()
+          return <MatchActionControl.WaitingForMatch />
         } else if (participants.match.likeState === 'liked') {
           if (rendezvousState === 'unschedulable') {
-            return this.renderUnschedulableRendezvous()
+            return <MatchActionControl.UnschedulableRendezvous matchedUser={this.matchedUser} />
           } else if (rendezvousState === 'scheduled') {
-            return this.renderRendezvousScheduled()
+            return <MatchActionControl.RendezvousScheduled props={this.props} matchedUser={this.matchedUser} />
           } else if (participants.self.updatedAvailability) {
-            return MatchActionControl.renderWaitingForMatch()
+            return <MatchActionControl.WaitingForMatch />
           } else if (user.availability) {
             return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
           }

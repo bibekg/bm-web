@@ -1,24 +1,24 @@
 export const mockUser = {
   _id: '1234',
-  profileId: '1234',
-  name: { first: 'Jack', last: 'Van Boening' },
+  profileId: '69',
+  name: { first: 'Joe', last: 'Bruin' },
   profilePic: 'profpic',
 
   // PROFILE INFORMATION
   age: 20,
   year: 2,
-  bio: 'Hey',
+  bio: 'I love BruinMeet',
   gender: 'male',
   major: 'Computer Science',
   height: 72,
-  ethnicity: [],
+  ethnicity: ['White/Caucasian'],
   college: 'School of Engineering and Applied Sciences',
 
   // CONTACT INFO
-  email: 'string',
-  instagram: 'string',
-  snapchat: 'string',
-  phone: 'string',
+  email: 'joe@ucla.edu',
+  instagram: '@iloveucla',
+  snapchat: '@uclaisCool',
+  phone: '310-123-4567',
   receiveTexts: true,
 
   // MATCHMAKING FIELDS
@@ -34,8 +34,8 @@ export const mockUser = {
   dislikeMatch: true,
 
   // RENDEZVOUS FIELDS
-  dateAvailability: [],
-  availability: [],
+  dateAvailability: [new Date('December 17, 1995 03:24:00')],
+  availability: [new Date('December 17, 1995 03:24:00')],
   rendezvousState: 'unscheduled',
   rendezvousTime: null,
 
@@ -49,14 +49,33 @@ export const mockUser = {
   voted: true
 }
 
-export const matchParticipant = {
+const selfParticipant = {
   user: mockUser,
   likeState: 'pending',
   updatedAvailability: true,
   matchFeedback: {
     comments: 'hey',
     contacted: false,
-    matchId: '1234',
+    matchId: '69',
+    met: false,
+    satisfaction: 5
+  },
+  sawDislikeFeedbackModal: true,
+  dislikeMatchFeedback: {
+    dislikeComments: 'blows',
+    dislikeReasons: ['other', 'too much sauce'],
+    matchId: '69'
+  }
+}
+
+const matchParticipant = {
+  user: mockUser,
+  likeState: 'pending',
+  updatedAvailability: true,
+  matchFeedback: {
+    comments: 'hey',
+    contacted: false,
+    matchId: '69',
     met: false,
     satisfaction: 5
   },
@@ -64,7 +83,7 @@ export const matchParticipant = {
   dislikeMatchFeedback: {
     dislikeComments: 'blows',
     dislikeReasons: ['other'],
-    matchId: '1234'
+    matchId: '69'
   }
 }
 
@@ -75,7 +94,7 @@ export const mockMatch = {
   // NOTE: This differs from the participants array in the back-end since the API
   // formats matches for clients so it's easier to access
   participants: {
-    self: matchParticipant,
+    self: selfParticipant,
     match: matchParticipant
   },
   state: 'active',

@@ -1,13 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot tests renders correctly with default render logic 1`] = `
+exports[`snapshot test renders correctly with default render logic 1`] = `
 <div>
-  <styled.div>
-    <styled.h1>
-      You have a match!
-    </styled.h1>
-    <Connect(MatchActionButtons) />
-  </styled.div>
+  <Component />
   <MatchCard
     foldable={true}
     hideContactInfo={true}
@@ -18,37 +13,43 @@ exports[`snapshot tests renders correctly with default render logic 1`] = `
         "active": true,
         "age": 20,
         "answers": Array [],
-        "availability": Array [],
-        "bio": "Hey",
+        "availability": Array [
+          1995-12-17T11:24:00.000Z,
+        ],
+        "bio": "I love BruinMeet",
         "blindDateParticipant": true,
         "college": "School of Engineering and Applied Sciences",
         "currentMatch": "string",
-        "dateAvailability": Array [],
+        "dateAvailability": Array [
+          1995-12-17T11:24:00.000Z,
+        ],
         "dislikeMatch": true,
-        "email": "string",
-        "ethnicity": Array [],
+        "email": "joe@ucla.edu",
+        "ethnicity": Array [
+          "White/Caucasian",
+        ],
         "gender": "male",
         "hasProfile": true,
         "height": 72,
-        "instagram": "string",
+        "instagram": "@iloveucla",
         "isAdmin": true,
         "likeMatch": true,
         "major": "Computer Science",
         "matchHistory": [Function],
         "matchRatings": Array [],
         "name": Object {
-          "first": "Jack",
-          "last": "Van Boening",
+          "first": "Joe",
+          "last": "Bruin",
         },
-        "phone": "string",
+        "phone": "310-123-4567",
         "preferenceMap": [Function],
         "preferenceStack": Array [],
-        "profileId": "1234",
+        "profileId": "69",
         "profilePic": "profpic",
         "receiveTexts": true,
         "rendezvousState": "unscheduled",
         "rendezvousTime": null,
-        "snapchat": "string",
+        "snapchat": "@uclaisCool",
         "variants": [Function],
         "verified": true,
         "voted": true,
