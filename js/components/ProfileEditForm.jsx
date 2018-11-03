@@ -206,7 +206,7 @@ const FormTextareaItem = ({ input, options, name }) => (
 // +-----------------+
 // eslint-disable-next-line arrow-body-style
 const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string } => {
-  return {
+  const initialValues = {
     firstName: state.user.firstName,
     lastName: state.user.lastName,
     age: state.user.age,
@@ -217,6 +217,12 @@ const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string
     height: state.user.height,
     ethnicity: USER_PROPS.ETHNICITY.map(value => state.user.ethnicity.indexOf(value) >= 0)
   }
+
+  state.user.answers.forEach(entry => {
+    initialValues[entry.question] = entry.answer
+  })
+
+  return initialValues
 }
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
@@ -358,13 +364,6 @@ ProfileEditFormPersonalPage = reduxForm({
   destroyOnUnmount: false, // preserve form data
   forceUnregisterOnUnmount: true // unregister fields on unmount
 })(ProfileEditFormPersonalPage)
-
-ProfileEditFormPersonalPage = connect(
-  (state: ReduxStateType): { [string]: { string: string } } => ({
-    initialValues: createPersonalFormInitialValues(state)
-  }),
-  {}
-)(ProfileEditFormPersonalPage)
 
 // +-----------------+
 // | Preference Form |
