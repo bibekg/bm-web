@@ -175,8 +175,8 @@ const FormRadioGroupItem = ({ input, options }) => (
 )
 
 const FormCheckboxItem = ({ fields, options }) => (
-  <FormItem name={options.itemName} key={options.itemKey}>
-    <Form.CheckboxGroup anyable name={fields.name} options={options.checkboxGroupOptions} />
+  <FormItem name={options.itemName}>
+    <Form.CheckboxGroup anyable name={fields.name} options={options.checkboxOptions} />
   </FormItem>
 )
 
@@ -201,12 +201,29 @@ const FormTextareaItem = ({ input, options, name }) => (
   </FormItem>
 )
 
-// +-----------------+
-// |    Basic Form   |
-// +-----------------+
+// ------------------
+// ---- Helpers -----
+// ------------------
+const FIELD_ARRAY_COMPONENTS = [FormCheckboxItem]
+
+// Build the initial values for a FieldArray based on
+// currently selected options and all possible options
+const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boolean] => {
+  const userDataMapper = {
+    ethnicity: [state.user.ethnicity, USER_PROPS.ETHNICITY],
+    genderPreference: [state.user.genderPreference, USER_PROPS.GENDER],
+    relationshipType: [state.user.relationshipType, USER_PROPS.RELATIONSHIP_TYPE]
+  }
+
+  const selectedOptions = userDataMapper[name][0]
+  const allOptions = userDataMapper[name][1]
+  return allOptions.map(value => selectedOptions.indexOf(value) >= 0)
+}
+
 // eslint-disable-next-line arrow-body-style
-const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string } => {
+const createFormInitialValues = (state: ReduxStateType): { [string]: string } => {
   const initialValues = {
+    // Basic Page
     firstName: state.user.firstName,
     lastName: state.user.lastName,
     age: state.user.age,
@@ -215,8 +232,18 @@ const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string
     major: state.user.major,
     college: state.user.college,
     height: state.user.height,
-    ethnicity: USER_PROPS.ETHNICITY.map(value => state.user.ethnicity.indexOf(value) >= 0),
-    questions: {}
+    ethnicity: buildFieldArrayInitialValues('ethnicity', state),
+
+    // Personal Page
+    bio: state.user.bio,
+    questions: {},
+
+    // Preference Page
+    genderPreference: buildFieldArrayInitialValues('genderPreference', state),
+    agePreference: state.user.agePreference
+      ? [state.user.agePreference.min, state.user.agePreference.max]
+      : [USER_PROPS.MIN_AGE, USER_PROPS.MAX_AGE],
+    relationshipType: buildFieldArrayInitialValues('relationshipType', state)
   }
 
   state.user.answers.forEach(entry => {
@@ -225,6 +252,10 @@ const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string
 
   return initialValues
 }
+
+// +-----------------+
+// |    Basic Form   |
+// +-----------------+
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
@@ -281,7 +312,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const ethnicityOptions = {
     itemName: 'Ethnicity',
     itemKey: 'ethnicity',
-    checkboxGroupOptions: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
+    checkboxOptions: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
   }
 
   return (
@@ -316,7 +347,7 @@ ProfileEditFormBasicPage = reduxForm({
 
 ProfileEditFormBasicPage = connect(
   (state: ReduxStateType): { [string]: { string: string } } => ({
-    initialValues: createBasicFormInitialValues(state)
+    initialValues: createFormInitialValues(state)
   }),
   {}
 )(ProfileEditFormBasicPage)
@@ -327,18 +358,18 @@ ProfileEditFormBasicPage = connect(
 let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   const { previousPage, handleSubmit } = props
 
-  const bioOptions = { name: 'bio', question: 'Bio' }
-  const questionsOptions = []
+  const bioField = { name: 'bio', question: 'Bio' }
+  const questionFields = []
   Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
-    questionsOptions.push({ name: `questions[${entry[0]}]`, question: entry[1] })
+    questionFields.push({ name: `questions[${entry[0]}]`, question: entry[1] })
   })
-  let fieldOptions = []
-  fieldOptions.push(bioOptions)
-  fieldOptions = fieldOptions.concat(questionsOptions)
+  let fields = []
+  fields.push(bioField)
+  fields = fields.concat(questionFields)
 
   return (
     <form onSubmit={handleSubmit}>
-      {fieldOptions.map(option => (
+      {fields.map(option => (
         <Field key={option.name} name={option.name} options={option} component={FormTextareaItem} />
       ))}
 
@@ -361,6 +392,69 @@ ProfileEditFormPersonalPage = reduxForm({
 // +-----------------+
 // | Preference Form |
 // +-----------------+
+let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
+  const { previousPage, handleSubmit } = props
+
+  const genderPreferenceField = {
+    fieldName: 'genderPreference',
+    component: FormCheckboxItem,
+    options: {
+      itemName: 'Interested In',
+      checkboxOptions: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
+    }
+  }
+  const agePreferenceField = {
+    fieldName: 'agePreference',
+    component: FormSliderItem,
+    options: {
+      itemName: 'Age Preference',
+      valueMin: USER_PROPS.MIN_AGE,
+      valueMax: USER_PROPS.MAX_AGE,
+      valueLabels: USER_PROPS.AGE_LABELS
+    }
+  }
+  const relationshipTypeField = {
+    fieldName: 'relationshipType',
+    component: FormCheckboxItem,
+    options: {
+      itemName: 'Looking For',
+      checkboxOptions: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) }))
+    }
+  }
+
+  const fields = [genderPreferenceField, agePreferenceField, relationshipTypeField]
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {fields.map(
+        field =>
+          FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
+            <FieldArray
+              key={field.fieldName}
+              name={field.fieldName}
+              options={field.options}
+              component={field.component}
+            />
+          ) : (
+            <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+          )
+      )}
+
+      <Button primary onClick={previousPage}>
+        Previous
+      </Button>
+      <Button primary type="submit">
+        Next
+      </Button>
+    </form>
+  )
+}
+
+ProfileEditFormPreferencePage = reduxForm({
+  form: 'profileEdit',
+  destroyOnUnmount: false, // preserve form data
+  forceUnregisterOnUnmount: true // unregister fields on unmount
+})(ProfileEditFormPreferencePage)
 
 // +-----------------+
 // |   Contact Form  |
@@ -645,50 +739,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
       return []
     }
 
-    const items = [
-      <FormItem required name="Interested In" key="genderPreference">
-        <Form.CheckboxGroup
-          anyable
-          name="genderPreference"
-          options={USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))}
-          innerRef={(c: HTMLElement) => {
-            this.genderPreferenceCheckboxGroup = c
-          }}
-          selectedOptions={editedUser ? editedUser.genderPreference : []}
-          onChange={this.handleValueChange}
-          onToggleAny={this.handleToggleAny}
-        />
-      </FormItem>,
-      <FormItem required name="Age Preference" key="agePreference">
-        <Slider
-          min={USER_PROPS.MIN_AGE}
-          max={USER_PROPS.MAX_AGE}
-          marks={USER_PROPS.AGE_LABELS}
-          value={
-            editedUser.agePreference
-              ? [editedUser.agePreference.min, editedUser.agePreference.max]
-              : [USER_PROPS.MIN_AGE, USER_PROPS.MAX_AGE]
-          }
-          showLabel
-          noneLabel="any"
-          onChange={this.handleAgePreferenceChange}
-        />
-      </FormItem>,
-      <FormItem required name="Looking for" key="relationshipType">
-        <Form.CheckboxGroup
-          anyable
-          name="relationshipType"
-          innerRef={(c: HTMLElement) => {
-            this.relTypeCheckboxGroup = c
-          }}
-          options={USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) }))}
-          selectedOptions={editedUser.relationshipType ? editedUser.relationshipType.map(String) : []}
-          onChange={this.handleValueChange}
-          onToggleAny={this.handleToggleAny}
-        />
-      </FormItem>
-    ]
-
     if (!requiredFieldsOnly) {
       const nonReqItems = [
         <FormItem name="Ethnicity Preference" key="ethnicityPreference">
@@ -736,10 +786,9 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
           />
         </FormItem>
       ]
-      nonReqItems.forEach(item => items.push(item))
     }
 
-    return items
+    return []
   }
 
   getContactFormItems(): Array<React.Element<*>> {
@@ -945,6 +994,18 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     if (pageIndex === 1) {
       return (
         <ProfileEditFormPersonalPage
+          previousPage={this.previousPage}
+          onSubmit={values => {
+            console.log(values)
+            this.nextPage()
+          }}
+        />
+      )
+    }
+
+    if (pageIndex === 2) {
+      return (
+        <ProfileEditFormPreferencePage
           previousPage={this.previousPage}
           onSubmit={values => {
             console.log(values)
