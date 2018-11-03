@@ -87,6 +87,9 @@ type PropsType = {
 }
 
 export default function CheckboxInput(props: PropsType): React.Element<*> {
+  console.log('CheckboxInput: props = ')
+  console.log(props)
+
   return (
     <CheckboxItem>
       <input
