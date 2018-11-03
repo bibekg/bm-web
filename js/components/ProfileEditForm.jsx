@@ -196,13 +196,16 @@ const FormDropdownItem = ({ input, options, name }) => (
 )
 
 const FormTextareaItem = ({ input, options, name }) => (
-  <FormItem required name={options.itemName} key={options.itemKey}>
+  <FormItem required name={options.question}>
     <Form.Textarea required {...input} name={name} rows={5} />
   </FormItem>
 )
 
+// +-----------------+
+// |    Basic Form   |
+// +-----------------+
 // eslint-disable-next-line arrow-body-style
-const createFormInitialValues = (state: ReduxStateType): { [string]: string } => {
+const createBasicFormInitialValues = (state: ReduxStateType): { [string]: string } => {
   return {
     firstName: state.user.firstName,
     lastName: state.user.lastName,
@@ -306,22 +309,42 @@ ProfileEditFormBasicPage = reduxForm({
 
 ProfileEditFormBasicPage = connect(
   (state: ReduxStateType): { [string]: { string: string } } => ({
-    initialValues: createFormInitialValues(state)
+    initialValues: createBasicFormInitialValues(state)
   }),
   {}
 )(ProfileEditFormBasicPage)
 
+// +-----------------+
+// |  Personal Form  |
+// +-----------------+
+// eslint-disable-next-line arrow-body-style
+const createPersonalFormInitialValues = (state: ReduxStateType): { [string]: string } => {
+  const initialValues = {}
+  state.user.answers.forEach(entry => {
+    initialValues[entry.question] = entry.answer
+  })
+  return initialValues
+}
+
 let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
 
-  const bioOptions = {
-    itemName: 'Bio',
-    itemKey: 'bio'
-  }
+  const bioOptions = { name: 'bio', question: 'Bio' }
+  const questionsOptions = []
+  Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
+    questionsOptions.push({ name: entry[0], question: entry[1] })
+  })
+  let fieldOptions = []
+  fieldOptions.push(bioOptions)
+  fieldOptions = fieldOptions.concat(questionsOptions)
+
+  console.log(fieldOptions)
 
   return (
     <form onSubmit={handleSubmit}>
-      <Field name="bio" options={bioOptions} component={FormTextareaItem} />
+      {fieldOptions.map(option => (
+        <Field key={option.name} name={option.name} options={option} component={FormTextareaItem} />
+      ))}
 
       <Button primary type="submit">
         Next
@@ -335,6 +358,21 @@ ProfileEditFormPersonalPage = reduxForm({
   destroyOnUnmount: false, // preserve form data
   forceUnregisterOnUnmount: true // unregister fields on unmount
 })(ProfileEditFormPersonalPage)
+
+ProfileEditFormPersonalPage = connect(
+  (state: ReduxStateType): { [string]: { string: string } } => ({
+    initialValues: createPersonalFormInitialValues(state)
+  }),
+  {}
+)(ProfileEditFormPersonalPage)
+
+// +-----------------+
+// | Preference Form |
+// +-----------------+
+
+// +-----------------+
+// |   Contact Form  |
+// +-----------------+
 
 class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
@@ -605,34 +643,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         }
       })
     }
-  }
-
-  getBasicFormItems(): Array<React.Element<*>> {
-    const { requiredFieldsOnly } = this.props
-    const { editedUser } = this.state
-
-    if (!editedUser) {
-      return []
-    }
-
-    const items = []
-
-    if (!requiredFieldsOnly) {
-      const nonReqItems = [
-        <FormItem name="Ethnicity" key="ethnicity">
-          <Form.CheckboxGroup
-            name="ethnicity"
-            options={USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))}
-            selectedOptions={editedUser.ethnicity ? editedUser.ethnicity.map(String) : []}
-            onChange={this.handleValueChange}
-            onToggleAny={this.handleToggleAny}
-          />
-        </FormItem>
-      ]
-      nonReqItems.forEach(item => items.push(item))
-    }
-
-    return items
   }
 
   getPersonalFormItems(): Array<React.Element<*>> {
