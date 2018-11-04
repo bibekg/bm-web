@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Field, FieldArray, reduxForm } from 'redux-form'
-import type { FormProps } from 'redux-form'
+import type { FormProps, FieldProps, FieldArrayProps } from 'redux-form'
 import { Text, Subtitle } from 'components/typography'
 import Button from 'components/Button'
 import Slider from 'components/Slider'
@@ -142,6 +142,49 @@ type FormItemPropsType = {
   children: React.Node
 }
 
+// ------------------
+// Types
+// ------------------
+type FormTextInputItemOptionsType = {
+  itemName: string,
+  placeholder?: string
+}
+
+type FormSliderItemOptionsType = {
+  itemName: string,
+  min: number,
+  max: number,
+  marks?: { [string]: string },
+  formatter?: (?number) => string,
+  showLabel?: boolean
+}
+
+type FormRadioGroupItemOptionsType = {
+  itemName: string,
+  required?: boolean,
+  options: [{ id: string, text: string }]
+}
+
+type FormCheckboxItemOptionsType = {
+  itemName: string,
+  anyable?: boolean,
+  options: [string]
+}
+
+type FormDropdownItemOptionsType = {
+  itemName: string,
+  items: [string],
+  placeholder: string
+}
+
+type FormTextareaItemOptionsType = {
+  itemName: string,
+  required?: boolean
+}
+
+// ------------------
+// Form Items
+// ------------------
 const FormItem = (props: FormItemPropsType) => (
   <FormItemWrapper>
     <Form.Label required={props.required}>{props.name}</Form.Label>
@@ -149,45 +192,66 @@ const FormItem = (props: FormItemPropsType) => (
   </FormItemWrapper>
 )
 
-const FormTextInputItem = ({ input, options, name }) => (
-  <FormItem name={options.itemName} key={options.itemKey}>
-    <Form.TextInput required {...input} name={name} placeholder={options.placeholder} type="text" />
+const FormTextInputItem = ({
+  input,
+  options: { itemName, ...componentOptions }
+}: {
+  input: FieldProps,
+  options: FormTextInputItemOptionsType
+}) => (
+  <FormItem name={itemName}>
+    <Form.TextInput required {...input} {...componentOptions} type="text" />
   </FormItem>
 )
 
-const FormSliderItem = ({ input, options }) => (
-  <FormItem name={options.itemName} key={options.itemKey}>
-    <Slider
-      {...input}
-      min={options.valueMin}
-      max={options.valueMax}
-      marks={options.valueLabels}
-      formatter={options.valueFormatter}
-      showLabel
-    />
+const FormSliderItem = ({
+  input,
+  options: { itemName, ...componentOptions }
+}: {
+  input: FieldProps,
+  options: FormSliderItemOptionsType
+}) => (
+  <FormItem name={itemName}>
+    <Slider {...input} {...componentOptions} />
   </FormItem>
 )
 
-const FormRadioGroupItem = ({ input, options }) => (
-  <FormItem required name={options.itemName} key={options.itemKey}>
-    <Form.RadioGroup required {...input} options={options.radioGroupOptions} selected={input.value} />
+const FormRadioGroupItem = ({
+  input,
+  options: { required, itemName, ...componentOptions }
+}: {
+  input: FieldProps,
+  options: FormRadioGroupItemOptionsType
+}) => (
+  <FormItem name={itemName}>
+    <Form.RadioGroup {...input} {...componentOptions} selected={input.value} />
   </FormItem>
 )
 
-const FormCheckboxItem = ({ fields, options }) => (
-  <FormItem name={options.itemName}>
-    <Form.CheckboxGroup anyable name={fields.name} options={options.checkboxOptions} />
+const FormCheckboxItem = ({
+  fields,
+  options: { itemName, ...componentOptions }
+}: {
+  fields: FieldArrayProps,
+  options: FormCheckboxItemOptionsType
+}) => (
+  <FormItem name={itemName}>
+    <Form.CheckboxGroup name={fields.name} {...componentOptions} />
   </FormItem>
 )
 
-const FormDropdownItem = ({ input, options, name }) => (
-  <FormItem name={options.itemName} key={options.itemKey}>
+const FormDropdownItem = ({
+  input,
+  options: { itemName, ...componentOptions }
+}: {
+  input: FieldProps,
+  options: FormDropdownItemOptionsType
+}) => (
+  <FormItem name={itemName}>
     <Dropdown
       {...input}
-      name={name}
-      items={options.dropdownItems}
+      {...componentOptions}
       selectedItem={new DropdownItem(input.value, input.value)}
-      placeholder={options.placeholder}
       onChange={(dropdownName, newItem) => {
         input.onChange(newItem.text)
       }}
@@ -195,9 +259,15 @@ const FormDropdownItem = ({ input, options, name }) => (
   </FormItem>
 )
 
-const FormTextareaItem = ({ input, options, name }) => (
-  <FormItem required name={options.question}>
-    <Form.Textarea required {...input} name={name} rows={5} />
+const FormTextareaItem = ({
+  input,
+  options: { itemName, required }
+}: {
+  input: FieldProps,
+  options: FormTextareaItemOptionsType
+}) => (
+  <FormItem required name={itemName}>
+    <Form.Textarea required {...input} rows={5} />
   </FormItem>
 )
 
@@ -222,6 +292,11 @@ const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boo
 
 // eslint-disable-next-line arrow-body-style
 const createFormInitialValues = (state: ReduxStateType): { [string]: string } => {
+  const questionsValues = {}
+  state.user.answers.forEach(entry => {
+    questionsValues[entry.question] = entry.answer
+  })
+
   const initialValues = {
     // Basic Page
     firstName: state.user.firstName,
@@ -236,7 +311,7 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
 
     // Personal Page
     bio: state.user.bio,
-    questions: {},
+    questions: questionsValues,
 
     // Preference Page
     genderPreference: buildFieldArrayInitialValues('genderPreference', state),
@@ -245,10 +320,6 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
       : [USER_PROPS.MIN_AGE, USER_PROPS.MAX_AGE],
     relationshipType: buildFieldArrayInitialValues('relationshipType', state)
   }
-
-  state.user.answers.forEach(entry => {
-    initialValues.questions[entry.question] = entry.answer
-  })
 
   return initialValues
 }
@@ -260,77 +331,128 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
 
-  const firstNameOptions = {
-    itemName: 'First Name',
-    itemKey: 'first',
-    placeholder: 'Joe'
+  const firstNameField: { options: FormTextInputItemOptionsType } = {
+    fieldName: 'firstName',
+    component: FormTextInputItem,
+    options: {
+      itemName: 'First Name',
+      placeholder: 'Joe'
+    }
   }
-  const lastNameOptions = {
-    itemName: 'Last Name',
-    itemKey: 'last',
-    placeholder: 'Bruin'
+  const lastNameField: { options: FormTextInputItemOptionsType } = {
+    fieldName: 'lastName',
+    component: FormTextInputItem,
+    options: {
+      itemName: 'Last Name',
+      placeholder: 'Bruin'
+    }
   }
-  const ageOptions = {
-    itemName: 'Age',
-    itemKey: 'age',
-    valueMin: USER_PROPS.MIN_AGE,
-    valueMax: USER_PROPS.MAX_AGE,
-    valueLabels: USER_PROPS.AGE_LABELS,
-    valueFormatter: (n: ?number) => String(n)
+  const ageField: { options: FormSliderItemOptionsType } = {
+    fieldName: 'age',
+    component: FormSliderItem,
+    options: {
+      itemName: 'Age',
+      min: USER_PROPS.MIN_AGE,
+      max: USER_PROPS.MAX_AGE,
+      marks: USER_PROPS.AGE_LABELS,
+      formatter: (n: ?number) => String(n)
+    }
   }
-  const yearOptions = {
-    itemName: 'Year',
-    itemKey: 'year',
-    radioGroupOptions: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
+  const yearField: { options: FormRadioGroupItemOptionsType } = {
+    fieldName: 'year',
+    component: FormRadioGroupItem,
+    options: {
+      itemName: 'Year',
+      options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
+    }
   }
-  const genderOptions = {
-    itemName: 'Gender',
-    itemKey: 'gender',
-    radioGroupOptions: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
+  const genderField: { options: FormRadioGroupItemOptionsType } = {
+    fieldName: 'gender',
+    component: FormRadioGroupItem,
+    options: {
+      itemName: 'Gender',
+      options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
+    }
   }
 
-  const majorOptions = {
-    itemName: 'Major',
-    itemKey: 'major',
-    dropdownItems: USER_PROPS.MAJOR.map(c => new DropdownItem(c, c)),
-    placeholder: USER_PROPS.MAJOR[0]
+  const majorField: { options: FormDropdownItemOptionsType } = {
+    fieldName: 'major',
+    component: FormDropdownItem,
+    options: {
+      itemName: 'Major',
+      items: USER_PROPS.MAJOR.map(c => new DropdownItem(c, c)),
+      placeholder: USER_PROPS.MAJOR[0]
+    }
   }
-  const collegeOptions = {
-    itemName: 'College',
-    itemKey: 'college',
-    dropdownItems: USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c)),
-    placeholder: USER_PROPS.COLLEGE[0]
+  const collegeField: { options: FormDropdownItemOptionsType } = {
+    fieldName: 'college',
+    component: FormDropdownItem,
+    options: {
+      itemName: 'College',
+      items: USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c)),
+      placeholder: USER_PROPS.COLLEGE[0]
+    }
   }
-  const heightOptions = {
-    itemName: 'Height',
-    itemKey: 'height',
-    valueMin: USER_PROPS.MIN_HEIGHT,
-    valueMax: USER_PROPS.MAX_HEIGHT,
-    valueLabels: USER_PROPS.HEIGHT_LABELS,
-    valueFormatter: (n: ?number) => (n ? formatHeight(n) : '')
+  const heightField: { options: FormSliderItemOptionsType } = {
+    fieldName: 'height',
+    component: FormSliderItem,
+    options: {
+      itemName: 'Height',
+      min: USER_PROPS.MIN_HEIGHT,
+      max: USER_PROPS.MAX_HEIGHT,
+      marks: USER_PROPS.HEIGHT_LABELS,
+      formatter: (n: ?number) => (n ? formatHeight(n) : '')
+    }
   }
-  const ethnicityOptions = {
-    itemName: 'Ethnicity',
-    itemKey: 'ethnicity',
-    checkboxOptions: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
+  const ethnicityField: { options: FormCheckboxItemOptionsType } = {
+    fieldName: 'ethnicity',
+    component: FormCheckboxItem,
+    options: {
+      itemName: 'Ethnicity',
+      options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
+    }
   }
+
+  const requiredFields = [firstNameField, lastNameField, ageField, yearField, genderField]
+  // TODO: majorField and collegeField to be added
+  const nonrequiredFields = [heightField, ethnicityField]
 
   return (
     <form onSubmit={handleSubmit}>
-      <Field name="firstName" options={firstNameOptions} component={FormTextInputItem} />
-      <Field name="lastName" options={lastNameOptions} component={FormTextInputItem} />
-      <Field name="age" options={ageOptions} component={FormSliderItem} />
-      {/* TODO: handle int-string conversion for initial value & onChange */}
-      <Field name="year" options={yearOptions} component={FormRadioGroupItem} />
-      <Field name="gender" options={genderOptions} component={FormRadioGroupItem} />
+      {/* Required Fields */}
+      {requiredFields.map(
+        field =>
+          FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
+            <FieldArray
+              key={field.fieldName}
+              name={field.fieldName}
+              options={field.options}
+              component={field.component}
+            />
+          ) : (
+            <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+          )
+      )}
+      {/* TODO: yearField: handle int-string conversion for initial value & onChange */}
 
-      {/* Non-required fields */}
+      {/* Non-required Fields */}
       <DropdownWrapper>
-        <Field name="major" options={majorOptions} component={FormDropdownItem} />
-        <Field name="college" options={collegeOptions} component={FormDropdownItem} />
+        <Field name="major" options={majorField.options} component={FormDropdownItem} />
+        <Field name="college" options={collegeField.options} component={FormDropdownItem} />
       </DropdownWrapper>
-      <Field name="height" options={heightOptions} component={FormSliderItem} />
-      <FieldArray name="ethnicity" options={ethnicityOptions} component={FormCheckboxItem} />
+      {nonrequiredFields.map(
+        field =>
+          FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
+            <FieldArray
+              key={field.fieldName}
+              name={field.fieldName}
+              options={field.options}
+              component={field.component}
+            />
+          ) : (
+            <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+          )
+      )}
 
       <Button primary type="submit">
         Next
