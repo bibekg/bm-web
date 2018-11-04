@@ -480,10 +480,21 @@ ProfileEditFormBasicPage = connect(
 let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   const { previousPage, handleSubmit } = props
 
-  const bioField = { name: 'bio', question: 'Bio' }
+  const bioField = {
+    fieldName: 'bio',
+    options: {
+      itemName: 'Bio',
+      required: true
+    }
+  }
   const questionFields = []
   Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
-    questionFields.push({ name: `questions[${entry[0]}]`, question: entry[1] })
+    questionFields.push({
+      fieldName: `questions[${entry[0]}]`,
+      options: {
+        itemName: entry[1]
+      }
+    })
   })
   let fields = []
   fields.push(bioField)
@@ -491,8 +502,8 @@ let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {fields.map(option => (
-        <Field key={option.name} name={option.name} options={option} component={FormTextareaItem} />
+      {fields.map(field => (
+        <Field key={field.fieldName} name={field.fieldName} options={field.options} component={FormTextareaItem} />
       ))}
 
       <Button primary onClick={previousPage}>
@@ -522,7 +533,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'Interested In',
-      checkboxOptions: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
+      options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
     }
   }
   const agePreferenceField = {
@@ -530,9 +541,9 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormSliderItem,
     options: {
       itemName: 'Age Preference',
-      valueMin: USER_PROPS.MIN_AGE,
-      valueMax: USER_PROPS.MAX_AGE,
-      valueLabels: USER_PROPS.AGE_LABELS
+      min: USER_PROPS.MIN_AGE,
+      max: USER_PROPS.MAX_AGE,
+      marks: USER_PROPS.AGE_LABELS
     }
   }
   const relationshipTypeField = {
@@ -540,7 +551,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'Looking For',
-      checkboxOptions: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) }))
+      options: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) }))
     }
   }
 
