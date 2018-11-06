@@ -326,6 +326,8 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
     yearPreference: buildFieldArrayInitialValues('yearPreference', state),
     collegePreference: buildFieldArrayInitialValues('collegePreference', state),
     heightPreference: state.user.heightPreference
+      ? [state.user.heightPreference.min, state.user.heightPreference.max]
+      : []
   }
 
   return initialValues
