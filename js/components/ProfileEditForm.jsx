@@ -147,7 +147,9 @@ type FormItemPropsType = {
 // ------------------
 type FormTextInputItemOptionsType = {
   itemName: string,
-  placeholder?: string
+  placeholder?: string,
+  pattern?: string,
+  required?: boolean
 }
 
 type FormSliderItemOptionsType = {
@@ -200,7 +202,7 @@ const FormTextInputItem = ({
   options: FormTextInputItemOptionsType
 }) => (
   <FormItem name={itemName}>
-    <Form.TextInput required {...input} {...componentOptions} type="text" />
+    <Form.TextInput {...input} {...componentOptions} type="text" />
   </FormItem>
 )
 
@@ -327,7 +329,13 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
     collegePreference: buildFieldArrayInitialValues('collegePreference', state),
     heightPreference: state.user.heightPreference
       ? [state.user.heightPreference.min, state.user.heightPreference.max]
-      : []
+      : [],
+
+    // Contact Page
+    phone: state.user.phone,
+    receiveTexts: state.user.receiveTexts,
+    instagram: state.user.instagram,
+    snapchat: state.user.snapchat
   }
 
   return initialValues
@@ -646,6 +654,92 @@ ProfileEditFormPreferencePage = reduxForm({
 // +-----------------+
 // |   Contact Form  |
 // +-----------------+
+let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
+  const { previousPage, handleSubmit } = props
+
+  // "helper components" not wrapped by <FormItem>, due to our special structure of
+  // adding multiple nodes inside a FormItem in this page
+  const FormTextInputItemRaw = ({ input, options }) => <Form.TextInput required {...input} {...options} type="text" />
+  const FormCheckboxInputItemRaw = ({ input, options }) => <Form.CheckboxInput {...input} {...options} />
+
+  // required fields; note they are not directly mapped to redux-form Fields due to the special structure
+  const phoneFieldOptions = {
+    itemName: 'Phone Number',
+    placeholder: '5551239876',
+    pattern: '^d{10}$',
+    required: true
+  }
+  const receiveTextFieldOptions = {
+    value: { id: 'receiveTexts', text: 'Receive text notifications' }
+  }
+
+  // non-required fields
+  const instagramField: { options: FormTextInputItemOptionsType } = {
+    fieldName: 'instagram',
+    component: FormTextInputItem,
+    options: {
+      itemName: 'Instagram',
+      placeholder: 'joeBruin_ig'
+    }
+  }
+  const snapchatField: { options: FormTextInputItemOptionsType } = {
+    fieldName: 'snapchat',
+    component: FormTextInputItem,
+    options: {
+      itemName: 'Snapchat',
+      placeholder: 'joeBruin_snap'
+    }
+  }
+
+  const requiredFields = [
+    <DisclaimerText key="disclaimer">
+      No worries! Your contact information will not be shared until you and your match like each other
+    </DisclaimerText>,
+    <FormItem required name="Phone Number" key="form">
+      <Field name="phone" component={FormTextInputItemRaw} options={phoneFieldOptions} />
+      <Field
+        name="receiveTexts"
+        component={FormCheckboxInputItemRaw}
+        options={receiveTextFieldOptions}
+        type="checkbox"
+      />
+      <Text>
+        {
+          'You will always receive an email when you get a new match but you can also choose to be notified via a text message.'
+        }
+      </Text>
+    </FormItem>
+  ]
+  const nonrequiredFields = [instagramField, snapchatField].map(
+    field =>
+      FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
+        <FieldArray key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+      ) : (
+        <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+      )
+  )
+  // TODO: checking non-required field display option
+  const fields = true ? requiredFields.concat(nonrequiredFields) : requiredFields
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {fields}
+
+      <Button primary onClick={previousPage}>
+        Previous
+      </Button>
+      <Button primary type="submit">
+        Submit
+      </Button>
+    </form>
+  )
+}
+
+ProfileEditFormContactPage = reduxForm({
+  form: 'profileEdit',
+  destroyOnUnmount: false, // preserve form data
+  forceUnregisterOnUnmount: true // unregister fields on unmount
+})(ProfileEditFormContactPage)
 
 class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
@@ -927,22 +1021,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
 
     if (!requiredFieldsOnly) {
-      const nonReqItems = [
-        <FormItem name="Height Preference" key="heightPreference">
-          <Slider
-            min={USER_PROPS.MIN_HEIGHT}
-            max={USER_PROPS.MAX_HEIGHT}
-            value={
-              editedUser.heightPreference ? [editedUser.heightPreference.min, editedUser.heightPreference.max] : []
-            }
-            marks={USER_PROPS.HEIGHT_LABELS}
-            formatter={(n: ?number) => (n ? formatHeight(n) : '')}
-            showLabel
-            noneLabel="any"
-            onChange={this.handleHeightPreferenceChange}
-          />
-        </FormItem>
-      ]
+      return []
     }
 
     return []
@@ -956,59 +1035,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
       return []
     }
 
-    const items = [
-      <DisclaimerText key="0">
-        No worries! Your contact information will not be shared until you and your match like each other
-      </DisclaimerText>,
-      <FormItem required name="Phone Number" key="phone">
-        <Form.TextInput
-          required
-          type="text"
-          name="phone"
-          pattern="^\d{10}$"
-          placeholder="5551239876"
-          value={editedUser.phone || ''}
-          onChange={this.handleValueChange}
-        />
-        <div>
-          <Form.CheckboxInput
-            name="receiveTexts"
-            value={{ id: 'receiveTexts', text: 'Receive text notifications' }}
-            checked={editedUser.receiveTexts}
-            onChange={this.handleValueChange}
-          />
-          <Text>
-            {
-              'You will always receive an email when you get a new match but you can also choose to be notified via a text message.'
-            }
-          </Text>
-        </div>
-      </FormItem>
-    ]
-
-    if (!requiredFieldsOnly) {
-      const nonReqItems = [
-        <FormItem name="Instagram" key="instagram">
-          <Form.TextInput
-            type="text"
-            name="instagram"
-            placeholder="joeBruin_ig"
-            value={editedUser.instagram || ''}
-            onChange={this.handleValueChange}
-          />
-        </FormItem>,
-        <FormItem name="Snapchat" key="snapchat">
-          <Form.TextInput
-            type="text"
-            name="snapchat"
-            placeholder="joeBruin_snap"
-            value={editedUser.snapchat || ''}
-            onChange={this.handleValueChange}
-          />
-        </FormItem>
-      ]
-      nonReqItems.forEach(item => items.push(item))
-    }
+    const items = []
 
     return items
   }
@@ -1130,7 +1157,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   render(): ?React.Element<*> {
-    const { redirect, paginate } = this.props
+    const { redirect, paginate, onSubmit } = this.props
     const { editedUser, editComplete, errorMessage, pageIndex } = this.state
     const page = pageIndex != null ? this.PAGES[pageIndex] : null
     const isFormValid = this.isFormValid()
@@ -1167,6 +1194,18 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
           onSubmit={values => {
             console.log(values)
             this.nextPage()
+          }}
+        />
+      )
+    }
+
+    if (pageIndex === 3) {
+      return (
+        <ProfileEditFormContactPage
+          previousPage={this.previousPage}
+          onSubmit={values => {
+            console.log('Reaches contact page!')
+            onSubmit()
           }}
         />
       )
