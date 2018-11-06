@@ -282,7 +282,10 @@ const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boo
   const userDataMapper = {
     ethnicity: [state.user.ethnicity, USER_PROPS.ETHNICITY],
     genderPreference: [state.user.genderPreference, USER_PROPS.GENDER],
-    relationshipType: [state.user.relationshipType, USER_PROPS.RELATIONSHIP_TYPE]
+    relationshipType: [state.user.relationshipType, USER_PROPS.RELATIONSHIP_TYPE],
+    ethnicityPreference: [state.user.ethnicityPreference, USER_PROPS.ETHNICITY],
+    yearPreference: [state.user.yearPreference, USER_PROPS.YEAR],
+    collegePreference: [state.user.collegePreference, USER_PROPS.COLLEGE]
   }
 
   const selectedOptions = userDataMapper[name][0]
@@ -318,7 +321,11 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
     agePreference: state.user.agePreference
       ? [state.user.agePreference.min, state.user.agePreference.max]
       : [USER_PROPS.MIN_AGE, USER_PROPS.MAX_AGE],
-    relationshipType: buildFieldArrayInitialValues('relationshipType', state)
+    relationshipType: buildFieldArrayInitialValues('relationshipType', state),
+    ethnicityPreference: buildFieldArrayInitialValues('ethnicityPreference', state),
+    yearPreference: buildFieldArrayInitialValues('yearPreference', state),
+    collegePreference: buildFieldArrayInitialValues('collegePreference', state),
+    heightPreference: state.user.heightPreference
   }
 
   return initialValues
@@ -528,6 +535,7 @@ ProfileEditFormPersonalPage = reduxForm({
 let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
   const { previousPage, handleSubmit } = props
 
+  // required fields
   const genderPreferenceField = {
     fieldName: 'genderPreference',
     component: FormCheckboxItem,
@@ -555,7 +563,51 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     }
   }
 
-  const fields = [genderPreferenceField, agePreferenceField, relationshipTypeField]
+  // non-required fields
+  const ethnicityPreferenceField: { options: FormCheckboxItemOptionsType } = {
+    fieldName: 'ethnicityPreference',
+    component: FormCheckboxItem,
+    options: {
+      itemName: 'Ethnicity Preference',
+      options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
+    }
+  }
+
+  const yearPreferenceField: { options: FormCheckboxItemOptionsType } = {
+    fieldName: 'yearPreference',
+    component: FormCheckboxItem,
+    options: {
+      itemName: 'Class Year Preference',
+      options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
+    }
+  }
+
+  const collegePreference: { options: FormCheckboxItemOptionsType } = {
+    fieldName: 'collegePreference',
+    component: FormCheckboxItem,
+    options: {
+      itemName: 'College Preference',
+      options: USER_PROPS.COLLEGE.map(c => ({ id: c, text: c }))
+    }
+  }
+
+  const heightPreference: { options: FormSliderItemOptionsType } = {
+    fieldName: 'heightPreference',
+    component: FormSliderItem,
+    options: {
+      itemName: 'Height Preference',
+      min: USER_PROPS.MIN_HEIGHT,
+      max: USER_PROPS.MAX_HEIGHT,
+      marks: USER_PROPS.HEIGHT_LABELS,
+      formatter: (n: ?number) => (n ? formatHeight(n) : ''),
+      showLabel: true
+    }
+  }
+
+  const requiredFields = [genderPreferenceField, agePreferenceField, relationshipTypeField]
+  const nonrequiredFields = [ethnicityPreferenceField, yearPreferenceField, collegePreference, heightPreference]
+  // TODO: checking non-required field display option
+  const fields = true ? requiredFields.concat(nonrequiredFields) : requiredFields
 
   return (
     <form onSubmit={handleSubmit}>
@@ -874,36 +926,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     if (!requiredFieldsOnly) {
       const nonReqItems = [
-        <FormItem name="Ethnicity Preference" key="ethnicityPreference">
-          <Form.CheckboxGroup
-            anyable
-            name="ethnicityPreference"
-            options={USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))}
-            selectedOptions={editedUser.ethnicityPreference ? editedUser.ethnicityPreference.map(String) : []}
-            onChange={this.handleValueChange}
-            onToggleAny={this.handleToggleAny}
-          />
-        </FormItem>,
-        <FormItem name="Class Year Preference" key="yearPreference">
-          <Form.CheckboxGroup
-            anyable
-            name="yearPreference"
-            options={USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))}
-            selectedOptions={editedUser.yearPreference ? editedUser.yearPreference.map(String) : []}
-            onChange={this.handleValueChange}
-            onToggleAny={this.handleToggleAny}
-          />
-        </FormItem>,
-        <FormItem name="College Preference" key="collegePreference">
-          <Form.CheckboxGroup
-            anyable
-            name="collegePreference"
-            options={USER_PROPS.COLLEGE.map(c => ({ id: c, text: c }))}
-            selectedOptions={editedUser.collegePreference ? editedUser.collegePreference.map(String) : []}
-            onChange={this.handleValueChange}
-            onToggleAny={this.handleToggleAny}
-          />
-        </FormItem>,
         <FormItem name="Height Preference" key="heightPreference">
           <Slider
             min={USER_PROPS.MIN_HEIGHT}
