@@ -40,11 +40,18 @@ export default class MatchActionControl extends React.Component<PropsType, State
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
+    // Helper to get property of a deeply nested object
+    // it returns null if any level of access gives falsy value (Eg. undefined)
+    // so we avoid "TypeError: Cannot read property of undefined"
+    const get = (p, o) => p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o)
+
     // In the case that either a match becomes mutual and API sends back hidden informationa,
     // or a new match is sent while this component is still active,
     // update the "cached" matchedUser value
-    // eslint-disable-next-line no-underscore-dangle
-    if (!this.props.match.participants.match.user.name.first || nextProps.match._id !== this.props.match._id) {
+    if (
+      !get(['match', 'participants', 'match', 'user', 'name', 'first'], this.props) ||
+      get(['match', '_id'], nextProps) !== get(['match', '_id'], this.props)
+    ) {
       this.matchedUser = nextProps.match.participants.match.user
     }
   }
