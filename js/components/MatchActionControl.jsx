@@ -73,31 +73,26 @@ export default class MatchActionControl extends React.Component<PropsType, State
   )
 
   // both user and match like each other
-  static MatchMade = (matchedUser: UserType): React.Element<*> => (
+  static RendezvousScheduled = ({
+    matchedUser,
+    rendezvousTime
+  }: {
+    matchedUser: UserType,
+    rendezvousTime: Date
+  }): React.Element<*> => (
     <MessageWrapper>
-      <Title>{`Congrats! You and ${matchedUser.name.first} both liked each other!`}</Title>
+      <Title>
+        {rendezvousTime
+          ? `Congrats! You and ${matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
+              'dddd M/D/Y [at] hA'
+            )}`
+          : `Congrats! You and ${matchedUser.name.first} both liked each other!`}
+      </Title>
       <Text center>{copy.matchActionControl.mutualLike}</Text>
     </MessageWrapper>
   )
 
-  // both user and match like each other
-  static RendezvousScheduled = (props: PropsType, matchedUser: UserType): React.Element<*> => {
-    const { rendezvousTime } = props.match
-    return (
-      <MessageWrapper>
-        <Title>
-          {rendezvousTime
-            ? `Congrats! You and ${matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
-                'dddd M/D/Y [at] hA'
-              )}`
-            : `Congrats! You and ${matchedUser.name.first} both liked each other!`}
-        </Title>
-        <Text center>{copy.matchActionControl.mutualLike}</Text>
-      </MessageWrapper>
-    )
-  }
-
-  static UnschedulableRendezvous = (matchedUser: UserType): React.Element<*> => (
+  static UnschedulableRendezvous = ({ matchedUser }: { matchedUser: UserType }): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.scheduleBad}</Title>
       <Text center>{`Message ${matchedUser.name.first} to ask when they are available for a date!`}</Text>
@@ -155,7 +150,12 @@ export default class MatchActionControl extends React.Component<PropsType, State
           if (rendezvousState === 'unschedulable') {
             return <MatchActionControl.UnschedulableRendezvous matchedUser={this.matchedUser} />
           } else if (rendezvousState === 'scheduled') {
-            return <MatchActionControl.RendezvousScheduled props={this.props} matchedUser={this.matchedUser} />
+            return (
+              <MatchActionControl.RendezvousScheduled
+                matchedUser={this.matchedUser}
+                rendezvousTime={this.props.match.rendezvousTime}
+              />
+            )
           } else if (participants.self.updatedAvailability) {
             return <MatchActionControl.WaitingForMatch />
           } else if (user.availability) {
