@@ -75,15 +75,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
   // both user and match like each other
   renderRendezvousScheduled = (): React.Element<*> => {
     const { rendezvousTime } = this.props.match
-    const matchedUser = this.getMatchedUser()
     return (
       <MessageWrapper>
         <Title>
           {rendezvousTime
-            ? `Congrats! You and ${matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
+            ? `Congrats! You and ${this.getMatchedUser().name.first} have a date on ${moment(rendezvousTime).format(
                 'dddd M/D/Y [at] hA'
               )}`
-            : `Congrats! You and ${matchedUser.name.first} both liked each other!`}
+            : `Congrats! You and ${this.getMatchedUser().name.first} both liked each other!`}
         </Title>
         <Text center>{copy.matchActionControl.mutualLike}</Text>
       </MessageWrapper>
