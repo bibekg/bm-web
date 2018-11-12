@@ -36,5 +36,11 @@ export const copy = {
   },
   foldSwitch: {
     text: 'Learn more about your match by clicking below!'
+  },
+  siteDownPage: {
+    header: 'BRB 😘',
+    title: "We're making some scheduled improvements to BruinMeet.",
+    subtitle:
+      "Good luck on your midterms, Bruins! We'll be back faster than you can say Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon"
   }
 }
