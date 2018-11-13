@@ -4,7 +4,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import Card from 'components/Card'
 import { Text, Title } from 'components/typography'
-import SecureUserImage from 'components/SecureUserImage'
+import UserImage from 'components/UserImage'
 import ProfileTextInfo from 'components/ProfileTextInfo'
 import { colors, breakpoints } from 'styles'
 import { formatQuestion, formatRelationshipType } from 'utilities/user-formatters'
@@ -96,7 +96,7 @@ export default function MatchCard(props: PropsType): React.Element<*> {
       <InfoBannerDiv>
         <MatchedCountdownTimer />
         <div>
-          <SecureUserImage userId={_id} />
+          <UserImage src={props.user.profilePic} />
         </div>
         <ProfileTextInfo user={props.user} hideContactInfo={props.hideContactInfo} />
       </InfoBannerDiv>

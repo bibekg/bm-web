@@ -8,7 +8,7 @@ import { Subtitle, Text } from 'components/typography'
 import Button from 'components/Button'
 import Modal from 'components/Modal'
 import * as Form from 'components/form'
-import SecureUserImage from 'components/SecureUserImage'
+import UserImage from 'components/UserImage'
 import * as actions from 'actions'
 import { colors } from 'styles'
 import { copy } from 'product-copy'
@@ -122,7 +122,7 @@ class MatchFeedbackModal extends React.Component<PropsType, StateType> {
         <FeedbackCardWrapper>
           <Subtitle>{copy.matchFeedback.title}</Subtitle>
 
-          <SecureUserImage size={100} userId={matchId} />
+          <UserImage size={100} userId={matchId} src={this.props.user.profilePic} />
 
           <Form.Label>{`Did you contact ${matchedUser.name.first}?`}</Form.Label>
           <ModernRadioGroup

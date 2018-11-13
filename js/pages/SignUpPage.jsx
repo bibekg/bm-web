@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Title } from 'components/typography'
 import { UpsideDownTopWave } from 'components/waves'
 import Brand from 'components/Brand'
-import SecureUserImage from 'components/SecureUserImage'
+import UserImage from 'components/UserImage'
 import PageContainer from 'components/PageContainer'
 import { breakpoints, colors, sizes } from 'styles'
 import * as SignUp from 'components/SignUp'
@@ -91,7 +91,7 @@ class SignUpPage extends React.Component<PropsType> {
         <FormPageContainer>
           <FormWrapper>
             <UserGreeting>
-              <SecureUserImage userId={userId} />
+              <UserImage userId={userId} src={user.profilePic} />
               <Title>{`Hi, ${user.name.first}.`}</Title>
             </UserGreeting>
 
