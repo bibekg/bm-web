@@ -4,6 +4,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Header, Title, Subtitle } from 'components/typography'
 import { BlueWaveBackground } from 'components/waves'
+import { copy } from 'product-copy'
 
 const PageWrapper = styled.div`
   padding: 200px 20px 20px;
@@ -31,9 +32,9 @@ export default function SiteDownPage(): React.Element<*> {
   return (
     <BlueWaveBackground>
       <PageWrapper>
-        <WhiteHeader>BRB</WhiteHeader>
-        <WhiteTitle align="left">{"We're making some improvements to BruinMeet."}</WhiteTitle>
-        <WhiteSubtitle align="left">{"Sit tight, we'll be back soon."}</WhiteSubtitle>
+        <WhiteHeader>{copy.siteDownPage.header}</WhiteHeader>
+        <WhiteTitle align="left">{copy.siteDownPage.title}</WhiteTitle>
+        <WhiteSubtitle align="left">{copy.siteDownPage.subtitle}</WhiteSubtitle>
       </PageWrapper>
     </BlueWaveBackground>
   )

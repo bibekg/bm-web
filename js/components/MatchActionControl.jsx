@@ -27,8 +27,6 @@ type StateType = {
 }
 
 export default class MatchActionControl extends React.Component<PropsType, StateType> {
-  matchedUser: UserType
-
   constructor(props: PropsType) {
     super(props)
     this.state = {
@@ -36,17 +34,11 @@ export default class MatchActionControl extends React.Component<PropsType, State
       // it's ok to just update state on startup for this, since we only want users to see it once anyway
       showDislikeFeedbackModal: !props.match.participants.self.sawDislikeFeedbackModal
     }
-    this.matchedUser = props.match.participants.match.user
   }
 
-  componentWillReceiveProps(nextProps: PropsType) {
-    // In the case that either a match becomes mutual and API sends back hidden informationa,
-    // or a new match is sent while this component is still active,
-    // update the "cached" matchedUser value
-    // eslint-disable-next-line no-underscore-dangle
-    if (!this.props.match.participants.match.user.name.first || nextProps.match._id !== this.props.match._id) {
-      this.matchedUser = nextProps.match.participants.match.user
-    }
+  getMatchedUser(): UserType {
+    // Helper method just for avoiding long dot notation
+    return this.props.match.participants.match.user
   }
 
   closeDislikeMatchModal = () => {
@@ -148,11 +140,11 @@ export default class MatchActionControl extends React.Component<PropsType, State
           return <MatchActionControl.WaitingForMatch />
         } else if (participants.match.likeState === 'liked') {
           if (rendezvousState === 'unschedulable') {
-            return <MatchActionControl.UnschedulableRendezvous matchedUser={this.matchedUser} />
+            return <MatchActionControl.UnschedulableRendezvous matchedUser={this.getMatchedUser()} />
           } else if (rendezvousState === 'scheduled') {
             return (
               <MatchActionControl.RendezvousScheduled
-                matchedUser={this.matchedUser}
+                matchedUser={this.getMatchedUser()}
                 rendezvousTime={this.props.match.rendezvousTime}
               />
             )
@@ -179,7 +171,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
         {this.renderMatchAction()}
         {this.shouldUserSeeMatchCard() && (
           <MatchCard
-            user={this.matchedUser}
+            user={this.getMatchedUser()}
             matchBasis={this.props.match.matchBasis}
             hideContactInfo={!showContactInfo}
             foldable

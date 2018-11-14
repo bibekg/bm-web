@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { shallow } from 'enzyme'
 import MatchActionControl from 'components/MatchActionControl'
@@ -15,8 +14,8 @@ describe('snapshot test', () => {
   })
 })
 
-describe('componentUpdatesProps', () => {
-  it('closeDislikeMatchModal sets showDislikeFeedbackModal state to false', () => {
+describe('closeDislikeMatchModal test', () => {
+  it('sets showDislikeFeedbackModal state to false when called', () => {
     const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
     const setStateSpy = jest.spyOn(component.instance(), 'setState')
 
@@ -28,18 +27,13 @@ describe('componentUpdatesProps', () => {
 
     setStateSpy.mockRestore()
   })
-  it('handleAvailabilityChange sets new availability', () => {
+})
+describe('getMatchedUser tests', () => {
+  it('returns user object', () => {
     const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
-    const setStateSpy = jest.spyOn(component.instance(), 'setState')
-    const mockAvailability = [new Date()]
+    const testUser = component.instance().getMatchedUser()
 
-    component.instance().handleAvailabilityChange(mockAvailability)
-
-    expect(setStateSpy).toHaveBeenCalledWith({
-      availability: mockAvailability
-    })
-
-    setStateSpy.mockRestore()
+    expect(testUser).toEqual(mockUser)
   })
 })
 
