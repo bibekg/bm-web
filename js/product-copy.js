@@ -20,6 +20,10 @@ export const copy = {
     message:
       "Share a little bit more about yourself with your match. Unfortunately, this pop-up won't go away until you do."
   },
+  matchActionButtons: {
+    like: 'Like',
+    pass: 'Pass'
+  },
   matchCard: {
     missingFunQuestions: 'Your match has not yet filled out any fun fact questions ):',
     about: 'About Me',
@@ -33,5 +37,14 @@ export const copy = {
   profileCard: {
     funQuestionsMissing: "It looks like you don't have any!",
     funQuestionsCallToAction: "Click 'Edit' and fill out your fun fact questions under 'Bio'"
+  },
+  foldSwitch: {
+    text: 'Learn more about your match by clicking below!'
+  },
+  siteDownPage: {
+    header: 'BRB 😘',
+    title: "We're making some scheduled improvements to BruinMeet.",
+    subtitle:
+      "Good luck on your midterms, Bruins! We'll be back faster than you can say Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon"
   }
 }

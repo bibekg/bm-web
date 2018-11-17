@@ -1,9 +1,11 @@
 // @flow
 import * as React from 'react'
 import { connect } from 'react-redux'
-import * as actions from 'actions'
 import styled from 'styled-components'
+
+import * as actions from 'actions'
 import Button from 'components/Button'
+import { copy } from 'product-copy'
 
 const MatchActionButtonsDiv = styled.div`
   display: flex;
@@ -27,16 +29,16 @@ function MatchActionButtons(props: PropsType): React.Element<*> {
     props.postMatchAction(true)
   }
 
-  const handleDislikeAction = () => {
+  const handlePassAction = () => {
     props.postMatchAction(false)
   }
 
   return (
     <MatchActionButtonsDiv>
       <Button onClick={handleLikeAction} primary>
-        Like
+        {copy.matchActionButtons.like}
       </Button>
-      <Button onClick={handleDislikeAction}>Dislike</Button>
+      <Button onClick={handlePassAction}>{copy.matchActionButtons.pass}</Button>
     </MatchActionButtonsDiv>
   )
 }
