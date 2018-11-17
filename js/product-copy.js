@@ -20,6 +20,10 @@ export const copy = {
     message:
       "Share a little bit more about yourself with your match. Unfortunately, this pop-up won't go away until you do."
   },
+  matchActionButtons: {
+    like: 'Like',
+    pass: 'Pass'
+  },
   matchCard: {
     missingFunQuestions: 'Your match has not yet filled out any fun fact questions ):',
     about: 'About Me',
