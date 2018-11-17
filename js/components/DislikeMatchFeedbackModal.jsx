@@ -169,7 +169,7 @@ class DislikeMatchFeedbackModal extends React.Component<PropsType, StateType> {
       <Modal onOutClick={this.props.onOutClick}>
         <FeedbackCardWrapper>
           <Subtitle>{copy.dislikeMatch.apology}</Subtitle>
-          <UserImage size={100} src={this.props.user.profilePic} />
+          <UserImage size={100} src={this.props.match.participants.match.user.profilePic} />
           <Text>{copy.dislikeMatch.feedback}</Text>
 
           <FormWrapper>
