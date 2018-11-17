@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FoldSwitch /> should refold and rerender text when isFolded set to true 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.p
+    isFolded={true}
+  >
+    Test text
+  </styled.p>
+  <styled.div
+    isFolded={true}
+  >
+    <ExpandMoreIcon
+      fill="#123456"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<FoldSwitch /> should render correctly folded with options 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.p
+    isFolded={true}
+  >
+    Test text
+  </styled.p>
+  <styled.div
+    isFolded={true}
+  >
+    <ExpandMoreIcon
+      fill="#123456"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<FoldSwitch /> should render correctly with no options 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.div
+    isFolded={false}
+  >
+    <ExpandMoreIcon
+      fill="rgba(162, 198, 248, 1)"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<FoldSwitch /> should unfold and unrender text when isFolded set to false 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.p
+    isFolded={false}
+  >
+    Test text
+  </styled.p>
+  <styled.div
+    isFolded={false}
+  >
+    <ExpandMoreIcon
+      fill="#123456"
+      size={40}
+    />
+  </styled.div>
+</styled.div>
+`;

@@ -44,7 +44,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
     // or a new match is sent while this component is still active,
     // update the "cached" matchedUser value
     // eslint-disable-next-line no-underscore-dangle
-    if (!this.props.match.participants.match.user.firstName || nextProps.match._id !== this.props.match._id) {
+    if (!this.props.match.participants.match.user.name.first || nextProps.match._id !== this.props.match._id) {
       this.matchedUser = nextProps.match.participants.match.user
     }
   }
@@ -182,6 +182,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
             user={this.matchedUser}
             matchBasis={this.props.match.matchBasis}
             hideContactInfo={!showContactInfo}
+            foldable
           />
         )}
       </div>

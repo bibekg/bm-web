@@ -149,6 +149,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   formElement: ?HTMLFormElement
   relTypeCheckboxGroup: ?HTMLElement
   genderPreferenceCheckboxGroup: ?HTMLElement
+  handleValueChange: (SyntheticInputEvent<*>) => void
 
   PAGES = ['basic', 'preferences', 'contact', 'personal']
 
@@ -170,6 +171,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         props.user && props.user.genderPreference && props.user.genderPreference.length > 0
       )
     }
+    this.handleValueChange = this.handleValueChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -259,7 +261,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
   // For all fields controlled with a Form component (e.g. TextInput, Textarea,
   // etc.), this handler will suffice
-  handleValueChange = (event: SyntheticInputEvent<*>) => {
+  handleValueChange(event: SyntheticInputEvent<*>) {
     const { editedUser } = this.state
     if (!editedUser) return
     const { name, value } = event.target
@@ -300,6 +302,22 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         if (oldKey) {
           this.updateUser({ [name]: toggleArrayValue(oldKey, value) })
         }
+        break
+
+      case 'first':
+      case 'last':
+        if (this.state.editedUser) {
+          this.setState({
+            editedUser: {
+              ...this.state.editedUser,
+              name: {
+                ...this.state.editedUser.name,
+                [name]: value
+              }
+            }
+          })
+        }
+
         break
 
       // Remaining fields work fine with direct value assignment
@@ -407,6 +425,26 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
 
     const items = [
+      <FormItem name="First Name" key="firstName">
+        <Form.TextInput
+          required
+          type="text"
+          name="first"
+          placeholder="Joe"
+          value={editedUser.name.first || ''}
+          onChange={this.handleValueChange}
+        />
+      </FormItem>,
+      <FormItem name="Last Name" key="lastName">
+        <Form.TextInput
+          required
+          type="text"
+          name="last"
+          placeholder="Bruin"
+          value={editedUser.name.last || ''}
+          onChange={this.handleValueChange}
+        />
+      </FormItem>,
       <FormItem name="Age" key="age">
         <Slider
           min={USER_PROPS.MIN_AGE}
