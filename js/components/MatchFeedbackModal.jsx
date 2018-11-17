@@ -122,7 +122,7 @@ class MatchFeedbackModal extends React.Component<PropsType, StateType> {
         <FeedbackCardWrapper>
           <Subtitle>{copy.matchFeedback.title}</Subtitle>
 
-          <UserImage size={100} userId={matchId} src={this.props.user.profilePic} />
+          <UserImage size={100} src={matchedUser.profilePic} />
 
           <Form.Label>{`Did you contact ${matchedUser.name.first}?`}</Form.Label>
           <ModernRadioGroup

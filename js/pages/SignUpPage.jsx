@@ -91,7 +91,7 @@ class SignUpPage extends React.Component<PropsType> {
         <FormPageContainer>
           <FormWrapper>
             <UserGreeting>
-              <UserImage userId={userId} src={user.profilePic} />
+              <UserImage src={user.profilePic} />
               <Title>{`Hi, ${user.name.first}.`}</Title>
             </UserGreeting>
 
