@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { colors, shadow } from 'styles'
 
@@ -16,10 +16,16 @@ const NavWrapper = styled.div`
   background-color: ${colors.white};
 `
 
-const NavItem = styled(Link)`
+const NavItem = styled(NavLink)`
   padding: 15px;
   color: ${colors.blue};
   text-decoration: none;
+  border-bottom: 4px solid transparent;
+
+  &.active {
+    font-weight: bold;
+    border-bottom-color: ${colors.blue};
+  }
 `
 
 export default function AdminNavbar(): React.Element<*> {
