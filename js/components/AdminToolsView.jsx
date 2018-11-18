@@ -3,18 +3,27 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import PageContainer from 'components/PageContainer'
 import { Header, Subtitle, Title, Text } from 'components/typography'
 import Break from 'components/Break'
-import { DeleteUser, CreateNewMatch, DeleteMatchTool } from 'components/AdminTools'
+import { EditMatch, DeleteUser, CreateNewMatch, DeleteMatch } from 'components/AdminTools'
 import * as actions from 'actions'
 
-const ViewWrapper = styled.div`
+const ViewWrapper = PageContainer({ noBackground: true, maxWidth: { large: '800px' } }).extend`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 10vh;
-  text-align: center;
-  margin-bottom: 50px;
+`
+
+const Top = styled.div`
+  width: 100%;
+`
+
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `
 
 type PropsType = {
@@ -33,31 +42,35 @@ class AdminToolsView extends React.Component<PropsType> {
   render(): React.Element<*> {
     return (
       <ViewWrapper>
-        <Header>Admin Tools</Header>
-        <Subtitle>
-          {
-            "\"Technology is nothing. What's important is that you have a faith in people, that they're basically good and smart, and if you give them tools, they'll do wonderful things with them.\""
-          }
-        </Subtitle>
-        <Subtitle>-- Steve Jobs</Subtitle>
+        <Top>
+          <Header align="left">Admin Tools</Header>
+          <Subtitle align="left">
+            {
+              "\"Technology is nothing. What's important is that you have a faith in people, that they're basically good and smart, and if you give them tools, they'll do wonderful things with them.\""
+            }
+          </Subtitle>
+          <Subtitle align="left">-- Steve Jobs</Subtitle>
+        </Top>
 
-        <Break />
+        <Content>
+          <Break />
 
-        <Title align="left">Match Custom Users</Title>
-        <Text paragraph>{'Match two users with each other.'}</Text>
-        <CreateNewMatch />
+          <Title align="left">Match Custom Users</Title>
+          <Text paragraph>{'Match two users with each other.'}</Text>
+          <CreateNewMatch />
 
-        <Break />
+          <Break />
 
-        <Title align="left">Delete a match</Title>
-        <Text paragraph>{'Delete a match between two users.'}</Text>
-        <DeleteMatchTool />
+          <Title align="left">Edit a match</Title>
+          <Text paragraph>{'Edit a match between two users, or delete the match altogether.'}</Text>
+          <EditMatch />
 
-        <Break />
+          <Break />
 
-        <Title align="left">Hard Delete a User</Title>
-        <Text paragraph>{"Completely delete a user, along with all of the user's matches from the system."}</Text>
-        <DeleteUser />
+          <Title align="left">Hard Delete a User</Title>
+          <Text paragraph>{"Completely delete a user, along with all of the user's matches from the system."}</Text>
+          <DeleteUser />
+        </Content>
       </ViewWrapper>
     )
   }

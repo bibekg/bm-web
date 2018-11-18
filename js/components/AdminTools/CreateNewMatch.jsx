@@ -11,11 +11,10 @@ import Button from 'components/Button'
 import { formatName } from 'utilities/user-formatters'
 
 const ComponentWrapper = styled.div`
-  margin: 10px;
   text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   position: relative;
   z-index: 1;
@@ -24,10 +23,9 @@ const ComponentWrapper = styled.div`
 const MatchWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
   & > * {
-    margin: 5px;
+    margin-bottom: 10px;
     max-width: 500px;
     width: 100%;
     flex-grow: 1;
@@ -121,9 +119,7 @@ class CreateNewMatch extends React.Component<PropsType, StateType> {
       <ComponentWrapper>
         <MatchWrapper>
           <div>
-            <Text bold center>
-              Create a match between
-            </Text>
+            <Text bold>Create a match between</Text>
             <Dropdown
               name="userA"
               items={userOptions}
@@ -133,9 +129,7 @@ class CreateNewMatch extends React.Component<PropsType, StateType> {
             />
           </div>
           <div>
-            <Text bold center>
-              and
-            </Text>
+            <Text bold>and</Text>
             <Dropdown
               name="userB"
               items={userOptions}
@@ -149,9 +143,7 @@ class CreateNewMatch extends React.Component<PropsType, StateType> {
         {VARIANT_OPTIONS &&
           VARIANT_OPTIONS.length > 0 && (
             <div>
-              <Text bold center>
-                with the following variants
-              </Text>
+              <Text bold>with the following variants</Text>
               <Form.CheckboxGroup
                 name="variants"
                 options={VARIANT_OPTIONS}
