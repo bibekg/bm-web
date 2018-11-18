@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import { rgba } from 'polished'
 import { colors, shadow } from 'styles'
 
 const NavWrapper = styled.div`
@@ -20,18 +21,21 @@ const NavItem = styled(NavLink)`
   padding: 15px;
   color: ${colors.blue};
   text-decoration: none;
-  border-bottom: 4px solid transparent;
+  border-bottom: 4px solid ${rgba(colors.blue, 0)};
+  transition: 0.5s ease border-bottom-color;
 
   &.active {
     font-weight: bold;
-    border-bottom-color: ${colors.blue};
+    border-bottom-color: ${rgba(colors.blue, 1)};
   }
 `
 
 export default function AdminNavbar(): React.Element<*> {
   return (
     <NavWrapper>
-      <NavItem to="/admin">Main</NavItem>
+      <NavItem exact to="/admin">
+        Main
+      </NavItem>
       <NavItem to="/admin/apidocs">API Docs</NavItem>
       <NavItem to="/admin/components">Components</NavItem>
       <NavItem to="/admin/tools">Admin Tools</NavItem>
