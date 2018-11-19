@@ -41,7 +41,7 @@ const DropdownDiv = styled.div`
   margin-bottom: 10px;
 `
 
-export default class TextAccordion extends React.Component<PropsType, StateType> {
+class FAQItem extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props)
     this.state = { isOpen: false }
@@ -78,3 +78,5 @@ export default class TextAccordion extends React.Component<PropsType, StateType>
     )
   }
 }
+
+export default FAQItem
