@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
+import AnimateHeight from 'react-animate-height'
 import { Subtitle } from 'components/typography'
 import AccordionSwitch from './AccordionSwitch'
 import AccordionDropdown from './AccordionDropdown'
@@ -59,7 +60,9 @@ export default class TextAccordion extends React.Component<PropsType, StateType>
           <AccordionSwitch isOpen={this.state.isOpen} />
         </AccordionHeaderDiv>
 
-        {this.state.isOpen && <AccordionDropdown text={innerText} />}
+        <AnimateHeight height={this.state.isOpen ? 'auto' : 0}>
+          <AccordionDropdown text={innerText} />
+        </AnimateHeight>
       </AccordionDiv>
     )
   }
