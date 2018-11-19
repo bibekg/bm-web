@@ -49,6 +49,57 @@ export const mockUser = {
   voted: true
 }
 
+export const mockMatchedUser = {
+  _id: 'test1234',
+  profileId: '2361244',
+  name: { first: 'LeBron', last: 'James' },
+  profilePic: 'profpic',
+
+  // PROFILE INFORMATION
+  age: 20,
+  year: 2,
+  bio: 'I love BruinMeet',
+  gender: 'female',
+  major: 'Electrical Engineering',
+  height: 64,
+  ethnicity: ['White/Caucasian'],
+  college: 'School of Engineering and Applied Sciences',
+
+  // CONTACT INFO
+  email: 'joe@ucla.edu',
+  instagram: '@iloveucla',
+  snapchat: '@uclaisCool',
+  phone: '310-123-4567',
+  receiveTexts: true,
+
+  // MATCHMAKING FIELDS
+  answers: [],
+  currentMatch: 'string',
+  matchHistory: Object,
+  preferenceStack: [],
+  preferenceMap: Object,
+  variants: Object,
+
+  // Liking/Going system fields
+  likeMatch: true,
+  dislikeMatch: true,
+
+  // RENDEZVOUS FIELDS
+  dateAvailability: [],
+  availability: [],
+  rendezvousState: 'unscheduled',
+  rendezvousTime: null,
+
+  // ACCOUNT ATTRIBUTES
+  verified: true,
+  active: true,
+  hasProfile: true,
+  blindDateParticipant: true,
+  isAdmin: true,
+  matchRatings: [],
+  voted: true
+}
+
 const selfParticipant = {
   user: mockUser,
   likeState: 'pending',
@@ -69,7 +120,7 @@ const selfParticipant = {
 }
 
 const matchParticipant = {
-  user: mockUser,
+  user: mockMatchedUser,
   likeState: 'pending',
   updatedAvailability: true,
   matchFeedback: {

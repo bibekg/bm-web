@@ -9,7 +9,7 @@ exports[`snapshot test renders correctly with default render logic 1`] = `
     matchBasis={Array []}
     user={
       Object {
-        "_id": "1234",
+        "_id": "test1234",
         "active": true,
         "age": 20,
         "answers": Array [],
@@ -24,23 +24,23 @@ exports[`snapshot test renders correctly with default render logic 1`] = `
         "ethnicity": Array [
           "White/Caucasian",
         ],
-        "gender": "male",
+        "gender": "female",
         "hasProfile": true,
-        "height": 72,
+        "height": 64,
         "instagram": "@iloveucla",
         "isAdmin": true,
         "likeMatch": true,
-        "major": "Computer Science",
+        "major": "Electrical Engineering",
         "matchHistory": [Function],
         "matchRatings": Array [],
         "name": Object {
-          "first": "Joe",
-          "last": "Bruin",
+          "first": "LeBron",
+          "last": "James",
         },
         "phone": "310-123-4567",
         "preferenceMap": [Function],
         "preferenceStack": Array [],
-        "profileId": "69",
+        "profileId": "2361244",
         "profilePic": "profpic",
         "receiveTexts": true,
         "rendezvousState": "unscheduled",

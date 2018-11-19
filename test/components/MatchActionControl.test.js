@@ -5,7 +5,7 @@ import AutoDateCard from 'components/AutoDateCard'
 import UnmatchedCountdownTimer from 'components/UnmatchedCountdownTimer'
 import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
-import { mockUser, mockMatch } from '../mockData'
+import { mockUser, mockMatchedUser, mockMatch } from '../mockData'
 
 describe('snapshot test', () => {
   it('renders correctly with default render logic', () => {
@@ -29,11 +29,12 @@ describe('closeDislikeMatchModal test', () => {
   })
 })
 describe('getMatchedUser tests', () => {
-  it('returns user object', () => {
+  it('returns matched user object', () => {
     const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
     const testUser = component.instance().getMatchedUser()
 
-    expect(testUser).toEqual(mockUser)
+    expect(testUser).toBe(mockMatchedUser)
+    expect(testUser).not.toBe(mockUser)
   })
 })
 
