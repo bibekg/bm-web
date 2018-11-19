@@ -3,7 +3,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Text, Subtitle } from 'components/typography'
-import AccordionSwitch from './AccordionSwitch'
+import { ExpandMoreIcon } from 'components/icons'
 
 type PropsType = {
   headerText: string,
@@ -28,16 +28,16 @@ const AccordionHeaderDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  z-index: 1;
   cursor: pointer;
 `
 
+const AccordionSwitchDiv = styled.div`
+  transform: rotate(${props => (props.isOpen ? '180' : '0')}deg);
+  transform-origin: center;
+  transition: 0.2s;
+`
+
 const DropdownDiv = styled.div`
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: 0.8px;
-  color: rgba(79, 79, 79, 0.87);
   margin-bottom: 10px;
 `
 
@@ -64,7 +64,9 @@ export default class TextAccordion extends React.Component<PropsType, StateType>
       <AccordionDiv>
         <AccordionHeaderDiv onClick={this.toggleAccordion}>
           <Subtitle align="left">{headerText}</Subtitle>
-          <AccordionSwitch isOpen={this.state.isOpen} />
+          <AccordionSwitchDiv isOpen={this.state.isOpen}>
+            <ExpandMoreIcon fill={'#76AFFB'} size={40} />
+          </AccordionSwitchDiv>
         </AccordionHeaderDiv>
 
         {this.state.isOpen && (
