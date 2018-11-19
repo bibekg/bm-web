@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
-import { Subtitle } from 'components/typography'
+import { Text, Subtitle } from 'components/typography'
 import AccordionSwitch from './AccordionSwitch'
 import AccordionDropdown from './AccordionDropdown'
 
@@ -33,6 +33,15 @@ const AccordionHeaderDiv = styled.div`
   cursor: pointer;
 `
 
+const DropdownDiv = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 0.8px;
+  color: rgba(79, 79, 79, 0.87);
+  margin-bottom: 10px;
+`
+
 export default class TextAccordion extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props)
@@ -59,7 +68,11 @@ export default class TextAccordion extends React.Component<PropsType, StateType>
           <AccordionSwitch isOpen={this.state.isOpen} />
         </AccordionHeaderDiv>
 
-        {this.state.isOpen && <AccordionDropdown text={innerText} />}
+        {this.state.isOpen && (
+          <DropdownDiv>
+            <Text paragraph>{innerText}</Text>
+          </DropdownDiv>
+        )}
       </AccordionDiv>
     )
   }
