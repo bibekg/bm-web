@@ -4,7 +4,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Text, Subtitle } from 'components/typography'
 import AccordionSwitch from './AccordionSwitch'
-import AccordionDropdown from './AccordionDropdown'
 
 type PropsType = {
   headerText: string,
