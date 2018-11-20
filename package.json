@@ -39,6 +39,7 @@
     "express": "4.15.3",
     "immer": "^1.0.3",
     "moment": "^2.20.1",
+    "polished": "^2.3.0",
     "prop-types": "15.5.10",
     "rc-slider": "^8.5.0",
     "react": "15.5.4",
