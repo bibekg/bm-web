@@ -3,9 +3,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import AnimateHeight from 'react-animate-height'
-import { Subtitle } from 'components/typography'
-import AccordionSwitch from './AccordionSwitch'
-import AccordionDropdown from './AccordionDropdown'
+import { Text, Subtitle } from 'components/typography'
+import { ExpandMoreIcon } from 'components/icons'
 
 type PropsType = {
   headerText: string,
@@ -30,11 +29,20 @@ const AccordionHeaderDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  z-index: 1;
   cursor: pointer;
 `
 
-export default class TextAccordion extends React.Component<PropsType, StateType> {
+const AccordionSwitchDiv = styled.div`
+  transform: rotate(${props => (props.isOpen ? '180' : '0')}deg);
+  transform-origin: center;
+  transition: 0.2s;
+`
+
+const DropdownDiv = styled.div`
+  margin-bottom: 10px;
+`
+
+class FAQItem extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props)
     this.state = { isOpen: false }
@@ -57,13 +65,19 @@ export default class TextAccordion extends React.Component<PropsType, StateType>
       <AccordionDiv>
         <AccordionHeaderDiv onClick={this.toggleAccordion}>
           <Subtitle align="left">{headerText}</Subtitle>
-          <AccordionSwitch isOpen={this.state.isOpen} />
+          <AccordionSwitchDiv isOpen={this.state.isOpen}>
+            <ExpandMoreIcon fill={'#76AFFB'} size={40} />
+          </AccordionSwitchDiv>
         </AccordionHeaderDiv>
 
         <AnimateHeight height={this.state.isOpen ? 'auto' : 0}>
-          <AccordionDropdown text={innerText} />
+          <DropdownDiv>
+            <Text paragraph>{innerText}</Text>
+          </DropdownDiv>
         </AnimateHeight>
       </AccordionDiv>
     )
   }
 }
+
+export default FAQItem
