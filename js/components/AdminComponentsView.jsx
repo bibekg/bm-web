@@ -65,13 +65,13 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
     })
   }
 
-  handleToggleChange(event: SyntheticInputEvent<*>) {
+  handleToggleChange() {
     this.setState({
       toggled: !this.state.toggled
     })
   }
 
-  handleCheckboxChange(event: SyntheticInputEvent<*>) {
+  handleCheckboxChange() {
     this.setState({
       checked: !this.state.checked
     })
