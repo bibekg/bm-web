@@ -30,7 +30,11 @@ const NavItem = styled(NavLink)`
   }
 `
 
-export default function AdminNavbar(): React.Element<*> {
+type PropsType = {
+  showAdminTools: boolean
+}
+
+export default function AdminNavbar({ showAdminTools }: PropsType): React.Element<*> {
   return (
     <NavWrapper>
       <NavItem exact to="/admin">
@@ -38,7 +42,7 @@ export default function AdminNavbar(): React.Element<*> {
       </NavItem>
       <NavItem to="/admin/apidocs">API Docs</NavItem>
       <NavItem to="/admin/components">Components</NavItem>
-      <NavItem to="/admin/tools">Admin Tools</NavItem>
+      {showAdminTools && <NavItem to="/admin/tools">Admin Tools</NavItem>}
     </NavWrapper>
   )
 }
