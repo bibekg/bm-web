@@ -40,9 +40,6 @@ const FormItemChildrenWrapper = styled.div`
   }
 `
 
-const FormPageWrapper = styled.div`
-  display: ${props => (props.active ? 'block' : 'none')};
-`
 const DropdownWrapper = styled.div`
   & > * {
     position: relative;
@@ -62,6 +59,7 @@ const PageMenu = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-top: 25px;
   margin-bottom: 50px;
   @media (max-width: ${breakpoints.navFold - 1}px) {
     margin-top: 20px;
@@ -1115,39 +1113,12 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     )
   }
 
-  renderNavButtons(isFormValid: boolean): React.Node {
-    const { paginate } = this.props
-    if (paginate === 'process') {
-      const { pageIndex } = this.state
-      const page = pageIndex != null ? this.PAGES[pageIndex] : null
-      return page
-        ? {
-            basic: this.renderNextButton(),
-            preferences: [
-              React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
-              React.cloneElement(this.renderNextButton(), { key: 'next' })
-            ],
-            contact: [
-              React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
-              React.cloneElement(this.renderNextButton(), { key: 'next' })
-            ],
-            personal: [
-              React.cloneElement(this.renderPreviousButton(), { key: 'previous' }),
-              React.cloneElement(this.renderSubmitButton(isFormValid), { key: 'submit' })
-            ]
-          }[page]
-        : []
-    } else {
-      return this.renderSubmitButton(isFormValid)
-    }
-  }
-
   renderPageMenu(): React.Node {
     const { pageIndex } = this.state
     const page = pageIndex != null ? this.PAGES[pageIndex] : null
     const labels = ['Basic', 'Preferences', 'Contact', 'Personal']
 
-    const renderPageButton = (p: *) => (
+    const renderPageButton = (p: string) => (
       <PageButton active={page === p.toLowerCase()} key={p} onClick={() => this.selectPage(p.toLowerCase())}>
         {p}
       </PageButton>
@@ -1164,78 +1135,65 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     if (editComplete) return <Redirect push to={redirect} />
 
-    if (pageIndex === 0) {
-      return (
-        <ProfileEditFormBasicPage
-          onSubmit={values => {
-            console.log(values)
-            this.nextPage()
-          }}
-        />
-      )
+    let profileEditFormPage = null
+    switch (pageIndex) {
+      case 0:
+        profileEditFormPage = (
+          <ProfileEditFormBasicPage
+            onSubmit={values => {
+              console.log(values)
+              this.nextPage()
+            }}
+          />
+        )
+        break
+
+      case 1:
+        profileEditFormPage = (
+          <ProfileEditFormPersonalPage
+            previousPage={this.previousPage}
+            onSubmit={values => {
+              console.log(values)
+              this.nextPage()
+            }}
+          />
+        )
+        break
+
+      case 2:
+        profileEditFormPage = (
+          <ProfileEditFormPreferencePage
+            previousPage={this.previousPage}
+            onSubmit={values => {
+              console.log(values)
+              this.nextPage()
+            }}
+          />
+        )
+        break
+
+      case 3:
+        profileEditFormPage = (
+          <ProfileEditFormContactPage
+            previousPage={this.previousPage}
+            onSubmit={values => {
+              onSubmit()
+            }}
+          />
+        )
+        break
+
+      default:
+        break
     }
 
-    if (pageIndex === 1) {
-      return (
-        <ProfileEditFormPersonalPage
-          previousPage={this.previousPage}
-          onSubmit={values => {
-            console.log(values)
-            this.nextPage()
-          }}
-        />
-      )
-    }
-
-    if (pageIndex === 2) {
-      return (
-        <ProfileEditFormPreferencePage
-          previousPage={this.previousPage}
-          onSubmit={values => {
-            console.log(values)
-            this.nextPage()
-          }}
-        />
-      )
-    }
-
-    if (pageIndex === 3) {
-      return (
-        <ProfileEditFormContactPage
-          previousPage={this.previousPage}
-          onSubmit={values => {
-            console.log('Reaches contact page!')
-            onSubmit()
-          }}
-        />
-      )
-    }
-
-    return null
-
-    // return editedUser ? (
-    //   <FormWrapper>
-    //     <form
-    //       ref={(form: ?HTMLFormElement) => {
-    //         this.formElement = form
-    //       }}
-    //     >
-    //       {paginate === 'process' && <Subtitle>{this.getPageMessage()}</Subtitle>}
-    //       {paginate === 'menu' && this.renderPageMenu()}
-
-    //       {/*
-    //         Rendering all form items at all times but using an an `active` prop
-    //         to display only the page that user is on. This is preferred over
-    //         conditional rendering since that would make form items on inactive
-    //         pages inaccessible for validation using this.isFormValid().
-    //       */}
-    //       <FormPageWrapper active={!paginate || page === 'basic'}></FormPageWrapper>
-    //       <FormPageWrapper active={!paginate || page === 'personal'}>{this.getPersonalFormItems()}</FormPageWrapper>
-    //       <FormPageWrapper active={!paginate || page === 'preferences'}>
-    //         {this.getPreferencesFormItems()}
-    //       </FormPageWrapper>
-    //       <FormPageWrapper active={!paginate || page === 'contact'}>{this.getContactFormItems()}</FormPageWrapper>
-    //     </form>
+    return (
+      <FormWrapper>
+        {paginate === 'process' && <Subtitle>{this.getPageMessage()}</Subtitle>}
+        {paginate === 'menu' && this.renderPageMenu()}
+        {profileEditFormPage}
+      </FormWrapper>
+    )
 
     //     {// If the form has invalid data supplied and user is on final page, display that error
     //     (!isFormValid &&
@@ -1246,8 +1204,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     //       (errorMessage && <ErrorDisplay>{errorMessage}</ErrorDisplay>)}
 
     //     <NavigationButtons>{this.renderNavButtons(isFormValid)}</NavigationButtons>
-    //   </FormWrapper>
-    // ) : null
   }
 }
 
