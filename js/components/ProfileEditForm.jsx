@@ -113,17 +113,13 @@ type PropsType = {
   requiredFieldsOnly: boolean,
   redirect: string,
   // Props mapped from Redux state
-  user: ?UserType,
-  editUser: (UserType, () => void) => void
+  user: ?UserType
 } & FormProps
 
 type StateType = {
-  editedUser: ?UserType,
   editComplete: boolean,
   errorMessage: ?string,
-  pageIndex: ?number,
-  relTypeChosen: boolean,
-  genderPreferenceChosen: boolean
+  pageIndex: ?number
 }
 
 const toggleArrayValue = <T>(arr: Array<T>, value: T): Array<T> => {
@@ -727,7 +723,7 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
         Previous
       </Button>
       <Button primary type="submit">
-        Submit
+        Save
       </Button>
     </form>
   )
@@ -756,42 +752,9 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props)
     this.state = {
-      editedUser: props.user,
       editComplete: false,
       errorMessage: null,
-      pageIndex: props.paginate ? 0 : null,
-      relTypeChosen: Boolean(props.user && props.user.relationshipType && props.user.relationshipType.length > 0),
-      genderPreferenceChosen: Boolean(
-        props.user && props.user.genderPreference && props.user.genderPreference.length > 0
-      )
-    }
-    this.handleValueChange = this.handleValueChange.bind(this)
-  }
-
-  componentWillReceiveProps(nextProps: PropsType) {
-    // Component is about to receive the user object for the first time
-    if (!this.props.user && nextProps.user) {
-      this.setState({
-        editedUser: nextProps.user,
-        relTypeChosen: nextProps.user.relationshipType && nextProps.user.relationshipType.length > 0,
-        genderPreferenceChosen: nextProps.user.genderPreference && nextProps.user.genderPreference.length > 0
-      })
-    }
-
-    // Component will receive a profile picture update (most likely because the
-    // user changed it via the UserImage component on this form
-    if (this.props.user.profilePic !== nextProps.user.profilePic) {
-      this.updateUser({ profilePic: nextProps.user.profilePic })
-    }
-  }
-
-  // Essentially a setState() wrapper for the editedUser portion of state
-  // eslint-disable-next-line flowtype/no-weak-types
-  updateUser = (obj: Object, callback: ?() => void) => {
-    if (callback) {
-      this.setState({ editedUser: { ...this.state.editedUser, ...obj } }, callback)
-    } else {
-      this.setState({ editedUser: { ...this.state.editedUser, ...obj } })
+      pageIndex: props.paginate ? 0 : null
     }
   }
 
@@ -830,153 +793,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
   }
 
-  handleToggleAny = (allSelected, name) => {
-    const allOptions = {
-      ethnicityPreference: USER_PROPS.ETHNICITY,
-      yearPreference: USER_PROPS.YEAR,
-      relationshipType: USER_PROPS.RELATIONSHIP_TYPE,
-      genderPreference: USER_PROPS.GENDER,
-      collegePreference: USER_PROPS.COLLEGE
-    }[name]
-
-    if (allOptions) {
-      let cb = null
-      if (name === 'genderPreference') {
-        cb = this.validateGenderPreferenceField
-      }
-
-      if (name === 'relationshipType') {
-        cb = this.validateRelationshipTypeField
-      }
-
-      this.updateUser({ [name]: allSelected ? [] : allOptions }, cb)
-    }
-  }
-
-  // For all fields controlled with a Form component (e.g. TextInput, Textarea,
-  // etc.), this handler will suffice
-  handleValueChange(event: SyntheticInputEvent<*>) {
-    const { editedUser } = this.state
-    if (!editedUser) return
-    const { name, value } = event.target
-
-    if (name === 'relationshipType') {
-      this.validateRelationshipTypeField()
-    }
-
-    if (name === 'genderPreference') {
-      this.validateGenderPreferenceField()
-    }
-
-    const oldKey = editedUser[name]
-    switch (name) {
-      // Text input numeric fields
-      case 'year':
-        this.updateUser({ [name]: Number(value) })
-        break
-
-      // Checkbox-as-boolean fields
-      case 'receiveTexts':
-        this.updateUser({ [name]: !oldKey })
-        break
-
-      // Checkbox numeric fields
-      case 'yearPreference':
-        if (oldKey) {
-          this.updateUser({ [name]: toggleArrayValue(oldKey.map(Number), Number(value)) })
-        }
-        break
-
-      // Checkbox string fields
-      case 'ethnicity':
-      case 'ethnicityPreference':
-      case 'relationshipType':
-      case 'genderPreference':
-      case 'collegePreference':
-        if (oldKey) {
-          this.updateUser({ [name]: toggleArrayValue(oldKey, value) })
-        }
-        break
-
-      case 'first':
-      case 'last':
-        if (this.state.editedUser) {
-          this.setState({
-            editedUser: {
-              ...this.state.editedUser,
-              name: {
-                ...this.state.editedUser.name,
-                [name]: value
-              }
-            }
-          })
-        }
-
-        break
-
-      // Remaining fields work fine with direct value assignment
-      case 'bio':
-      case 'gender':
-      case 'instagram':
-      case 'major':
-      case 'phone':
-      case 'snapchat':
-        this.updateUser({ [name]: value })
-        break
-
-      default:
-        // eslint-disable-next-line no-console
-        console.warn(`Unexpected field name: ${name}`)
-        break
-    }
-  }
-
-  // Fields that use the non-Form components need to handle their change events
-  // separately since the handler argument is not a SyntheticInputEvent<*>
-  handleAgeChange = (value: ?number) => {
-    this.updateUser({ age: value })
-  }
-
-  handleHeightChange = (value: ?number) => {
-    this.updateUser({ height: value })
-  }
-
-  handleAgePreferenceChange = (values: Array<number>) => {
-    this.updateUser({ agePreference: { min: values[0], max: values[1] } })
-  }
-
-  handleHeightPreferenceChange = (values: Array<number>) => {
-    this.updateUser({ heightPreference: { min: values[0], max: values[1] } })
-  }
-
-  handleQuestionValueChange = (event: SyntheticInputEvent<*>) => {
-    const { editedUser } = this.state
-    if (!editedUser) return
-
-    const { answers } = editedUser
-    if (!answers) return
-
-    const { name, value } = event.target
-
-    const editedAnswers = answers.filter(item => item.question !== name)
-    if (value !== '') {
-      editedAnswers.push({
-        question: name,
-        answer: value
-      })
-    }
-
-    this.updateUser({ answers: editedAnswers })
-  }
-
-  handleDropdownChange = (name: string, selectedItem: OptionType) => {
-    const { editedUser } = this.state
-    if (!editedUser || !(name in editedUser)) return
-
-    if (!selectedItem) return
-    this.updateUser({ [name]: selectedItem.text })
-  }
-
   isFormValid = (): boolean => {
     if (!this.formElement) return true
 
@@ -992,8 +808,9 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     return true
   }
 
+  /*
   submit = () => {
-    const { editedUser } = this.state
+    // TODO
     if (this.isFormValid() && editedUser) {
       this.props.editUser(editedUser, err => {
         if (err) {
@@ -1009,47 +826,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
       })
     }
   }
-
-  getPreferencesFormItems(): Array<React.Element<*>> {
-    const { requiredFieldsOnly } = this.props
-    const { editedUser } = this.state
-
-    if (!editedUser) {
-      return []
-    }
-
-    if (!requiredFieldsOnly) {
-      return []
-    }
-
-    return []
-  }
-
-  getContactFormItems(): Array<React.Element<*>> {
-    const { requiredFieldsOnly } = this.props
-    const { editedUser } = this.state
-
-    if (!editedUser) {
-      return []
-    }
-
-    const items = []
-
-    return items
-  }
-
-  getPageItems(): Array<React.Element<*>> {
-    const { pageIndex } = this.state
-    const page = pageIndex != null ? this.PAGES[pageIndex] : null
-    return page
-      ? {
-          basic: this.getBasicFormItems(),
-          preferences: this.getPreferencesFormItems(),
-          personal: this.getPersonalFormItems(),
-          contact: this.getContactFormItems()
-        }[page]
-      : []
-  }
+  */
 
   getPageMessage(): string {
     const { pageIndex } = this.state
@@ -1089,30 +866,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
   }
 
-  renderNextButton(): React.Element<*> {
-    return (
-      <Button primary onClick={this.nextPage}>
-        Next
-      </Button>
-    )
-  }
-
-  renderPreviousButton(): React.Element<*> {
-    return (
-      <Button primary onClick={this.previousPage}>
-        Previous
-      </Button>
-    )
-  }
-
-  renderSubmitButton(isFormValid: boolean): React.Element<*> {
-    return (
-      <Button primary disabled={!isFormValid} onClick={this.submit}>
-        Save
-      </Button>
-    )
-  }
-
   renderPageMenu(): React.Node {
     const { pageIndex } = this.state
     const page = pageIndex != null ? this.PAGES[pageIndex] : null
@@ -1129,7 +882,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
   render(): ?React.Element<*> {
     const { redirect, paginate, onSubmit } = this.props
-    const { editedUser, editComplete, errorMessage, pageIndex } = this.state
+    const { editComplete, errorMessage, pageIndex } = this.state
     const page = pageIndex != null ? this.PAGES[pageIndex] : null
     const isFormValid = this.isFormValid()
 
