@@ -117,10 +117,14 @@ type PropsType = {
 } & FormProps
 
 type StateType = {
+  editedUser: UserType,
   editComplete: boolean,
   errorMessage: ?string,
   pageIndex: ?number
 }
+
+// eslint-disable-next-line flowtype/no-weak-types
+type FormValueType = any
 
 const toggleArrayValue = <T>(arr: Array<T>, value: T): Array<T> => {
   if (arr.indexOf(value) === -1) {
@@ -272,6 +276,15 @@ const FormTextareaItem = ({
 // ------------------
 const FIELD_ARRAY_COMPONENTS = [FormCheckboxItem]
 
+const userDataMapperCreator = user => ({
+  ethnicity: [user.ethnicity, USER_PROPS.ETHNICITY],
+  genderPreference: [user.genderPreference, USER_PROPS.GENDER],
+  relationshipType: [user.relationshipType, USER_PROPS.RELATIONSHIP_TYPE],
+  ethnicityPreference: [user.ethnicityPreference, USER_PROPS.ETHNICITY],
+  yearPreference: [user.yearPreference, USER_PROPS.YEAR],
+  collegePreference: [user.collegePreference, USER_PROPS.COLLEGE]
+})
+
 // Build the initial values for a FieldArray based on
 // currently selected options and all possible options
 const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boolean] => {
@@ -333,6 +346,60 @@ const createFormInitialValues = (state: ReduxStateType): { [string]: string } =>
   }
 
   return initialValues
+}
+
+// eslint-disable-next-line
+const buildSubmitFieldArray = (name: string, user) => {
+  const userDataMapper = userDataMapperCreator(user)
+  const [selectedOptions, allOptions] = userDataMapper[name]
+  return allOptions.filter((value, index) => selectedOptions[index] === true)
+}
+
+const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserType => {
+  const answersValues = editedUser.answers
+  answersValues.forEach(faq => {
+    faq.answer = formValue.questions[faq.question]
+  })
+
+  const submitValues = {
+    // Basic Page
+    firstName: formValue.firstName,
+    lastName: formValue.lastName,
+    age: formValue.age,
+    year: Number(formValue.year),
+    gender: formValue.gender,
+    major: formValue.major,
+    college: formValue.college,
+    height: formValue.height,
+    ethnicity: buildSubmitFieldArray('ethnicity', formValue),
+
+    // Personal Page
+    bio: formValue.bio,
+    questions: answersValues,
+
+    // Preference Page
+    genderPreference: buildSubmitFieldArray('genderPreference', formValue),
+    agePreference: formValue.agePreference,
+    relationshipType: buildSubmitFieldArray('relationshipType', formValue),
+    ethnicityPreference: buildSubmitFieldArray('ethnicityPreference', formValue),
+    yearPreference: buildSubmitFieldArray('yearPreference', formValue),
+    collegePreference: buildSubmitFieldArray('collegePreference', formValue),
+    heightPreference: formValue.heightPreference,
+
+    // Contact Page
+    phone: formValue.phone,
+    receiveTexts: formValue.receiveTexts,
+    instagram: formValue.instagram,
+    snapchat: formValue.snapchat
+  }
+
+  Object.keys(editedUser).forEach(field => {
+    // eslint-disable-next-line
+    if (submitValues[field] != undefined) {
+      editedUser[field] = submitValues[field]
+    }
+  })
+  return editedUser
 }
 
 // +-----------------+
@@ -659,9 +726,9 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
   // required fields; note they are not directly mapped to redux-form Fields due to the special structure
   const phoneFieldOptions = {
     itemName: 'Phone Number',
-    placeholder: '5551239876',
-    pattern: '^d{10}$',
-    required: true
+    placeholder: '5551239876'
+    // pattern: '^d{10}$',
+    // required: true
   }
   const receiveTextFieldOptions = {
     value: { id: 'receiveTexts', text: 'Receive text notifications' }
@@ -752,6 +819,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props)
     this.state = {
+      editedUser: props.user,
       editComplete: false,
       errorMessage: null,
       pageIndex: props.paginate ? 0 : null
@@ -808,10 +876,13 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     return true
   }
 
-  /*
-  submit = () => {
-    // TODO
-    if (this.isFormValid() && editedUser) {
+  submitForm = formValue => {
+    const { editedUser } = this.state
+    this.setState({ editedUser: createSubmitData(editedUser, formValue) })
+    console.log('submitForm:')
+    console.log(this.state.editedUser)
+
+    if (editedUser) {
       this.props.editUser(editedUser, err => {
         if (err) {
           const { status, invalidValues } = err.response.data
@@ -826,7 +897,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
       })
     }
   }
-  */
 
   getPageMessage(): string {
     const { pageIndex } = this.state
@@ -926,14 +996,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         break
 
       case 3:
-        profileEditFormPage = (
-          <ProfileEditFormContactPage
-            previousPage={this.previousPage}
-            onSubmit={values => {
-              onSubmit()
-            }}
-          />
-        )
+        profileEditFormPage = <ProfileEditFormContactPage previousPage={this.previousPage} onSubmit={this.submitForm} />
         break
 
       default:
