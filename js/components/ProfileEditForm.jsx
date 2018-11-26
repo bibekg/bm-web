@@ -105,6 +105,22 @@ const DisclaimerText = Text.extend`
   text-align: center;
   padding-bottom: 10px;
 `
+const FieldValidationError = styled.span`
+  border: none;
+  font-weight: 700;
+  color: #700;
+
+  &:before {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    line-height: 1;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: '\\F06A';
+    margin-right: 5px;
+  }
+`
 
 type FormPageType = 'basic' | 'personal' | 'preferences' | 'contact'
 
@@ -178,8 +194,7 @@ type FormDropdownItemOptionsType = {
 }
 
 type FormTextareaItemOptionsType = {
-  itemName: string,
-  required?: boolean
+  itemName: string
 }
 
 // ------------------
@@ -230,13 +245,12 @@ const FormRadioGroupItem = ({
 
 const FormCheckboxItem = ({
   fields,
+  meta: { error },
   options: { itemName, ...componentOptions }
-}: {
-  fields: FieldArrayProps,
-  options: FormCheckboxItemOptionsType
-}) => (
+}: FieldArrayProps & { options: FormCheckboxItemOptionsType }) => (
   <FormItem name={itemName}>
     <Form.CheckboxGroup name={fields.name} {...componentOptions} />
+    {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
 
@@ -261,13 +275,12 @@ const FormDropdownItem = ({
 
 const FormTextareaItem = ({
   input,
-  options: { itemName, required }
-}: {
-  input: FieldProps,
-  options: FormTextareaItemOptionsType
-}) => (
-  <FormItem required name={itemName}>
-    <Form.Textarea required {...input} rows={5} />
+  meta: { touched, error },
+  options: { itemName }
+}: FieldProps & { options: FormTextareaItemOptionsType }) => (
+  <FormItem name={itemName}>
+    <Form.Textarea {...input} rows={5} />
+    {touched && error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
 
@@ -379,7 +392,7 @@ const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserT
 
     // Preference Page
     genderPreference: buildSubmitFieldArray('genderPreference', formValue),
-    agePreference: formValue.agePreference,
+    agePreference: { min: formValue.agePreference[0], max: formValue.agePreference[1] },
     relationshipType: buildSubmitFieldArray('relationshipType', formValue),
     ethnicityPreference: buildSubmitFieldArray('ethnicityPreference', formValue),
     yearPreference: buildSubmitFieldArray('yearPreference', formValue),
@@ -401,6 +414,18 @@ const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserT
   })
   return editedUser
 }
+
+// -------------------
+// |   Validators    |
+// -------------------
+// eslint-disable-next-line eqeqeq
+const requiredValue = value => (value == undefined || value.length === 0 ? 'This field cannot be empty.' : undefined)
+
+const requiredValueArray = value =>
+  value.filter(v => v === true).length === 0 ? 'You must select at least one item.' : undefined
+
+// eslint-disable-next-line eqeqeq
+const phoneNumberFormat = value => (value == undefined || !/^\d{10}$/.test(value) ? 'Invalid phone number.' : undefined)
 
 // +-----------------+
 // |    Basic Form   |
@@ -561,9 +586,9 @@ let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   const bioField = {
     fieldName: 'bio',
     options: {
-      itemName: 'Bio',
-      required: true
-    }
+      itemName: 'Bio'
+    },
+    validate: requiredValue
   }
   const questionFields = []
   Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
@@ -581,7 +606,13 @@ let ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   return (
     <form onSubmit={handleSubmit}>
       {fields.map(field => (
-        <Field key={field.fieldName} name={field.fieldName} options={field.options} component={FormTextareaItem} />
+        <Field
+          key={field.fieldName}
+          name={field.fieldName}
+          options={field.options}
+          component={FormTextareaItem}
+          validate={field.validate}
+        />
       ))}
 
       <Button primary onClick={previousPage}>
@@ -613,7 +644,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Interested In',
       options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
-    }
+    },
+    validate: requiredValueArray
   }
   const agePreferenceField = {
     fieldName: 'agePreference',
@@ -631,7 +663,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Looking For',
       options: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) }))
-    }
+    },
+    validate: requiredValueArray
   }
 
   // non-required fields
@@ -641,7 +674,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Ethnicity Preference',
       options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
-    }
+    },
+    validate: requiredValueArray
   }
 
   const yearPreferenceField: { options: FormCheckboxItemOptionsType } = {
@@ -650,7 +684,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Class Year Preference',
       options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
-    }
+    },
+    validate: requiredValueArray
   }
 
   const collegePreference: { options: FormCheckboxItemOptionsType } = {
@@ -659,7 +694,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'College Preference',
       options: USER_PROPS.COLLEGE.map(c => ({ id: c, text: c }))
-    }
+    },
+    validate: requiredValueArray
   }
 
   const heightPreference: { options: FormSliderItemOptionsType } = {
@@ -690,9 +726,16 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
               name={field.fieldName}
               options={field.options}
               component={field.component}
+              validate={field.validate}
             />
           ) : (
-            <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+            <Field
+              key={field.fieldName}
+              name={field.fieldName}
+              options={field.options}
+              component={field.component}
+              validate={field.validate}
+            />
           )
       )}
 
@@ -720,15 +763,19 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
 
   // "helper components" not wrapped by <FormItem>, due to our special structure of
   // adding multiple nodes inside a FormItem in this page
-  const FormTextInputItemRaw = ({ input, options }) => <Form.TextInput required {...input} {...options} type="text" />
+  const FormTextInputItemRaw = ({ input, meta: { touched, error }, options }) => (
+    <div>
+      <Form.TextInput {...input} {...options} type="text" />
+      {touched && error && <FieldValidationError>{error}</FieldValidationError>}
+    </div>
+  )
   const FormCheckboxInputItemRaw = ({ input, options }) => <Form.CheckboxInput {...input} {...options} />
 
-  // required fields; note they are not directly mapped to redux-form Fields due to the special structure
+  // required fields
+  // note they are not directly mapped to redux-form Fields due to the special structure
   const phoneFieldOptions = {
     itemName: 'Phone Number',
     placeholder: '5551239876'
-    // pattern: '^d{10}$',
-    // required: true
   }
   const receiveTextFieldOptions = {
     value: { id: 'receiveTexts', text: 'Receive text notifications' }
@@ -757,7 +804,7 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
       No worries! Your contact information will not be shared until you and your match like each other
     </DisclaimerText>,
     <FormItem required name="Phone Number" key="form">
-      <Field name="phone" component={FormTextInputItemRaw} options={phoneFieldOptions} />
+      <Field name="phone" component={FormTextInputItemRaw} validate={phoneNumberFormat} options={phoneFieldOptions} />
       <Field
         name="receiveTexts"
         component={FormCheckboxInputItemRaw}
