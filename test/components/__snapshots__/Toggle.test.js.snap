@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toggle /> should render correctly when toggled off 1`] = `
+<styled.div
+  toggled={false}
+>
+  <styled.div
+    left={true}
+    toggled={true}
+  />
+  <styled.div
+    toggled={false}
+  />
+</styled.div>
+`;
+
+exports[`<Toggle /> should render correctly with no options 1`] = `
+<styled.div>
+  <styled.div
+    left={true}
+    toggled={true}
+  />
+  <styled.div />
+</styled.div>
+`;

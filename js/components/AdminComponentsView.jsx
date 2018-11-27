@@ -4,8 +4,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Header, Title, Subtitle, Text } from 'components/typography'
 import Button from 'components/Button'
+import * as Form from 'components/form'
 import Dropdown, { DropdownItem } from 'components/Dropdown'
 import Break from 'components/Break'
+import Toggle from 'components/Toggle'
 import type { OptionType } from 'components/Dropdown'
 import * as Icons from 'components/icons'
 import Modal from 'components/Modal'
@@ -24,10 +26,14 @@ type PropsType = {}
 type StateType = {
   dropdownItems: Array<OptionType>,
   selectedDropdownItem: ?OptionType,
-  showModal: boolean
+  showModal: boolean,
+  toggled: boolean,
+  checked: boolean
 }
 
 export default class AdminComponentsView extends React.Component<PropsType, StateType> {
+  handleCheckboxChange: (SyntheticInputEvent<*>) => void
+  handleToggleChange: (SyntheticInputEvent<*>) => void
   constructor(props: PropsType) {
     super(props)
     this.state = {
@@ -45,13 +51,29 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
         new DropdownItem('k', 'Jamal')
       ],
       selectedDropdownItem: null,
-      showModal: false
+      showModal: false,
+      toggled: true,
+      checked: true
     }
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+    this.handleToggleChange = this.handleToggleChange.bind(this)
   }
 
   handleDropdownChange = (name: string, newItem: OptionType) => {
     this.setState({
       selectedDropdownItem: newItem
+    })
+  }
+
+  handleToggleChange() {
+    this.setState({
+      toggled: !this.state.toggled
+    })
+  }
+
+  handleCheckboxChange() {
+    this.setState({
+      checked: !this.state.checked
     })
   }
 
@@ -81,6 +103,18 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
         <Button disabled>Disabled Button</Button>
 
         <Break verticalSpacing="50px" />
+
+        <Form.CheckboxInput
+          name="Checkbox"
+          checked={this.state.checked}
+          value={{ id: '', text: 'Checkbox' }}
+          onChange={this.handleCheckboxChange}
+        />
+        <Break verticalSpacing="10px" invisible />
+        <Toggle toggled={this.state.toggled} onClick={this.handleToggleChange} />
+
+        <Break verticalSpacing="50px" />
+
         <div>
           <Dropdown
             name="dropdownJNames"
