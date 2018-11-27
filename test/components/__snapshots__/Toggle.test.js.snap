@@ -5,6 +5,7 @@ exports[`<Toggle /> should render correctly when toggled off 1`] = `
   toggled={false}
 >
   <styled.div
+    left={true}
     toggled={true}
   />
   <styled.div
@@ -16,6 +17,7 @@ exports[`<Toggle /> should render correctly when toggled off 1`] = `
 exports[`<Toggle /> should render correctly with no options 1`] = `
 <styled.div>
   <styled.div
+    left={true}
     toggled={true}
   />
   <styled.div />
