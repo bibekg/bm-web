@@ -14,9 +14,8 @@ const CheckboxGroupDiv = styled.div`
 
 type PropsType = {
   name: string,
-  anyable: boolean,
+  anyable?: boolean,
   options: Array<OptionType>,
-  onChange: (SyntheticInputEvent<*>) => void,
   innerRef?: HTMLElement => void,
   fields: Fields,
   formProps: FormProps

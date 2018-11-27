@@ -1,13 +1,12 @@
 // @flow
-// DEVELOPEMENT ONLY ESLINT DISABLES
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
 import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps, FieldProps, FieldArrayProps } from 'redux-form'
+import type { InputProps } from 'redux-form/lib/FieldProps.types.js.flow'
+import type { Fields } from 'redux-form/lib/FieldArrayProps.types.js.flow'
 import { Text, Subtitle } from 'components/typography'
 import Button from 'components/Button'
 import Slider from 'components/Slider'
@@ -84,27 +83,11 @@ const PageButton = styled.div`
   }
 `
 
-const NavigationButtons = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-  & > * {
-    margin: 5px;
-  }
-`
-
-const ErrorDisplay = styled.div`
-  text-align: center;
-  color: ${colors.red};
-  margin: 10px 0;
-`
-
 const DisclaimerText = Text.extend`
   text-align: center;
   padding-bottom: 10px;
 `
+
 const FieldValidationError = styled.span`
   border: none;
   font-weight: 700;
@@ -115,7 +98,6 @@ const FieldValidationError = styled.span`
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     line-height: 1;
-    text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     content: '\\F06A';
     margin-right: 5px;
@@ -139,31 +121,17 @@ type StateType = {
   pageIndex: ?number
 }
 
-// eslint-disable-next-line flowtype/no-weak-types
-type FormValueType = any
-
-const toggleArrayValue = <T>(arr: Array<T>, value: T): Array<T> => {
-  if (arr.indexOf(value) === -1) {
-    return [...arr, value]
-  } else {
-    return arr.filter(item => item !== value)
-  }
-}
-
+// +----------------------+
+// |    Form Item Types   |
+// +----------------------+
 type FormItemPropsType = {
-  required?: boolean,
   name: string,
   children: React.Node
 }
 
-// ------------------
-// Types
-// ------------------
 type FormTextInputItemOptionsType = {
   itemName: string,
-  placeholder?: string,
-  pattern?: string,
-  required?: boolean
+  placeholder?: string
 }
 
 type FormSliderItemOptionsType = {
@@ -177,19 +145,18 @@ type FormSliderItemOptionsType = {
 
 type FormRadioGroupItemOptionsType = {
   itemName: string,
-  required?: boolean,
-  options: [{ id: string, text: string }]
+  options: Array<OptionType>
 }
 
 type FormCheckboxItemOptionsType = {
   itemName: string,
   anyable?: boolean,
-  options: [string]
+  options: Array<OptionType>
 }
 
 type FormDropdownItemOptionsType = {
   itemName: string,
-  items: [string],
+  items: Array<DropdownItem<*>>,
   placeholder: string
 }
 
@@ -197,12 +164,12 @@ type FormTextareaItemOptionsType = {
   itemName: string
 }
 
-// ------------------
-// Form Items
-// ------------------
+// +-----------------+
+// |    Form Items   |
+// +-----------------+
 const FormItem = (props: FormItemPropsType) => (
   <FormItemWrapper>
-    <Form.Label required={props.required}>{props.name}</Form.Label>
+    <Form.Label>{props.name}</Form.Label>
     <FormItemChildrenWrapper>{props.children}</FormItemChildrenWrapper>
   </FormItemWrapper>
 )
@@ -211,7 +178,7 @@ const FormTextInputItem = ({
   input,
   options: { itemName, ...componentOptions }
 }: {
-  input: FieldProps,
+  input: InputProps,
   options: FormTextInputItemOptionsType
 }) => (
   <FormItem name={itemName}>
@@ -223,7 +190,7 @@ const FormSliderItem = ({
   input,
   options: { itemName, ...componentOptions }
 }: {
-  input: FieldProps,
+  input: InputProps,
   options: FormSliderItemOptionsType
 }) => (
   <FormItem name={itemName}>
@@ -233,9 +200,9 @@ const FormSliderItem = ({
 
 const FormRadioGroupItem = ({
   input,
-  options: { required, itemName, ...componentOptions }
+  options: { itemName, ...componentOptions }
 }: {
-  input: FieldProps,
+  input: InputProps,
   options: FormRadioGroupItemOptionsType
 }) => (
   <FormItem name={itemName}>
@@ -259,7 +226,7 @@ const FormDropdownItem = ({
   input,
   options: { itemName, ...componentOptions }
 }: {
-  input: FieldProps,
+  input: InputProps,
   options: FormDropdownItemOptionsType
 }) => (
   <FormItem name={itemName}>
@@ -285,12 +252,12 @@ const FormTextareaItem = ({
   </FormItem>
 )
 
-// ------------------
-// ---- Helpers -----
-// ------------------
+// +-----------------+
+// |     Helpers     |
+// +-----------------+
 const FIELD_ARRAY_COMPONENTS = [FormCheckboxItem]
 
-const userDataMapperCreator = user => ({
+const userDataMapperCreator = (user: UserType | UserFormType) => ({
   ethnicity: [user.ethnicity, USER_PROPS.ETHNICITY],
   genderPreference: [user.genderPreference, USER_PROPS.GENDER],
   relationshipType: [user.relationshipType, USER_PROPS.RELATIONSHIP_TYPE],
@@ -933,8 +900,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   submitForm = formValue => {
     const { editedUser } = this.state
     this.setState({ editedUser: createSubmitData(editedUser, formValue) })
-    console.log('submitForm:')
-    console.log(this.state.editedUser)
 
     if (editedUser) {
       this.props.editUser(editedUser, err => {
@@ -1005,63 +970,23 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   render(): ?React.Element<*> {
-    const { redirect, paginate, onSubmit } = this.props
-    const { editComplete, errorMessage, pageIndex } = this.state
-    const page = pageIndex != null ? this.PAGES[pageIndex] : null
-    const isFormValid = this.isFormValid()
+    const { redirect, paginate } = this.props
+    const { editComplete, pageIndex } = this.state
 
     if (editComplete) return <Redirect push to={redirect} />
 
-    let profileEditFormPage = null
-    switch (pageIndex) {
-      case 0:
-        profileEditFormPage = (
-          <ProfileEditFormBasicPage
-            onSubmit={values => {
-              console.log(values)
-              this.nextPage()
-            }}
-          />
-        )
-        break
-
-      case 1:
-        profileEditFormPage = (
-          <ProfileEditFormPersonalPage
-            previousPage={this.previousPage}
-            onSubmit={values => {
-              console.log(values)
-              this.nextPage()
-            }}
-          />
-        )
-        break
-
-      case 2:
-        profileEditFormPage = (
-          <ProfileEditFormPreferencePage
-            previousPage={this.previousPage}
-            onSubmit={values => {
-              console.log(values)
-              this.nextPage()
-            }}
-          />
-        )
-        break
-
-      case 3:
-        profileEditFormPage = <ProfileEditFormContactPage previousPage={this.previousPage} onSubmit={this.submitForm} />
-        break
-
-      default:
-        break
-    }
+    const profileEditFormPage = [
+      <ProfileEditFormBasicPage onSubmit={this.nextPage} />,
+      <ProfileEditFormPersonalPage previousPage={this.previousPage} onSubmit={this.nextPage} />,
+      <ProfileEditFormPreferencePage previousPage={this.previousPage} onSubmit={this.nextPage} />,
+      <ProfileEditFormContactPage previousPage={this.previousPage} onSubmit={this.submitForm} />
+    ]
 
     return (
       <FormWrapper>
         {paginate === 'process' && <Subtitle>{this.getPageMessage()}</Subtitle>}
         {paginate === 'menu' && this.renderPageMenu()}
-        {profileEditFormPage}
+        {profileEditFormPage[pageIndex]}
       </FormWrapper>
     )
   }
