@@ -3,6 +3,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
+import type { FormProps } from 'redux-form'
+import type { Fields } from 'redux-form/lib/FieldArrayProps.types.js.flow'
 import CheckboxInput from './CheckboxInput'
 import type { OptionType } from './CheckboxInput'
 
@@ -14,21 +16,31 @@ type PropsType = {
   name: string,
   anyable: boolean,
   options: Array<OptionType>,
-  // selectedOptions: Array<string>,
   onChange: (SyntheticInputEvent<*>) => void,
-  // onToggleAny: (boolean, string) => void,
-  innerRef?: HTMLElement => void
+  innerRef?: HTMLElement => void,
+  fields: Fields,
+  formProps: FormProps
 }
 
 export default function CheckboxGroup(props: PropsType): React.Element<*> {
-  /*
-  const handleAnyClick = () => {
-    const { selectedOptions, options, onToggleAny, name } = props
-    onToggleAny(allSelected, name)
-  }
-  */
+  const { innerRef, name, options, anyable, fields, formProps } = props
 
-  const { innerRef, name, options } = props
+  const isAnyChecked = (): boolean => {
+    for (let i = 0; i < options.length; i += 1) {
+      if (fields.get(i) === false) {
+        return false
+      }
+    }
+    return true
+  }
+
+  const handleAnyClick = () => {
+    for (let i = 0; i < options.length; i += 1) {
+      const fieldPath = `${name}[${i}]`
+      formProps.change(fieldPath, !isAnyChecked())
+    }
+  }
+
   // eslint-disable-next-line no-shadow
   const CheckboxInputField = ({ input, entry, name }) => (
     <CheckboxInput {...input} key={entry.id} name={name} value={entry} />
@@ -44,20 +56,18 @@ export default function CheckboxGroup(props: PropsType): React.Element<*> {
           type="checkbox"
         />
       ))}
-      {/* {anyable && (
+      {anyable && (
         <CheckboxInput
           name={name}
-          index={options.length}
           value={{ id: 'any', text: 'Any' }}
-          checked={options.length === selectedOptions.length}
+          checked={isAnyChecked()}
           onChange={handleAnyClick}
         />
-      )} */}
+      )}
     </CheckboxGroupDiv>
   )
 }
 
 CheckboxGroup.defaultProps = {
   anyable: false
-  // onToggleAny: () => {}
 }

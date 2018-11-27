@@ -246,10 +246,11 @@ const FormRadioGroupItem = ({
 const FormCheckboxItem = ({
   fields,
   meta: { error },
-  options: { itemName, ...componentOptions }
-}: FieldArrayProps & { options: FormCheckboxItemOptionsType }) => (
+  options: { itemName, ...componentOptions },
+  formProps
+}: FieldArrayProps & { options: FormCheckboxItemOptionsType, formProps: FormProps }) => (
   <FormItem name={itemName}>
-    <Form.CheckboxGroup name={fields.name} {...componentOptions} />
+    <Form.CheckboxGroup name={fields.name} {...componentOptions} fields={fields} formProps={formProps} />
     {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
@@ -430,7 +431,6 @@ const phoneNumberFormat = value => (value == undefined || !/^\d{10}$/.test(value
 // +-----------------+
 // |    Basic Form   |
 // +-----------------+
-
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
 
@@ -517,7 +517,6 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   }
 
   const requiredFields = [firstNameField, lastNameField, ageField, yearField, genderField]
-  // TODO: majorField and collegeField to be added
   const nonrequiredFields = [heightField, ethnicityField]
 
   return (
@@ -531,6 +530,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
               name={field.fieldName}
               options={field.options}
               component={field.component}
+              formProps={props}
             />
           ) : (
             <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
@@ -551,6 +551,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
               name={field.fieldName}
               options={field.options}
               component={field.component}
+              formProps={props}
             />
           ) : (
             <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
@@ -643,7 +644,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'Interested In',
-      options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
+      options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) })),
+      anyable: true
     },
     validate: requiredValueArray
   }
@@ -662,7 +664,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'Looking For',
-      options: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) }))
+      options: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) })),
+      anyable: true
     },
     validate: requiredValueArray
   }
@@ -673,7 +676,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'Ethnicity Preference',
-      options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
+      options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e })),
+      anyable: true
     },
     validate: requiredValueArray
   }
@@ -683,7 +687,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'Class Year Preference',
-      options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
+      options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) })),
+      anyable: true
     },
     validate: requiredValueArray
   }
@@ -693,7 +698,8 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormCheckboxItem,
     options: {
       itemName: 'College Preference',
-      options: USER_PROPS.COLLEGE.map(c => ({ id: c, text: c }))
+      options: USER_PROPS.COLLEGE.map(c => ({ id: c, text: c })),
+      anyable: true
     },
     validate: requiredValueArray
   }
@@ -727,6 +733,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
               options={field.options}
               component={field.component}
               validate={field.validate}
+              formProps={props}
             />
           ) : (
             <Field
@@ -1057,16 +1064,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
         {profileEditFormPage}
       </FormWrapper>
     )
-
-    //     {// If the form has invalid data supplied and user is on final page, display that error
-    //     (!isFormValid &&
-    //       page === 'personal' && (
-    //         <ErrorDisplay>Uh oh... you either left out a required field or entered an invalid value.</ErrorDisplay>
-    //       )) ||
-    //       // Otherwise, if there's some error (probably with the POST request), display that error
-    //       (errorMessage && <ErrorDisplay>{errorMessage}</ErrorDisplay>)}
-
-    //     <NavigationButtons>{this.renderNavButtons(isFormValid)}</NavigationButtons>
   }
 }
 
