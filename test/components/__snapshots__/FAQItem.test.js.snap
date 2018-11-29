@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FAQItem /> should refold and render correctly on click 1`] = `
+<styled.div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <Styled(styled.h1)
+      align="left"
+    >
+      header
+    </Styled(styled.h1)>
+    <styled.div
+      isOpen={false}
+    >
+      <ExpandMoreIcon
+        fill="#76AFFB"
+        size={40}
+      />
+    </styled.div>
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<FAQItem /> should render correctly closed 1`] = `
+<styled.div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <Styled(styled.h1)
+      align="left"
+    >
+      header
+    </Styled(styled.h1)>
+    <styled.div
+      isOpen={false}
+    >
+      <ExpandMoreIcon
+        fill="#76AFFB"
+        size={40}
+      />
+    </styled.div>
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<FAQItem /> should unfold on click and render correctly 1`] = `
+<styled.div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <Styled(styled.h1)
+      align="left"
+    >
+      header
+    </Styled(styled.h1)>
+    <styled.div
+      isOpen={true}
+    >
+      <ExpandMoreIcon
+        fill="#76AFFB"
+        size={40}
+      />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.p
+      paragraph={true}
+    >
+      inner
+    </styled.p>
+  </styled.div>
+</styled.div>
+`;
