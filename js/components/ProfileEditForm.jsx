@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps, FieldProps, FieldArrayProps } from 'redux-form'
 import type { InputProps } from 'redux-form/lib/FieldProps.types.js.flow'
-import type { Fields } from 'redux-form/lib/FieldArrayProps.types.js.flow'
 import { Text, Subtitle } from 'components/typography'
 import Button from 'components/Button'
 import Slider from 'components/Slider'
@@ -174,61 +173,59 @@ const FormItem = (props: FormItemPropsType) => (
   </FormItemWrapper>
 )
 
-const FormTextInputItem = ({
-  input,
-  options: { itemName, ...componentOptions }
-}: {
+type FormTextInputItemArgumentType = {
   input: InputProps,
   options: FormTextInputItemOptionsType
-}) => (
+}
+
+const FormTextInputItem = ({ input, options: { itemName, ...componentOptions } }: FormTextInputItemArgumentType) => (
   <FormItem name={itemName}>
     <Form.TextInput {...input} {...componentOptions} type="text" />
   </FormItem>
 )
 
-const FormSliderItem = ({
-  input,
-  options: { itemName, ...componentOptions }
-}: {
+type FormSliderItemArgumentType = {
   input: InputProps,
   options: FormSliderItemOptionsType
-}) => (
+}
+
+const FormSliderItem = ({ input, options: { itemName, ...componentOptions } }: FormSliderItemArgumentType) => (
   <FormItem name={itemName}>
     <Slider {...input} {...componentOptions} />
   </FormItem>
 )
 
-const FormRadioGroupItem = ({
-  input,
-  options: { itemName, ...componentOptions }
-}: {
+type FormRadioGroupItemArgumentType = {
   input: InputProps,
   options: FormRadioGroupItemOptionsType
-}) => (
+}
+
+const FormRadioGroupItem = ({ input, options: { itemName, ...componentOptions } }: FormRadioGroupItemArgumentType) => (
   <FormItem name={itemName}>
     <Form.RadioGroup {...input} {...componentOptions} selected={input.value} />
   </FormItem>
 )
+
+type FormCheckboxItemArgumentType = FieldArrayProps & { options: FormCheckboxItemOptionsType, formProps: FormProps }
 
 const FormCheckboxItem = ({
   fields,
   meta: { error },
   options: { itemName, ...componentOptions },
   formProps
-}: FieldArrayProps & { options: FormCheckboxItemOptionsType, formProps: FormProps }) => (
+}: FormCheckboxItemArgumentType) => (
   <FormItem name={itemName}>
     <Form.CheckboxGroup name={fields.name} {...componentOptions} fields={fields} formProps={formProps} />
     {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
 
-const FormDropdownItem = ({
-  input,
-  options: { itemName, ...componentOptions }
-}: {
+type FormDropdownItemArgumentType = {
   input: InputProps,
   options: FormDropdownItemOptionsType
-}) => (
+}
+
+const FormDropdownItem = ({ input, options: { itemName, ...componentOptions } }: FormDropdownItemArgumentType) => (
   <FormItem name={itemName}>
     <Dropdown
       {...input}
@@ -241,11 +238,9 @@ const FormDropdownItem = ({
   </FormItem>
 )
 
-const FormTextareaItem = ({
-  input,
-  meta: { touched, error },
-  options: { itemName }
-}: FieldProps & { options: FormTextareaItemOptionsType }) => (
+type FormTextareaItemArgumentType = FieldProps & { options: FormTextareaItemOptionsType }
+
+const FormTextareaItem = ({ input, meta: { touched, error }, options: { itemName } }: FormTextareaItemArgumentType) => (
   <FormItem name={itemName}>
     <Form.Textarea {...input} rows={5} />
     {touched && error && <FieldValidationError>{error}</FieldValidationError>}
@@ -255,8 +250,11 @@ const FormTextareaItem = ({
 // +-----------------+
 // |     Helpers     |
 // +-----------------+
+// Components that require a FieldArray instead of a Field in redux-form
 const FIELD_ARRAY_COMPONENTS = [FormCheckboxItem]
 
+// Given a user object or an object of user form values, build a data mapper object
+// that's used to construct form initial values and submit values
 const userDataMapperCreator = (user: UserType | UserFormType) => ({
   ethnicity: [user.ethnicity, USER_PROPS.ETHNICITY],
   genderPreference: [user.genderPreference, USER_PROPS.GENDER],
@@ -268,75 +266,78 @@ const userDataMapperCreator = (user: UserType | UserFormType) => ({
 
 // Build the initial values for a FieldArray based on
 // currently selected options and all possible options
-const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boolean] => {
-  const userDataMapper = {
-    ethnicity: [state.user.ethnicity, USER_PROPS.ETHNICITY],
-    genderPreference: [state.user.genderPreference, USER_PROPS.GENDER],
-    relationshipType: [state.user.relationshipType, USER_PROPS.RELATIONSHIP_TYPE],
-    ethnicityPreference: [state.user.ethnicityPreference, USER_PROPS.ETHNICITY],
-    yearPreference: [state.user.yearPreference, USER_PROPS.YEAR],
-    collegePreference: [state.user.collegePreference, USER_PROPS.COLLEGE]
+const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boolean] | null => {
+  const { user } = state
+  if (user === undefined || user === null) {
+    console.warn('No user object found.')
+    return null
   }
+  const userDataMapper = userDataMapperCreator(user)
 
   const selectedOptions = userDataMapper[name][0]
   const allOptions = userDataMapper[name][1]
   return allOptions.map(value => selectedOptions.indexOf(value) >= 0)
 }
 
-// eslint-disable-next-line arrow-body-style
-const createFormInitialValues = (state: ReduxStateType): { [string]: string } => {
+// eslint-disable-next-line flowtype/no-weak-types
+const createFormInitialValues = (state: ReduxStateType): any | null => {
+  const { user } = state
+  if (user === undefined || user === null) {
+    console.warn('No user object found.')
+    return null
+  }
+
   const questionsValues = {}
-  state.user.answers.forEach(entry => {
+  user.answers.forEach(entry => {
     questionsValues[entry.question] = entry.answer
   })
 
   const initialValues = {
     // Basic Page
-    firstName: state.user.firstName,
-    lastName: state.user.lastName,
-    age: state.user.age,
-    year: state.user.year.toString(),
-    gender: state.user.gender,
-    major: state.user.major,
-    college: state.user.college,
-    height: state.user.height,
+    firstName: user.name.first,
+    lastName: user.name.last,
+    age: user.age,
+    year: user.year ? user.year.toString() : null,
+    gender: user.gender,
+    major: user.major,
+    college: user.college,
+    height: user.height,
     ethnicity: buildFieldArrayInitialValues('ethnicity', state),
 
     // Personal Page
-    bio: state.user.bio,
+    bio: user.bio,
     questions: questionsValues,
 
     // Preference Page
     genderPreference: buildFieldArrayInitialValues('genderPreference', state),
-    agePreference: state.user.agePreference
-      ? [state.user.agePreference.min, state.user.agePreference.max]
+    agePreference: user.agePreference
+      ? [user.agePreference.min, user.agePreference.max]
       : [USER_PROPS.MIN_AGE, USER_PROPS.MAX_AGE],
     relationshipType: buildFieldArrayInitialValues('relationshipType', state),
     ethnicityPreference: buildFieldArrayInitialValues('ethnicityPreference', state),
     yearPreference: buildFieldArrayInitialValues('yearPreference', state),
     collegePreference: buildFieldArrayInitialValues('collegePreference', state),
-    heightPreference: state.user.heightPreference
-      ? [state.user.heightPreference.min, state.user.heightPreference.max]
-      : [],
+    heightPreference: user.heightPreference ? [user.heightPreference.min, user.heightPreference.max] : [],
 
     // Contact Page
-    phone: state.user.phone,
-    receiveTexts: state.user.receiveTexts,
-    instagram: state.user.instagram,
-    snapchat: state.user.snapchat
+    phone: user.phone,
+    receiveTexts: user.receiveTexts,
+    instagram: user.instagram,
+    snapchat: user.snapchat
   }
 
   return initialValues
 }
 
+// Create form submit data for a field with value as an array
 // eslint-disable-next-line
-const buildSubmitFieldArray = (name: string, user) => {
+const buildSubmitFieldArray = (name: string, user: UserFormType) => {
   const userDataMapper = userDataMapperCreator(user)
   const [selectedOptions, allOptions] = userDataMapper[name]
   return allOptions.filter((value, index) => selectedOptions[index] === true)
 }
 
-const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserType => {
+const createSubmitData = (editedUser: UserType, formValue: UserFormType): UserType => {
   const answersValues = editedUser.answers
   answersValues.forEach(faq => {
     faq.answer = formValue.questions[faq.question]
@@ -344,8 +345,10 @@ const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserT
 
   const submitValues = {
     // Basic Page
-    firstName: formValue.firstName,
-    lastName: formValue.lastName,
+    name: {
+      first: formValue.firstName,
+      last: formValue.lastName
+    },
     age: formValue.age,
     year: Number(formValue.year),
     gender: formValue.gender,
@@ -356,7 +359,7 @@ const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserT
 
     // Personal Page
     bio: formValue.bio,
-    questions: answersValues,
+    answers: answersValues,
 
     // Preference Page
     genderPreference: buildSubmitFieldArray('genderPreference', formValue),
@@ -374,11 +377,9 @@ const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserT
     snapchat: formValue.snapchat
   }
 
-  Object.keys(editedUser).forEach(field => {
-    // eslint-disable-next-line
-    if (submitValues[field] != undefined) {
-      editedUser[field] = submitValues[field]
-    }
+  Object.keys(submitValues).forEach(field => {
+    // eslint-disable-next-line flowtype/no-weak-types
+    editedUser[field] = (submitValues: Object)[field]
   })
   return editedUser
 }
@@ -389,7 +390,7 @@ const createSubmitData = (editedUser: UserType, formValue: FormValueType): UserT
 // eslint-disable-next-line eqeqeq
 const requiredValue = value => (value == undefined || value.length === 0 ? 'This field cannot be empty.' : undefined)
 
-const requiredValueArray = value =>
+const requiredValueArray = (value: [boolean]) =>
   value.filter(v => v === true).length === 0 ? 'You must select at least one item.' : undefined
 
 // eslint-disable-next-line eqeqeq
@@ -398,10 +399,46 @@ const phoneNumberFormat = value => (value == undefined || !/^\d{10}$/.test(value
 // +-----------------+
 // |    Basic Form   |
 // +-----------------+
+type FormTextInputFieldType = {
+  fieldName: string,
+  component: FormTextInputItemArgumentType => React.Element<*>,
+  options: FormTextInputItemOptionsType,
+  validate?: string => string | null
+}
+
+type FormSliderFieldType = {
+  fieldName: string,
+  component: FormSliderItemArgumentType => React.Element<*>,
+  options: FormSliderItemOptionsType,
+  validate?: string => string | null
+}
+
+type FormRadioGroupFieldType = {
+  fieldName: string,
+  component: FormRadioGroupItemArgumentType => React.Element<*>,
+  options: FormRadioGroupItemOptionsType,
+  validate?: string => string | null
+}
+
+type FormDropdownFieldType = {
+  fieldName: string,
+  component: FormDropdownItemArgumentType => React.Element<*>,
+  options: FormDropdownItemOptionsType,
+  validate?: string => string | null
+}
+
+type FormCheckboxFieldType = {
+  fieldName: string,
+  component: FormCheckboxItemArgumentType => React.Element<*>,
+  options: FormCheckboxItemOptionsType,
+  // eslint-disable-next-line flowtype/no-weak-types
+  validate?: ([any]) => ?string
+}
+
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit } = props
 
-  const firstNameField: { options: FormTextInputItemOptionsType } = {
+  const firstNameField: FormTextInputFieldType = {
     fieldName: 'firstName',
     component: FormTextInputItem,
     options: {
@@ -409,7 +446,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       placeholder: 'Joe'
     }
   }
-  const lastNameField: { options: FormTextInputItemOptionsType } = {
+  const lastNameField: FormTextInputFieldType = {
     fieldName: 'lastName',
     component: FormTextInputItem,
     options: {
@@ -417,7 +454,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       placeholder: 'Bruin'
     }
   }
-  const ageField: { options: FormSliderItemOptionsType } = {
+  const ageField: FormSliderFieldType = {
     fieldName: 'age',
     component: FormSliderItem,
     options: {
@@ -428,7 +465,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       formatter: (n: ?number) => String(n)
     }
   }
-  const yearField: { options: FormRadioGroupItemOptionsType } = {
+  const yearField: FormRadioGroupFieldType = {
     fieldName: 'year',
     component: FormRadioGroupItem,
     options: {
@@ -436,7 +473,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
     }
   }
-  const genderField: { options: FormRadioGroupItemOptionsType } = {
+  const genderField: FormRadioGroupFieldType = {
     fieldName: 'gender',
     component: FormRadioGroupItem,
     options: {
@@ -445,7 +482,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     }
   }
 
-  const majorField: { options: FormDropdownItemOptionsType } = {
+  const majorField: FormDropdownFieldType = {
     fieldName: 'major',
     component: FormDropdownItem,
     options: {
@@ -454,7 +491,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       placeholder: USER_PROPS.MAJOR[0]
     }
   }
-  const collegeField: { options: FormDropdownItemOptionsType } = {
+  const collegeField: FormDropdownFieldType = {
     fieldName: 'college',
     component: FormDropdownItem,
     options: {
@@ -463,7 +500,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       placeholder: USER_PROPS.COLLEGE[0]
     }
   }
-  const heightField: { options: FormSliderItemOptionsType } = {
+  const heightField: FormSliderFieldType = {
     fieldName: 'height',
     component: FormSliderItem,
     options: {
@@ -474,7 +511,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       formatter: (n: ?number) => (n ? formatHeight(n) : '')
     }
   }
-  const ethnicityField: { options: FormCheckboxItemOptionsType } = {
+  const ethnicityField: FormCheckboxFieldType = {
     fieldName: 'ethnicity',
     component: FormCheckboxItem,
     options: {
@@ -503,7 +540,6 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
             <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
           )
       )}
-      {/* TODO: yearField: handle int-string conversion for initial value & onChange */}
 
       {/* Non-required Fields */}
       <DropdownWrapper>
@@ -539,7 +575,8 @@ ProfileEditFormBasicPage = reduxForm({
 })(ProfileEditFormBasicPage)
 
 ProfileEditFormBasicPage = connect(
-  (state: ReduxStateType): { [string]: { string: string } } => ({
+  // eslint-disable-next-line flowtype/no-weak-types
+  (state: ReduxStateType): { [string]: any | null } => ({
     initialValues: createFormInitialValues(state)
   }),
   {}
@@ -606,7 +643,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
   const { previousPage, handleSubmit } = props
 
   // required fields
-  const genderPreferenceField = {
+  const genderPreferenceField: FormCheckboxFieldType = {
     fieldName: 'genderPreference',
     component: FormCheckboxItem,
     options: {
@@ -616,7 +653,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     },
     validate: requiredValueArray
   }
-  const agePreferenceField = {
+  const agePreferenceField: FormSliderFieldType = {
     fieldName: 'agePreference',
     component: FormSliderItem,
     options: {
@@ -626,7 +663,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
       marks: USER_PROPS.AGE_LABELS
     }
   }
-  const relationshipTypeField = {
+  const relationshipTypeField: FormCheckboxFieldType = {
     fieldName: 'relationshipType',
     component: FormCheckboxItem,
     options: {
@@ -638,7 +675,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
   }
 
   // non-required fields
-  const ethnicityPreferenceField: { options: FormCheckboxItemOptionsType } = {
+  const ethnicityPreferenceField: FormCheckboxFieldType = {
     fieldName: 'ethnicityPreference',
     component: FormCheckboxItem,
     options: {
@@ -649,7 +686,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     validate: requiredValueArray
   }
 
-  const yearPreferenceField: { options: FormCheckboxItemOptionsType } = {
+  const yearPreferenceField: FormCheckboxFieldType = {
     fieldName: 'yearPreference',
     component: FormCheckboxItem,
     options: {
@@ -660,7 +697,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     validate: requiredValueArray
   }
 
-  const collegePreference: { options: FormCheckboxItemOptionsType } = {
+  const collegePreference: FormCheckboxFieldType = {
     fieldName: 'collegePreference',
     component: FormCheckboxItem,
     options: {
@@ -671,7 +708,7 @@ let ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     validate: requiredValueArray
   }
 
-  const heightPreference: { options: FormSliderItemOptionsType } = {
+  const heightPreference: FormSliderFieldType = {
     fieldName: 'heightPreference',
     component: FormSliderItem,
     options: {
@@ -756,7 +793,7 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
   }
 
   // non-required fields
-  const instagramField: { options: FormTextInputItemOptionsType } = {
+  const instagramField: FormTextInputFieldType = {
     fieldName: 'instagram',
     component: FormTextInputItem,
     options: {
@@ -764,7 +801,7 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
       placeholder: 'joeBruin_ig'
     }
   }
-  const snapchatField: { options: FormTextInputItemOptionsType } = {
+  const snapchatField: FormTextInputFieldType = {
     fieldName: 'snapchat',
     component: FormTextInputItem,
     options: {
@@ -777,7 +814,7 @@ let ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
     <DisclaimerText key="disclaimer">
       No worries! Your contact information will not be shared until you and your match like each other
     </DisclaimerText>,
-    <FormItem required name="Phone Number" key="form">
+    <FormItem name="Phone Number" key="form">
       <Field name="phone" component={FormTextInputItemRaw} validate={phoneNumberFormat} options={phoneFieldOptions} />
       <Field
         name="receiveTexts"
@@ -847,56 +884,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
   }
 
-  validateRelationshipTypeField() {
-    // HACK: HTML5 does not provide a built-in way to see if a checkbox group
-    // has at least one option chosen. Need to manually verify a
-    // relationshipType option is selected
-    // THIS IS VERY BRITTLE SINCE THE CheckboxGroup COMPONENT IS A DIV AND NOT
-    // AN INPUT, REQUIRING THE SYNTAX checkboxes[i].children[0].checked
-    // If the internals of CheckboxGroup changes, this will likely break
-    if (this.relTypeCheckboxGroup) {
-      const checkboxes = Array.from(this.relTypeCheckboxGroup.children)
-      let relTypeChosen = false
-      for (let i = 0; i < checkboxes.length; i += 1) {
-        if (checkboxes[i].children[0].checked) {
-          relTypeChosen = true
-          break
-        }
-      }
-      this.setState({ relTypeChosen })
-    }
-  }
-
-  validateGenderPreferenceField() {
-    // HACK: See comment for validateRelationshipTypeField
-    if (this.genderPreferenceCheckboxGroup) {
-      const checkboxes = Array.from(this.genderPreferenceCheckboxGroup.children)
-      let genderPreferenceChosen = false
-      for (let k = 0; k < checkboxes.length; k += 1) {
-        if (checkboxes[k].children[0].checked) {
-          genderPreferenceChosen = true
-          break
-        }
-      }
-      this.setState({ genderPreferenceChosen })
-    }
-  }
-
-  isFormValid = (): boolean => {
-    if (!this.formElement) return true
-
-    // Check relTypeChosen and genderPreferenceChosen first. This allows us to short-circuit
-    // the validation and avoid needlessly iterating through the form in some cases.
-    if (!this.state.relTypeChosen || !this.state.genderPreferenceChosen) return false
-
-    for (let i = 0; i < this.formElement.length; i += 1) {
-      if (this.formElement[i] && this.formElement[i].validity && this.formElement[i].validity.valid === false) {
-        return false
-      }
-    }
-    return true
-  }
-
   submitForm = formValue => {
     const { editedUser } = this.state
     this.setState({ editedUser: createSubmitData(editedUser, formValue) })
@@ -946,7 +933,6 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
   }
 
-  // eslint-disable-next-line
   selectPage(selected: FormPageType) {
     const pageIndex = this.PAGES.indexOf(selected)
     if (selected && pageIndex > -1) {
