@@ -4,7 +4,6 @@ import * as ACTIONS from 'actions/types'
 
 const DEFAULT_ADMIN_STATE = {
   users: [],
-  feedback: [],
   matches: [],
   stats: null
 }
@@ -13,8 +12,6 @@ const adminReducer = (state: AdminStateType = DEFAULT_ADMIN_STATE, action: Admin
   switch (action.type) {
     case ACTIONS.GET_ALL_USERS_SUCCESS:
       return { ...state, users: action.payload }
-    case ACTIONS.GET_ALL_FEEDBACK_SUCCESS:
-      return { ...state, feedback: action.payload }
     case ACTIONS.GET_ALL_MATCHES_SUCCESS:
       return { ...state, matches: action.payload }
     case ACTIONS.GET_ADMIN_STATS_SUCCESS:

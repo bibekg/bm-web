@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Header, Subtitle, Title, Text } from 'components/typography'
 import Break from 'components/Break'
-import { DeleteUser, CreateNewMatch, DeleteMatchTool } from 'components/AdminTools'
+import { DeleteUser, CreateNewMatch, DeleteMatchTool, RunMatchmaking } from 'components/AdminTools'
 import * as actions from 'actions'
 
 const ViewWrapper = styled.div`
@@ -58,6 +58,12 @@ class AdminToolsView extends React.Component<PropsType> {
         <Title align="left">Hard Delete a User</Title>
         <Text paragraph>{"Completely delete a user, along with all of the user's matches from the system."}</Text>
         <DeleteUser />
+
+        <Break />
+
+        <Title align="left">Run Matchmaking</Title>
+        <Text paragraph>{'Runs the matchmaking script once.'}</Text>
+        <RunMatchmaking />
       </ViewWrapper>
     )
   }
