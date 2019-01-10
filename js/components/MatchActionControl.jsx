@@ -64,6 +64,12 @@ export default class MatchActionControl extends React.Component<PropsType, State
     </MessageWrapper>
   )
 
+  static LikedMatch = (): React.Element<*> => (
+    <MessageWrapper>
+      <Title>{copy.matchActionControl.likedMatch}</Title>
+    </MessageWrapper>
+  )
+
   // both user and match like each other
   static RendezvousScheduled = ({
     matchedUser,
@@ -93,8 +99,8 @@ export default class MatchActionControl extends React.Component<PropsType, State
 
   shouldUserSeeMatchCard(): boolean {
     const { match } = this.props
-    // Hide match if the user has disliked their match
-    if (match.participants.self.likeState === 'disliked') return false
+    // Hide match if the user has responsed to their match in that cycle
+    if (match.participants.self.likeState !== 'pending' && match.rendezvousState === 'schedule-next-cycle') return false
     // Otherwise, show match if it isn't ended
     return match.state !== 'ended'
   }
@@ -137,7 +143,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
       } else if (participants.self.likeState === 'liked') {
         // Check matched users's like state
         if (participants.match.likeState === 'disliked' || participants.match.likeState === 'pending') {
-          return <MatchActionControl.WaitingForMatch />
+          return <MatchActionControl.LikedMatch />
         } else if (participants.match.likeState === 'liked') {
           if (rendezvousState === 'unschedulable') {
             return <MatchActionControl.UnschedulableRendezvous matchedUser={this.getMatchedUser()} />
@@ -148,10 +154,14 @@ export default class MatchActionControl extends React.Component<PropsType, State
                 rendezvousTime={this.props.match.rendezvousTime}
               />
             )
-          } else if (participants.self.updatedAvailability) {
-            return <MatchActionControl.WaitingForMatch />
-          } else if (user.availability) {
-            return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
+          } else if (rendezvousState === 'schedule-next-cycle') {
+            return <MatchActionControl.LikedMatch />
+          } else if (rendezvousState === 'unscheduled') {
+            if (participants.self.updatedAvailability) {
+              return <MatchActionControl.WaitingForMatch />
+            } else if (user.availability) {
+              return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
+            }
           }
         }
       }

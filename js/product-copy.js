@@ -5,6 +5,7 @@ export const copy = {
     haveMatch: 'You have a match!',
     matchWaiting: 'Currently waiting for your match to respond',
     matchFinding: 'Finding you a match!',
+    likedMatch: 'Thanks for adding some more honey to the pot!',
     haveDate: 'You have a date!',
     dateWaiting: 'Currently waiting for your match to RSVP',
     mutualLike: 'What now? Message each other and pick a place or activity!',
