@@ -48,7 +48,7 @@ export const getMatch = (callback: ReduxCallbackType<*>) => (dispatch: *, getSta
   })
     .then(response => {
       const { status, match } = response.data
-      if (status === 'success' && match) {
+      if (match) {
         dispatch(getMatchSuccess(match))
         if (typeof callback === 'function') callback(null, response.data)
       }
