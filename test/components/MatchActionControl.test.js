@@ -50,23 +50,23 @@ describe('active matchState', () => {
   })
   describe('self liked match', () => {
     describe('match has yet to indicate like state', () => {
-      it('renders WaitingForMatch', () => {
+      it('renders LikedMatch', () => {
         mockMatch.state = 'active'
         mockMatch.participants.self.likeState = 'liked'
         mockMatch.participants.match.likeState = 'pending'
 
         const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
-        expect(component.find(MatchActionControl.WaitingForMatch).exists()).toBeTruthy()
+        expect(component.find(MatchActionControl.LikedMatch).exists()).toBeTruthy()
       })
     })
     describe('match dislikes self', () => {
-      it('renders WaitingForMatch', () => {
+      it('renders LikedMatch', () => {
         mockMatch.state = 'active'
         mockMatch.participants.self.likeState = 'liked'
         mockMatch.participants.match.likeState = 'disliked'
 
         const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
-        expect(component.find(MatchActionControl.WaitingForMatch).exists()).toBeTruthy()
+        expect(component.find(MatchActionControl.LikedMatch).exists()).toBeTruthy()
       })
     })
 
@@ -93,17 +93,26 @@ describe('active matchState', () => {
         mockMatch.state = 'active'
         mockMatch.participants.self.likeState = 'liked'
         mockMatch.participants.match.likeState = 'liked'
-        mockMatch.rendezvousState = ''
+        mockMatch.rendezvousState = 'unscheduled'
         mockMatch.participants.self.updatedAvailability = true
 
         const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
         expect(component.find(MatchActionControl.WaitingForMatch).exists()).toBeTruthy()
       })
-      it('renders AutoDateCard when none of the above condtions are met', () => {
+      it('renders LikedMatch when rendezvousState is schedule-next-cycle', () => {
         mockMatch.state = 'active'
         mockMatch.participants.self.likeState = 'liked'
         mockMatch.participants.match.likeState = 'liked'
-        mockMatch.rendezvousState = ''
+        mockMatch.rendezvousState = 'schedule-next-cycle'
+
+        const component = shallow(<MatchActionControl user={mockUser} match={mockMatch} />)
+        expect(component.find(MatchActionControl.LikedMatch).exists()).toBeTruthy()
+      })
+      it('renders AutoDateCard when rendezvousState is unscheduled', () => {
+        mockMatch.state = 'active'
+        mockMatch.participants.self.likeState = 'liked'
+        mockMatch.participants.match.likeState = 'liked'
+        mockMatch.rendezvousState = 'unscheduled'
         mockMatch.participants.self.updatedAvailability = false
         mockUser.availability = [new Date()]
 
