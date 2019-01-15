@@ -11,7 +11,7 @@ const renderApp = () => {
   if (appElement) {
     render(
       <Provider store={reduxStore}>
-        <App />
+        <App downForMaintenance />
       </Provider>,
       appElement
     )
