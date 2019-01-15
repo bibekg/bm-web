@@ -73,7 +73,6 @@ export default class MatchActionControl extends React.Component<PropsType, State
     <MessageWrapper>
       <Title>{copy.matchActionControl.likedMatch}</Title>
       <Img src={HoneyPot} alt="bear" height={400} width={400} />
-      {/* <img src={Bear} alt="bear" height={400} width={400} display="block" margin="auto" /> */}
     </MessageWrapper>
   )
 
