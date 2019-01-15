@@ -11,9 +11,14 @@ import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import moment from 'moment'
 import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
 import { copy } from 'product-copy'
+import HoneyPot from 'svg/honey-pot.svg'
 
 const MessageWrapper = styled.div`
   margin: 50px 30px;
+`
+const Img = styled.img`
+  display: block;
+  margin: auto;
 `
 
 type PropsType = {
@@ -67,6 +72,8 @@ export default class MatchActionControl extends React.Component<PropsType, State
   static LikedMatch = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.likedMatch}</Title>
+      <Img src={HoneyPot} alt="bear" height={400} width={400} />
+      {/* <img src={Bear} alt="bear" height={400} width={400} display="block" margin="auto" /> */}
     </MessageWrapper>
   )
 
