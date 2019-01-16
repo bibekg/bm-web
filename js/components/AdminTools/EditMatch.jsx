@@ -192,6 +192,19 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
       })
   }
 
+  handleSubmitDelete = (event: SyntheticInputEvent<*>, callback: boolean => void) => {
+    this.props
+      .deleteMatch(this.state.matchConfig._id)
+      .then(() => {
+        callback(true)
+      })
+      .catch(err => {
+        callback(false)
+        // eslint-disable-next-line
+        console.error(err)
+      })
+  }
+
   handleSubmitClick = (submitType: string, handler: string => Promise<*>, event: *, done: boolean => void) => {
     const { userA, userB, matchConfig } = this.state
     if (userA && userB) {
