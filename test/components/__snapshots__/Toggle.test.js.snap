@@ -2,23 +2,23 @@
 
 exports[`<Toggle /> should render correctly when toggled off 1`] = `
 <styled.div
-  toggled={false}
+  onClick={[Function]}
 >
   <styled.div
+    enabled={true}
     left={true}
-    toggled={true}
   />
-  <styled.div
-    toggled={false}
-  />
+  <styled.div />
 </styled.div>
 `;
 
 exports[`<Toggle /> should render correctly with no options 1`] = `
-<styled.div>
+<styled.div
+  onClick={[Function]}
+>
   <styled.div
+    enabled={true}
     left={true}
-    toggled={true}
   />
   <styled.div />
 </styled.div>

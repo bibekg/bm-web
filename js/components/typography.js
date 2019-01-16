@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { breakpoints, colors } from 'styles'
 
 export const Header = styled.div`
-  text-align: center;
+  text-align: ${props => props.align || 'center'};
   ${'' /* text-transform: uppercase; */} font-weight: bold;
   font-size: 50px;
   color: ${colors.blue};
