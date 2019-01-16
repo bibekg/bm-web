@@ -5,30 +5,6 @@ import { makeApiRequest } from 'actions'
 import * as API from 'constants/api-endpoints'
 import * as ACTIONS from 'actions/types'
 
-export const getAllFeedbackSuccess = (feedback: Array<FeedbackType>) => ({
-  type: ACTIONS.GET_ALL_FEEDBACK_SUCCESS,
-  payload: feedback
-})
-
-export const getAllFeedback = (onSuccess?: (Array<FeedbackType>) => void) => (dispatch: *, getState: *) =>
-  axios({
-    method: API.GET_ALL_FEEDBACK.METHOD,
-    url: API.GET_ALL_FEEDBACK.URL,
-    headers: {
-      Authorization: `Bearer ${getState().auth.accessToken}`
-    }
-  })
-    .then(response => {
-      dispatch(getAllFeedbackSuccess(response.data.feedback))
-      if (typeof onSuccess === 'function') {
-        onSuccess(response.data.feedback)
-      }
-    })
-    .catch(err => {
-      // eslint-disable-next-line no-console
-      console.log(err)
-    })
-
 export const getAllUsersSuccess = (users: Array<UserType>) => ({
   type: ACTIONS.GET_ALL_USERS_SUCCESS,
   payload: users
@@ -76,25 +52,6 @@ export const getAllMatches = (callback?: ReduxCallbackType<*>) => (dispatch: *, 
       if (callback) callback(err, null)
     })
 
-export const getUserMeta = (profileId: string, onSuccess?: (*) => void) => (dispatch: *, getState: *) =>
-  axios({
-    method: API.GET_USER_META.METHOD,
-    url: API.GET_USER_META.URL,
-    headers: {
-      Authorization: `Bearer ${getState().auth.accessToken}`
-    },
-    params: { profileId }
-  })
-    .then(response => {
-      if (typeof onSuccess === 'function') {
-        onSuccess(response)
-      }
-    })
-    .catch(err => {
-      // eslint-disable-next-line no-console
-      console.log(err)
-    })
-
 export const createNewMatch = (userIds: Array<string>, variants: Array<string>, callback: *) => (
   dispatch: *,
   getState: *
@@ -119,6 +76,15 @@ export const createNewMatch = (userIds: Array<string>, variants: Array<string>, 
     .catch(err => {
       callback(err, null)
     })
+
+export const runMatchmaking = () => (dispatch: *, getState: *) =>
+  axios({
+    method: API.RUN_MATCHMAKING.METHOD,
+    url: API.RUN_MATCHMAKING.URL,
+    headers: {
+      Authorization: `Bearer ${getState().auth.accessToken}`
+    }
+  })
 
 // eslint-disable-next-line flowtype/no-weak-types
 export const resetMatches = (callback?: (?Error, ?Object) => void) => (dispatch: *, getState: *) =>

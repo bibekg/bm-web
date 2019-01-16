@@ -5,10 +5,10 @@ import { connect } from 'react-redux'
 import { Route, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import PageContainer from 'components/PageContainer'
-import { Header, Subtitle, Title, Text } from 'components/typography'
-import { CreateMatch, EditMatch, DeleteUser, makeToolPage } from 'components/AdminTools'
+import { Header, Subtitle, Text } from 'components/typography'
 import Break from 'components/Break'
 import { colors } from 'styles'
+import { DeleteUser, CreateNewMatch, EditMatch, RunMatchmaking, makeToolPage } from 'components/AdminTools'
 import * as actions from 'actions'
 
 const ViewWrapper = PageContainer({ noBackground: true, maxWidth: { large: '800px' } }).extend`
@@ -69,8 +69,8 @@ class AdminToolsView extends React.Component<PropsType> {
     props.getAllMatches()
   }
 
-  makeToolPageRenderer(Tool, { title, subtitle }) {
-    return () => {
+  static makeToolPageRenderer(Tool: React.Component<*>, { title, subtitle }: *): () => React.Node {
+    return (): React.Node => {
       const ToolPage = makeToolPage(Tool)
       return <ToolPage title={title} subtitle={subtitle} />
     }
@@ -112,7 +112,7 @@ class AdminToolsView extends React.Component<PropsType> {
             <Route
               exact
               path="/admin/tools/create-match"
-              render={this.makeToolPageRenderer(CreateMatch, {
+              render={AdminToolsView.makeToolPageRenderer(CreateNewMatch, {
                 title: 'Create Match',
                 subtitle: 'Match two users with each other.'
               })}
@@ -120,7 +120,7 @@ class AdminToolsView extends React.Component<PropsType> {
             <Route
               exact
               path="/admin/tools/edit-match"
-              render={this.makeToolPageRenderer(EditMatch, {
+              render={AdminToolsView.makeToolPageRenderer(EditMatch, {
                 title: 'Edit Match',
                 subtitle: 'Edit a match between two users, or delete the match altogether.'
               })}
@@ -128,9 +128,18 @@ class AdminToolsView extends React.Component<PropsType> {
             <Route
               exact
               path="/admin/tools/delete-user"
-              render={this.makeToolPageRenderer(DeleteUser, {
+              render={AdminToolsView.makeToolPageRenderer(DeleteUser, {
                 title: 'Delete Match',
                 subtitle: "Completely delete a user, along with all of the user's matches from the system."
+              })}
+            />
+
+            <Route
+              exact
+              path="/admin/tools/matchmaking"
+              render={AdminToolsView.makeToolPageRenderer(RunMatchmaking, {
+                title: 'Run Matchmaking',
+                subtitle: 'Runs one cycle of the matchmaking flow.'
               })}
             />
           </ToolWrapper>

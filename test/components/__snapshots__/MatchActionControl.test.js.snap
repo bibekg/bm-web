@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test renders correctly with default render logic 1`] = `
+<div>
+  <Component />
+  <MatchCard
+    foldable={true}
+    hideContactInfo={true}
+    matchBasis={Array []}
+    user={
+      Object {
+        "_id": "test1234",
+        "active": true,
+        "age": 20,
+        "answers": Array [],
+        "availability": Array [],
+        "bio": "I love BruinMeet",
+        "blindDateParticipant": true,
+        "college": "School of Engineering and Applied Sciences",
+        "currentMatch": "string",
+        "dateAvailability": Array [],
+        "dislikeMatch": true,
+        "email": "joe@ucla.edu",
+        "ethnicity": Array [
+          "White/Caucasian",
+        ],
+        "gender": "female",
+        "hasProfile": true,
+        "height": 64,
+        "instagram": "@iloveucla",
+        "isAdmin": true,
+        "likeMatch": true,
+        "major": "Electrical Engineering",
+        "matchHistory": [Function],
+        "matchRatings": Array [],
+        "name": Object {
+          "first": "LeBron",
+          "last": "James",
+        },
+        "phone": "310-123-4567",
+        "preferenceMap": [Function],
+        "preferenceStack": Array [],
+        "profileId": "2361244",
+        "profilePic": "profpic",
+        "receiveTexts": true,
+        "rendezvousState": "unscheduled",
+        "rendezvousTime": null,
+        "snapchat": "@uclaisCool",
+        "variants": [Function],
+        "verified": true,
+        "voted": true,
+        "year": 2,
+      }
+    }
+  />
+</div>
+`;

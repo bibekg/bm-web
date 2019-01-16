@@ -220,6 +220,7 @@ type SortComparatorType = (a: MemberDataType, b: MemberDataType) => number
  * If two entities are equal for the A comparator, sort using B, and so on
  */
 const makeCompoundSorter = (criteria: Array<SortComparatorType>) => (a: MemberDataType, b: MemberDataType): number => {
+  // eslint-disable-next-line no-restricted-syntax
   for (let i = 0; i < criteria.length; i += 1) {
     const result = criteria[i](a, b)
     if (result !== 0) {

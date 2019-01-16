@@ -1,11 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<FoldSwitch /> should refold and rerender text when isFolded set to true 1`] = `
-<styled.div
-  onClick={[Function]}
->
+exports[`<FAQItem /> should refold and render correctly on click 1`] = `
+<styled.div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <Styled(styled.h1)
+      align="left"
+    >
+      header
+    </Styled(styled.h1)>
+    <styled.div
+      isOpen={false}
+    >
+      <ExpandMoreIcon
+        fill="#76AFFB"
+        size={40}
+      />
+    </styled.div>
+  </styled.div>
   <AnimateHeight
-    animateOpacity={true}
+    animateOpacity={false}
     animationStateClasses={
       Object {
         "animating": "rah-animating",
@@ -22,121 +37,124 @@ exports[`<FoldSwitch /> should refold and rerender text when isFolded set to tru
     }
     applyInlineTransitions={true}
     delay={0}
-    duration={200}
-    easing="ease"
-    height="auto"
-    style={Object {}}
-  >
-    <styled.p>
-      Test text
-    </styled.p>
-  </AnimateHeight>
-  <styled.div
-    isFolded={true}
-  >
-    <ExpandMoreIcon
-      fill="#123456"
-      size={40}
-    />
-  </styled.div>
-</styled.div>
-`;
-
-exports[`<FoldSwitch /> should render correctly folded with options 1`] = `
-<styled.div
-  onClick={[Function]}
->
-  <AnimateHeight
-    animateOpacity={true}
-    animationStateClasses={
-      Object {
-        "animating": "rah-animating",
-        "animatingDown": "rah-animating--down",
-        "animatingToHeightAuto": "rah-animating--to-height-auto",
-        "animatingToHeightSpecific": "rah-animating--to-height-specific",
-        "animatingToHeightZero": "rah-animating--to-height-zero",
-        "animatingUp": "rah-animating--up",
-        "static": "rah-static",
-        "staticHeightAuto": "rah-static--height-auto",
-        "staticHeightSpecific": "rah-static--height-specific",
-        "staticHeightZero": "rah-static--height-zero",
-      }
-    }
-    applyInlineTransitions={true}
-    delay={0}
-    duration={200}
-    easing="ease"
-    height="auto"
-    style={Object {}}
-  >
-    <styled.p>
-      Test text
-    </styled.p>
-  </AnimateHeight>
-  <styled.div
-    isFolded={true}
-  >
-    <ExpandMoreIcon
-      fill="#123456"
-      size={40}
-    />
-  </styled.div>
-</styled.div>
-`;
-
-exports[`<FoldSwitch /> should render correctly with no options 1`] = `
-<styled.div
-  onClick={[Function]}
->
-  <styled.div
-    isFolded={false}
-  >
-    <ExpandMoreIcon
-      fill="rgba(162, 198, 248, 1)"
-      size={40}
-    />
-  </styled.div>
-</styled.div>
-`;
-
-exports[`<FoldSwitch /> should unfold and unrender text when isFolded set to false 1`] = `
-<styled.div
-  onClick={[Function]}
->
-  <AnimateHeight
-    animateOpacity={true}
-    animationStateClasses={
-      Object {
-        "animating": "rah-animating",
-        "animatingDown": "rah-animating--down",
-        "animatingToHeightAuto": "rah-animating--to-height-auto",
-        "animatingToHeightSpecific": "rah-animating--to-height-specific",
-        "animatingToHeightZero": "rah-animating--to-height-zero",
-        "animatingUp": "rah-animating--up",
-        "static": "rah-static",
-        "staticHeightAuto": "rah-static--height-auto",
-        "staticHeightSpecific": "rah-static--height-specific",
-        "staticHeightZero": "rah-static--height-zero",
-      }
-    }
-    applyInlineTransitions={true}
-    delay={0}
-    duration={200}
+    duration={250}
     easing="ease"
     height={0}
     style={Object {}}
   >
-    <styled.p>
-      Test text
-    </styled.p>
+    <styled.div>
+      <styled.p
+        paragraph={true}
+      >
+        inner
+      </styled.p>
+    </styled.div>
   </AnimateHeight>
+</styled.div>
+`;
+
+exports[`<FAQItem /> should render correctly closed 1`] = `
+<styled.div>
   <styled.div
-    isFolded={false}
+    onClick={[Function]}
   >
-    <ExpandMoreIcon
-      fill="#123456"
-      size={40}
-    />
+    <Styled(styled.h1)
+      align="left"
+    >
+      header
+    </Styled(styled.h1)>
+    <styled.div
+      isOpen={false}
+    >
+      <ExpandMoreIcon
+        fill="#76AFFB"
+        size={40}
+      />
+    </styled.div>
   </styled.div>
+  <AnimateHeight
+    animateOpacity={false}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={250}
+    easing="ease"
+    height={0}
+    style={Object {}}
+  >
+    <styled.div>
+      <styled.p
+        paragraph={true}
+      >
+        inner
+      </styled.p>
+    </styled.div>
+  </AnimateHeight>
+</styled.div>
+`;
+
+exports[`<FAQItem /> should unfold on click and render correctly 1`] = `
+<styled.div>
+  <styled.div
+    onClick={[Function]}
+  >
+    <Styled(styled.h1)
+      align="left"
+    >
+      header
+    </Styled(styled.h1)>
+    <styled.div
+      isOpen={true}
+    >
+      <ExpandMoreIcon
+        fill="#76AFFB"
+        size={40}
+      />
+    </styled.div>
+  </styled.div>
+  <AnimateHeight
+    animateOpacity={false}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={250}
+    easing="ease"
+    height="auto"
+    style={Object {}}
+  >
+    <styled.div>
+      <styled.p
+        paragraph={true}
+      >
+        inner
+      </styled.p>
+    </styled.div>
+  </AnimateHeight>
 </styled.div>
 `;

@@ -72,12 +72,7 @@ type GetAllMatchesSuccessActionType = {
   payload: Array<MatchEdgeType>
 }
 
-type GetAllFeedbackSuccessActionType = {
-  type: ACTIONS.GET_ALL_FEEDBACK_SUCCESS,
-  payload: Array<FeedbackType>
-}
-
-type AdminActionType = GetAllUsersSuccessActionType | GetAllFeedbackSuccessActionType | GetAllMatchesSuccessActionType
+type AdminActionType = GetAllUsersSuccessActionType | GetAllMatchesSuccessActionType
 
 type AdminStateType = {
   users: Array<UserType>,

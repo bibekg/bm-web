@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
+import AnimateHeight from 'react-animate-height'
 import Card from 'components/Card'
 import { Text, Title } from 'components/typography'
 import SecureUserImage from 'components/SecureUserImage'
@@ -132,7 +133,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
           <ProfileTextInfo user={this.props.user} hideContactInfo={this.props.hideContactInfo} />
         </InfoBannerDiv>
 
-        {!this.state.isFolded && (
+        <AnimateHeight duration={300} height={this.state.isFolded ? 0 : 'auto'}>
           <DetailedInfoColumns>
             <div>
               <Title align="left">{copy.matchCard.about}</Title>
@@ -154,7 +155,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
             </div>
             <div>{this.renderFunQuestionAnswers()}</div>
           </DetailedInfoColumns>
-        )}
+        </AnimateHeight>
 
         {this.props.foldable && (
           <FoldSwitch isFolded={this.state.isFolded} onClick={this.handleFold} text={copy.foldSwitch.text} />

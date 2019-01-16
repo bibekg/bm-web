@@ -46,16 +46,17 @@ class AdminPage extends React.Component<PropsType> {
   }
 
   render(): React.Element<*> {
+    const showAdminTools = process.env.NODE_ENV !== 'production'
     return (
       <AdminPageWrapper>
         <NavWrapper>
-          <AdminNavbar />
+          <AdminNavbar showAdminTools={showAdminTools} />
         </NavWrapper>
         <ContentWrapper>
           <Route exact path="/admin" component={AdminMainView} />
           <Route exact path="/admin/apidocs" component={AdminAPIDocsView} />
           <Route exact path="/admin/components" component={AdminComponentsView} />
-          <Route path="/admin/tools" component={AdminToolsView} />
+          {showAdminTools && <Route path="/admin/tools" component={AdminToolsView} />}
         </ContentWrapper>
       </AdminPageWrapper>
     )
