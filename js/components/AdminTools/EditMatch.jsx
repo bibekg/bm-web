@@ -72,7 +72,7 @@ const Row = styled.div`
 type PropsType = {
   matches: Array<MatchEdgeType>, // may be empty until completes loading from api
   users: { [string]: UserType },
-  editMatch: string => Promise<*>, // accepts a match id
+  editMatch: object => Promise<*>, // accepts a match id
   deleteMatch: string => Promise<*> // accepts a match
 }
 
@@ -84,7 +84,7 @@ type StateType = {
 }
 
 const MATCH_STATES = ['active', 'ended']
-const RENDEVOUS_STATES = ['unscheduled', 'unschedulable', 'scheduled']
+const RENDEVOUS_STATES = ['unscheduled', 'unschedulable', 'scheduled', 'schedule-next-cycle']
 
 class EditMatchTool extends React.Component<PropsType, StateType> {
   state = {
@@ -94,7 +94,7 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
     participantUnderEdit: null
   }
 
-  editMatchConfig(newConfig) {
+  editMatchConfig(newConfig: *) {
     this.setState({
       matchConfig: {
         ...this.state.matchConfig,
@@ -112,11 +112,12 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
       const nextState = {}
       nextState[name] = newValue.id
       if (name === 'userB' && this.state.userA) {
+        debugger
         const matchConfig = getMatchForUsers(this.state.userA, newValue.id, this.props.matches)
         if (matchConfig) {
           nextState.matchConfig = matchConfig
         } else {
-          window.alert('shit...')
+          throw new Error('matchConfig missing')
         }
       }
       this.setState(nextState)
@@ -138,7 +139,7 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
     const keySplit = name.split('.')
     const { matchConfig } = this.state
 
-    const getRealValue = (key: string, value: *, participantId?: string) => {
+    const getRealValue = (key: string, value2: *, participantId?: string): * => {
       const overrides = {
         // Either append/remove the provied val
         matchBasis: v =>
@@ -146,16 +147,17 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
           (matchConfig.matchBasis.includes(v)
             ? matchConfig.matchBasis.filter(x => x !== v)
             : [...matchConfig.matchBasis, v]),
-        'participants.sawDislikeFeedbackModal': v =>
+        'participants.sawDislikeFeedbackModal': () =>
           matchConfig &&
           participantId &&
           !!matchConfig.participants.find(p => p.user === participantId).sawDislikeFeedbackModal,
-        'participants.updatedAvailability': v =>
+        'participants.updatedAvailability': () =>
           matchConfig &&
           participantId &&
-          !!matchConfig.participants.find(p => p.user === participantId).updatedAvailability
+          !!matchConfig.participants.find(p => p.user === participantId).updatedAvailability,
+        'participants.socre': v => Number(v)
       }
-      return key in overrides ? overrides[key](value) : value
+      return key in overrides ? overrides[key](value2) : value2
     }
 
     let configKey = keySplit[1]
@@ -184,6 +186,19 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
   }
 
   validForSubmission = () => this.state.userA != null && this.state.userB != null
+
+  handleSubmitEdit = (event: SyntheticInputEvent<*>, callback: boolean => void) => {
+    this.props
+      .editMatch(this.state.matchConfig)
+      .then(() => {
+        callback(true)
+      })
+      .catch(err => {
+        callback(false)
+        // eslint-disable-next-line
+        console.error(err)
+      })
+  }
 
   handleSubmitClick = (submitType: string, handler: string => Promise<*>, event: *, done: boolean => void) => {
     const { userA, userB, matchConfig } = this.state
@@ -335,6 +350,16 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
                       checked={participants[participantUnderEdit].updatedAvailability}
                       onChange={this.handleFormItemChange}
                     />
+
+                    <Text bold>
+                      How desirable is {users[participantUnderEdit].name.first} to the other participant?
+                    </Text>
+                    <Form.TextInput
+                      type="number"
+                      name={`match.participants[${participantUnderEdit}].score`}
+                      value={participants[participantUnderEdit].score}
+                      onChange={this.handleFormItemChange}
+                    />
                   </ParticipantConfigWrapper>
                 )}
             </MatchConfigWrapper>
@@ -344,14 +369,14 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
           <SafeButton
             buttonProps={{ disabled: !this.validForSubmission(), primary: true }}
             workingText="Editting match..."
-            onClick={() => {}}
+            onClick={this.handleSubmitEdit}
           >
             Edit Match
           </SafeButton>
           <SafeButton
             buttonProps={{ disabled: !this.validForSubmission(), warning: true }}
             workingText="Deleting match..."
-            onClick={() => {}}
+            onClick={this.handleSubmitDelete}
           >
             Delete Match
           </SafeButton>
@@ -370,4 +395,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
   }, {})
 })
 
-export default connect(mapStateToProps, actions)(EditMatchTool)
+export default connect(mapStateToProps, {
+  editMatch: actions.editMatch,
+  deleteMatch: actions.deleteMatch
+})(EditMatchTool)

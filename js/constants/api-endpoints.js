@@ -85,11 +85,6 @@ export const GET_ALL_MATCHES = {
   METHOD: 'GET'
 }
 
-export const MATCH_USERS = {
-  URL: `${BASE.admin}/match`,
-  METHOD: 'POST'
-}
-
 export const RESET_MATCHES = {
   URL: `${BASE.admin}/matchmaking`,
   METHOD: 'DELETE'
@@ -108,6 +103,18 @@ export const GET_ADMIN_STATS = {
 export const HARD_DELETE_USER = {
   URL: `${BASE.admin}/user`,
   METHOD: 'DELETE'
+}
+
+// /admin/match
+
+export const MATCH_USERS = {
+  URL: `${BASE.admin}/match`,
+  METHOD: 'POST'
+}
+
+export const EDIT_MATCH = {
+  URL: `${BASE.admin}/match`,
+  METHOD: 'PUT'
 }
 
 export const DELETE_MATCH = {

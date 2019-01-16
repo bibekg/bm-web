@@ -35,5 +35,5 @@ export const getMatchForUsers = (userA: string, userB: string, allMatches: Array
   allMatches.find(
     matchEdge =>
       (matchEdge.participants[0].user === userA && matchEdge.participants[1].user === userB) ||
-      (matchEdge.participants[1].user === userB && matchEdge.participants[1].user === userA)
+      (matchEdge.participants[0].user === userB && matchEdge.participants[1].user === userA)
   )

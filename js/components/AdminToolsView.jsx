@@ -8,7 +8,7 @@ import PageContainer from 'components/PageContainer'
 import { Header, Subtitle, Text } from 'components/typography'
 import Break from 'components/Break'
 import { colors } from 'styles'
-import { DeleteUser, CreateNewMatch, EditMatch, RunMatchmaking, makeToolPage } from 'components/AdminTools'
+import { DeleteUser, CreateMatch, EditMatch, RunMatchmaking, makeToolPage } from 'components/AdminTools'
 import * as actions from 'actions'
 
 const ViewWrapper = PageContainer({ noBackground: true, maxWidth: { large: '800px' } }).extend`
@@ -30,8 +30,10 @@ const Content = styled.div`
 
 const LinkRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   > * {
     margin-right: 10px;
+    margin-bottom: 10px;
   }
 `
 
@@ -112,7 +114,7 @@ class AdminToolsView extends React.Component<PropsType> {
             <Route
               exact
               path="/admin/tools/create-match"
-              render={AdminToolsView.makeToolPageRenderer(CreateNewMatch, {
+              render={AdminToolsView.makeToolPageRenderer(CreateMatch, {
                 title: 'Create Match',
                 subtitle: 'Match two users with each other.'
               })}

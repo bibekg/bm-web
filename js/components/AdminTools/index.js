@@ -17,6 +17,6 @@ export const makeToolPage = Component => (props: ToolPagePropsType) => (
 )
 
 export { default as DeleteUser } from './DeleteUser'
-export { default as CreateMatch } from './CreateNewMatch'
+export { default as CreateMatch } from './CreateMatch'
 export { default as EditMatch } from './EditMatch'
 export { default as RunMatchmaking } from './RunMatchmaking'

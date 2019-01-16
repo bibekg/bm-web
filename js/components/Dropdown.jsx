@@ -84,7 +84,6 @@ export class DropdownItem<T> {
       if (typeof id === 'string') {
         this.text = id
       } else {
-        debugger
         throw new Error('DropdownItem received no text and could not cast provided id to string')
       }
     } else {

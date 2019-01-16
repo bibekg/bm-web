@@ -65,7 +65,7 @@ const toggleArrayValue = <T>(arr: Array<T>, value: T): Array<T> => {
   }
 }
 
-class CreateNewMatch extends React.Component<PropsType, StateType> {
+class CreateMatch extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props)
     if (props.users.length === 0) {
@@ -167,4 +167,4 @@ const mapStateToProps = (state: ReduxStateType) => ({
   users: state.admin.users
 })
 
-export default connect(mapStateToProps, actions)(CreateNewMatch)
+export default connect(mapStateToProps, actions)(CreateMatch)
