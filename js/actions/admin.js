@@ -5,30 +5,6 @@ import { makeApiRequest } from 'actions'
 import * as API from 'constants/api-endpoints'
 import * as ACTIONS from 'actions/types'
 
-export const getAllFeedbackSuccess = (feedback: Array<FeedbackType>) => ({
-  type: ACTIONS.GET_ALL_FEEDBACK_SUCCESS,
-  payload: feedback
-})
-
-export const getAllFeedback = (onSuccess?: (Array<FeedbackType>) => void) => (dispatch: *, getState: *) =>
-  axios({
-    method: API.GET_ALL_FEEDBACK.METHOD,
-    url: API.GET_ALL_FEEDBACK.URL,
-    headers: {
-      Authorization: `Bearer ${getState().auth.accessToken}`
-    }
-  })
-    .then(response => {
-      dispatch(getAllFeedbackSuccess(response.data.feedback))
-      if (typeof onSuccess === 'function') {
-        onSuccess(response.data.feedback)
-      }
-    })
-    .catch(err => {
-      // eslint-disable-next-line no-console
-      console.log(err)
-    })
-
 export const getAllUsersSuccess = (users: Array<UserType>) => ({
   type: ACTIONS.GET_ALL_USERS_SUCCESS,
   payload: users
@@ -59,7 +35,10 @@ export const hardDeleteUser = (userId: string) => (dispatch: *, getState: *) =>
   makeApiRequest(API.HARD_DELETE_USER, getState().auth.accessToken, { userId })
 
 export const deleteMatch = (matchId: string) => (dispatch: *, getState: *) =>
-  makeApiRequest(API.DELETE_MATCH, getState().auth.accessToken, { matchId })
+  makeApiRequest(API.DELETE_MATCH, getState().auth.accessToken, { id: matchId })
+
+export const editMatch = (match: object) => (dispatch: *, getState: *) =>
+  makeApiRequest(API.EDIT_MATCH, getState().auth.accessToken, { match })
 
 export const getAllMatchesSuccess = (matches: Array<MatchEdgeType>) => ({
   type: ACTIONS.GET_ALL_MATCHES_SUCCESS,
@@ -74,25 +53,6 @@ export const getAllMatches = (callback?: ReduxCallbackType<*>) => (dispatch: *, 
     })
     .catch(err => {
       if (callback) callback(err, null)
-    })
-
-export const getUserMeta = (profileId: string, onSuccess?: (*) => void) => (dispatch: *, getState: *) =>
-  axios({
-    method: API.GET_USER_META.METHOD,
-    url: API.GET_USER_META.URL,
-    headers: {
-      Authorization: `Bearer ${getState().auth.accessToken}`
-    },
-    params: { profileId }
-  })
-    .then(response => {
-      if (typeof onSuccess === 'function') {
-        onSuccess(response)
-      }
-    })
-    .catch(err => {
-      // eslint-disable-next-line no-console
-      console.log(err)
     })
 
 export const createNewMatch = (userIds: Array<string>, variants: Array<string>, callback: *) => (
@@ -119,6 +79,15 @@ export const createNewMatch = (userIds: Array<string>, variants: Array<string>, 
     .catch(err => {
       callback(err, null)
     })
+
+export const runMatchmaking = () => (dispatch: *, getState: *) =>
+  axios({
+    method: API.RUN_MATCHMAKING.METHOD,
+    url: API.RUN_MATCHMAKING.URL,
+    headers: {
+      Authorization: `Bearer ${getState().auth.accessToken}`
+    }
+  })
 
 // eslint-disable-next-line flowtype/no-weak-types
 export const resetMatches = (callback?: (?Error, ?Object) => void) => (dispatch: *, getState: *) =>

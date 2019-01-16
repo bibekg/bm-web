@@ -21,7 +21,7 @@ type MatchType = {
   },
   state: 'active' | 'ended',
   matchBasis: Array<UserRelationshipType>,
-  rendezvousState: 'scheduled' | 'unscheduled' | 'unschedulable',
+  rendezvousState: 'schedule-next-cycle' | 'scheduled' | 'unscheduled' | 'unschedulable',
   rendezvousTime: Date,
   variants: {}
 }

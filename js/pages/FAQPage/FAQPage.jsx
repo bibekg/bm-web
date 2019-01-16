@@ -4,7 +4,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import PageContainer from 'components/PageContainer'
 import { Header, Subtitle } from 'components/typography'
-import TextAccordion from 'components/TextAccordion'
+import FAQItem from 'components/FAQItem'
 import Card from 'components/Card'
 import { breakpoints, colors } from 'styles'
 import faqs from './faq-data'
@@ -43,9 +43,7 @@ const FAQBox = Card.extend`
 `
 
 export default function FAQPage(): React.Element<*> {
-  const renderFAQ = (faq: FaqType) => (
-    <TextAccordion key={faq.question} headerText={faq.question} innerText={faq.answer} />
-  )
+  const renderFAQ = (faq: FaqType) => <FAQItem key={faq.question} headerText={faq.question} innerText={faq.answer} />
 
   return (
     <PageWrapper>

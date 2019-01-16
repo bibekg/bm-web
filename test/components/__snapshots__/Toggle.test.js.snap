@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toggle /> should render correctly when toggled off 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.div
+    enabled={true}
+    left={true}
+  />
+  <styled.div />
+</styled.div>
+`;
+
+exports[`<Toggle /> should render correctly with no options 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.div
+    enabled={true}
+    left={true}
+  />
+  <styled.div />
+</styled.div>
+`;
