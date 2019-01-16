@@ -13,7 +13,7 @@ const ToggleFrame = styled.div`
   column-count: 2;
   column-gap: 0px;
   cursor: pointer;
-  opacity: ${props => (props.toggled ? 0.5 : 1)};
+  opacity: ${props => (props.enabled ? 1 : 0.5)};
   &:hover {
     opacity: 1;
   }
@@ -24,28 +24,39 @@ const ToggleInner = styled.div`
   height: 100%;
   border-radius: 4px;
   background-color: white;
-  opacity: ${props => (props.toggled ? 0 : 1)};
+  opacity: ${props => (props.enabled ? 1 : 0)};
   transition: transform 0.25s ease;
   transform: translate(
-    ${(props: { toggled: boolean, left: boolean }): string => {
-      if (props.toggled) {
-        return props.left ? '100' : '-100'
+    ${(props: { enabled: boolean, left: boolean }): string => {
+      if (props.enabled) {
+        return '0'
       }
-      return '0'
+      return props.left ? '100' : '-100'
     }}%
   );
 `
 
 type PropsType = {
-  toggled: boolean,
+  name: ?string,
+  enabled: boolean,
   onClick: (SyntheticInputEvent<*>) => void
 }
 
 export default function Toggle(props: PropsType): React.Element<*> {
   return (
-    <ToggleFrame toggled={props.toggled} onClick={props.onClick}>
-      <ToggleInner toggled={!props.toggled} left />
-      <ToggleInner toggled={props.toggled} />
+    <ToggleFrame
+      enabled={props.enabled}
+      onClick={() => {
+        props.onClick({
+          target: {
+            name: props.name,
+            value: !props.enabled
+          }
+        })
+      }}
+    >
+      <ToggleInner enabled={!props.enabled} left />
+      <ToggleInner enabled={props.enabled} />
     </ToggleFrame>
   )
 }

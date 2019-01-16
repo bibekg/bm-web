@@ -14,6 +14,7 @@ import { formatName } from 'utilities/user-formatters'
 import { colors } from 'styles'
 import * as actions from 'actions'
 import { getMatchedUsersForUser, getMatchForUsers } from './util'
+import Toggle from '../Toggle'
 
 const ComponentWrapper = styled.div`
   text-align: left;
@@ -138,7 +139,7 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
     const keySplit = name.split('.')
     const { matchConfig } = this.state
 
-    const getRealValue = (key: string, value2: *, participantId?: string): * => {
+    const getRealValue = (key: string, value2: *): * => {
       const overrides = {
         // Either append/remove the provied val
         matchBasis: v =>
@@ -146,15 +147,7 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
           (matchConfig.matchBasis.includes(v)
             ? matchConfig.matchBasis.filter(x => x !== v)
             : [...matchConfig.matchBasis, v]),
-        'participants.sawDislikeFeedbackModal': () =>
-          matchConfig &&
-          participantId &&
-          !!matchConfig.participants.find(p => p.user === participantId).sawDislikeFeedbackModal,
-        'participants.updatedAvailability': () =>
-          matchConfig &&
-          participantId &&
-          !!matchConfig.participants.find(p => p.user === participantId).updatedAvailability,
-        'participants.socre': v => Number(v)
+        'participants.score': v => Number(v)
       }
       return key in overrides ? overrides[key](value2) : value2
     }
@@ -335,19 +328,17 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
                     <Text bold>
                       Did {users[participantUnderEdit].name.first} update their availability since getting the match?
                     </Text>
-                    <Form.CheckboxInput
+                    <Toggle
                       name={`match.participants[${participantUnderEdit}].updatedAvailability`}
-                      value={{ id: 'updatedAvailability', text: 'updatedAvailability' }}
-                      checked={participants[participantUnderEdit].updatedAvailability}
-                      onChange={this.handleFormItemChange}
+                      enabled={participants[participantUnderEdit].updatedAvailability}
+                      onClick={this.handleFormItemChange}
                     />
 
                     <Text bold>Did {users[participantUnderEdit].name.first} see the dislike feedback modal yet?</Text>
-                    <Form.CheckboxInput
+                    <Toggle
                       name={`match.participants[${participantUnderEdit}].sawDislikeFeedbackModal`}
-                      value={{ id: 'sawDislikeFeedbackModal', text: 'sawDislikeFeedbackModal' }}
-                      checked={participants[participantUnderEdit].updatedAvailability}
-                      onChange={this.handleFormItemChange}
+                      enabled={participants[participantUnderEdit].sawDislikeFeedbackModal}
+                      onClick={this.handleFormItemChange}
                     />
 
                     <Text bold>

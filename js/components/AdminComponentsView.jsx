@@ -27,7 +27,7 @@ type StateType = {
   dropdownItems: Array<OptionType>,
   selectedDropdownItem: ?OptionType,
   showModal: boolean,
-  toggled: boolean,
+  toggleEnabled: boolean,
   checked: boolean
 }
 
@@ -52,7 +52,7 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
       ],
       selectedDropdownItem: null,
       showModal: false,
-      toggled: true,
+      toggleEnabled: true,
       checked: true
     }
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
@@ -67,7 +67,7 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
 
   handleToggleChange() {
     this.setState({
-      toggled: !this.state.toggled
+      toggleEnabled: !this.state.toggleEnabled
     })
   }
 
@@ -111,7 +111,7 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
           onChange={this.handleCheckboxChange}
         />
         <Break verticalSpacing="10px" invisible />
-        <Toggle toggled={this.state.toggled} onClick={this.handleToggleChange} />
+        <Toggle enabled={this.state.toggleEnabled} onClick={this.handleToggleChange} />
 
         <Break verticalSpacing="50px" />
 
