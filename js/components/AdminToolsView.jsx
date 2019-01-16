@@ -64,6 +64,33 @@ type PropsType = {
 }
 
 class AdminToolsView extends React.Component<PropsType> {
+  static toolbox = [
+    {
+      title: 'Create Match',
+      subtitle: 'Match two users with each other.',
+      component: CreateMatch,
+      slug: 'create-match'
+    },
+    {
+      title: 'Edit Match',
+      subtitle: 'Edit a match between two users, or delete the match altogether.',
+      component: EditMatch,
+      slug: 'edit-match'
+    },
+    {
+      title: 'Delete User',
+      subtitle: "Completely and permanently delete a user, along with all of the user's matches from the system.",
+      component: DeleteUser,
+      slug: 'delete-user'
+    },
+    {
+      title: 'Run Matchmaking',
+      subtitle: 'Run one cycle of the matchmaking flow.',
+      component: RunMatchmaking,
+      slug: 'run-matchmaking'
+    }
+  ]
+
   constructor(props: PropsType) {
     super(props)
 
@@ -99,51 +126,21 @@ class AdminToolsView extends React.Component<PropsType> {
           </Text>
 
           <LinkRow>
-            <StyledNavLink to="/admin/tools/create-match">
-              <Text bold>Create Match</Text>
-            </StyledNavLink>
-            <StyledNavLink to="/admin/tools/edit-match">
-              <Text bold>Edit Match</Text>
-            </StyledNavLink>
-            <StyledNavLink to="/admin/tools/delete-user">
-              <Text bold>Delete User</Text>
-            </StyledNavLink>
+            {AdminToolsView.toolbox.map(({ slug, title }) => (
+              <StyledNavLink to={`/admin/tools/${slug}`}>
+                <Text bold>{title}</Text>
+              </StyledNavLink>
+            ))}
           </LinkRow>
 
           <ToolWrapper>
-            <Route
-              exact
-              path="/admin/tools/create-match"
-              render={AdminToolsView.makeToolPageRenderer(CreateMatch, {
-                title: 'Create Match',
-                subtitle: 'Match two users with each other.'
-              })}
-            />
-            <Route
-              exact
-              path="/admin/tools/edit-match"
-              render={AdminToolsView.makeToolPageRenderer(EditMatch, {
-                title: 'Edit Match',
-                subtitle: 'Edit a match between two users, or delete the match altogether.'
-              })}
-            />
-            <Route
-              exact
-              path="/admin/tools/delete-user"
-              render={AdminToolsView.makeToolPageRenderer(DeleteUser, {
-                title: 'Delete Match',
-                subtitle: "Completely delete a user, along with all of the user's matches from the system."
-              })}
-            />
-
-            <Route
-              exact
-              path="/admin/tools/matchmaking"
-              render={AdminToolsView.makeToolPageRenderer(RunMatchmaking, {
-                title: 'Run Matchmaking',
-                subtitle: 'Runs one cycle of the matchmaking flow.'
-              })}
-            />
+            {AdminToolsView.toolbox.map(({ slug, title, subtitle, component }) => (
+              <Route
+                exact
+                path={`/admin/tools/${slug}`}
+                render={AdminToolsView.makeToolPageRenderer(component, { title, subtitle })}
+              />
+            ))}
           </ToolWrapper>
         </Content>
       </ViewWrapper>

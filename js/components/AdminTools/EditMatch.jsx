@@ -112,7 +112,6 @@ class EditMatchTool extends React.Component<PropsType, StateType> {
       const nextState = {}
       nextState[name] = newValue.id
       if (name === 'userB' && this.state.userA) {
-        debugger
         const matchConfig = getMatchForUsers(this.state.userA, newValue.id, this.props.matches)
         if (matchConfig) {
           nextState.matchConfig = matchConfig
