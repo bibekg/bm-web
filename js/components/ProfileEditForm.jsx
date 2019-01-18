@@ -483,7 +483,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
             <Dropdown
               name="major"
               items={USER_PROPS.MAJOR.map(c => new DropdownItem(c, c))}
-              selectedItem={new DropdownItem(editedUser.major, editedUser.major)}
+              selectedItem={editedUser.major ? new DropdownItem(editedUser.major, editedUser.major) : null}
               placeholder={USER_PROPS.COLLEGE[0]}
               onChange={this.handleDropdownChange}
             />
@@ -492,7 +492,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
             <Dropdown
               name="college"
               items={USER_PROPS.COLLEGE.map(c => new DropdownItem(c, c))}
-              selectedItem={new DropdownItem(editedUser.college, editedUser.college)}
+              selectedItem={editedUser.college ? new DropdownItem(editedUser.college, editedUser.college) : null}
               placeholder={USER_PROPS.COLLEGE[0]}
               onChange={this.handleDropdownChange}
             />
