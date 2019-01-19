@@ -4,7 +4,7 @@ import * as React from 'react'
 import PageContainer from 'components/PageContainer'
 import { Header } from 'components/typography'
 import { colors, sizes } from 'styles'
-import ProfileEditForm from 'components/ProfileEditForm'
+import ProfileEditForm from 'components/ProfileEditForm/ProfileEditForm'
 
 const PageWrapper = PageContainer({
   noBackground: true,
