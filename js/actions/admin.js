@@ -35,7 +35,10 @@ export const hardDeleteUser = (userId: string) => (dispatch: *, getState: *) =>
   makeApiRequest(API.HARD_DELETE_USER, getState().auth.accessToken, { userId })
 
 export const deleteMatch = (matchId: string) => (dispatch: *, getState: *) =>
-  makeApiRequest(API.DELETE_MATCH, getState().auth.accessToken, { matchId })
+  makeApiRequest(API.DELETE_MATCH, getState().auth.accessToken, { id: matchId })
+
+export const editMatch = (match: object) => (dispatch: *, getState: *) =>
+  makeApiRequest(API.EDIT_MATCH, getState().auth.accessToken, { match })
 
 export const getAllMatchesSuccess = (matches: Array<MatchEdgeType>) => ({
   type: ACTIONS.GET_ALL_MATCHES_SUCCESS,

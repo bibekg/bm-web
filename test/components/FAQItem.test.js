@@ -24,8 +24,8 @@ describe('<FAQItem />', () => {
     // check that switch is rotated correctly
     expect(wrapper.childAt(0).childAt(1)).toHaveStyleRule('transform', 'rotate(0deg)')
 
-    // check that DropdownDiv isn't currently rendered (i.e. only one child)
-    expect(wrapper.children()).toHaveLength(1)
+    // check that DropdownDiv isn't currently rendered (i.e. AnimateHeight's height is 0)
+    expect(wrapper.childAt(1).prop('height')).toEqual(0)
   })
 
   test('should unfold on click and render correctly', () => {
@@ -38,12 +38,13 @@ describe('<FAQItem />', () => {
     expect(wrapper.childAt(0).childAt(1)).toHaveStyleRule('transform', 'rotate(180deg)')
 
     // check that DropdownDiv is now rendered
-    expect(wrapper.children()).toHaveLength(2)
+    expect(wrapper.childAt(1).prop('height')).toEqual('auto')
 
     // check that inner text is present and correct
     expect(
       wrapper
-        .childAt(1) // DropdownDiv
+        .childAt(1) // AnimateHeight
+        .childAt(0) // DropdownDiv
         .childAt(0) // Text
         .children()
         .text()
@@ -57,6 +58,6 @@ describe('<FAQItem />', () => {
     expect(wrapper).toMatchSnapshot()
 
     // check that DropdownDiv is now unrendered
-    expect(wrapper.children()).toHaveLength(1)
+    expect(wrapper.childAt(1).prop('height')).toEqual(0)
   })
 })

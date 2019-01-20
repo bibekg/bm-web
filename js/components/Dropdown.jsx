@@ -78,9 +78,17 @@ export class DropdownItem<T> {
   id: T
   text: string
 
-  constructor(id: T, text: string) {
+  constructor(id: T, text?: string) {
     this.id = id
-    this.text = text
+    if (text === undefined) {
+      if (typeof id === 'string') {
+        this.text = id
+      } else {
+        throw new Error('DropdownItem received no text and could not cast provided id to string')
+      }
+    } else {
+      this.text = text
+    }
   }
 
   toString(): string {
@@ -109,7 +117,7 @@ export default class Dropdown extends React.Component<PropsType, StateType> {
     prevSelectedItem: null
   }
 
-  defaultProps = {
+  static defaultProps = {
     placeholder: ''
   }
 

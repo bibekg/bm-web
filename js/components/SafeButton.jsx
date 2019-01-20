@@ -20,7 +20,7 @@ const SafeButtonWrapper = styled.div`
 
 type PropsType = {
   buttonProps: ButtonPropsType,
-  onClick: (SyntheticInputEvent<*>, () => void) => void,
+  onClick: (SyntheticInputEvent<*>, (boolean) => void) => void,
   children: React.Node,
   workingText: ?string
 }

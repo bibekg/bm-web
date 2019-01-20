@@ -19,6 +19,37 @@ exports[`<FAQItem /> should refold and render correctly on click 1`] = `
       />
     </styled.div>
   </styled.div>
+  <AnimateHeight
+    animateOpacity={false}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={250}
+    easing="ease"
+    height={0}
+    style={Object {}}
+  >
+    <styled.div>
+      <styled.p
+        paragraph={true}
+      >
+        inner
+      </styled.p>
+    </styled.div>
+  </AnimateHeight>
 </styled.div>
 `;
 
@@ -41,6 +72,37 @@ exports[`<FAQItem /> should render correctly closed 1`] = `
       />
     </styled.div>
   </styled.div>
+  <AnimateHeight
+    animateOpacity={false}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={250}
+    easing="ease"
+    height={0}
+    style={Object {}}
+  >
+    <styled.div>
+      <styled.p
+        paragraph={true}
+      >
+        inner
+      </styled.p>
+    </styled.div>
+  </AnimateHeight>
 </styled.div>
 `;
 
@@ -63,12 +125,36 @@ exports[`<FAQItem /> should unfold on click and render correctly 1`] = `
       />
     </styled.div>
   </styled.div>
-  <styled.div>
-    <styled.p
-      paragraph={true}
-    >
-      inner
-    </styled.p>
-  </styled.div>
+  <AnimateHeight
+    animateOpacity={false}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={250}
+    easing="ease"
+    height="auto"
+    style={Object {}}
+  >
+    <styled.div>
+      <styled.p
+        paragraph={true}
+      >
+        inner
+      </styled.p>
+    </styled.div>
+  </AnimateHeight>
 </styled.div>
 `;

@@ -18,17 +18,21 @@ describe('<FoldSwitch />', () => {
     // check that text is present and correct
     expect(
       wrapper
-        .childAt(0)
+        .childAt(0) // AnimateHeight
+        .childAt(0) // styled.p
         .children()
         .text()
     ).toEqual('Test text')
-    expect(wrapper.childAt(0)).toHaveStyleRule('visibility', 'visible')
+    expect(wrapper.childAt(0).prop('height')).toEqual('auto')
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(1).prop('isFolded')).toEqual(true)
 
     // check that fill color is correct
     expect(wrapper.find('ExpandMoreIcon').prop('fill')).toEqual('#123456')
+
+    // check that arrow rotation is correct
+    expect(wrapper.childAt(1)).toHaveStyleRule('transform', 'rotate(0deg)')
   })
 
   test('should unfold and unrender text when isFolded set to false', () => {
@@ -37,10 +41,13 @@ describe('<FoldSwitch />', () => {
     expect(wrapper).toMatchSnapshot()
 
     // check that text is not visible
-    expect(wrapper.childAt(0)).toHaveStyleRule('visibility', 'hidden')
+    expect(wrapper.childAt(0).prop('height')).toEqual(0)
 
     // check that div correctly received isFolded prop
-    expect(wrapper.childAt(0).prop('isFolded')).toEqual(false)
+    expect(wrapper.childAt(1).prop('isFolded')).toEqual(false)
+
+    // check that arrow rotation is correct
+    expect(wrapper.childAt(1)).toHaveStyleRule('transform', 'rotate(180deg)')
   })
 
   test('should refold and rerender text when isFolded set to true', () => {
@@ -52,13 +59,17 @@ describe('<FoldSwitch />', () => {
     expect(
       wrapper
         .childAt(0)
+        .childAt(0)
         .children()
         .text()
     ).toEqual('Test text')
-    expect(wrapper.childAt(0)).toHaveStyleRule('visibility', 'visible')
+    expect(wrapper.childAt(0).prop('height')).toEqual('auto')
 
     // check that div correctly received isFolded prop
     expect(wrapper.childAt(1).prop('isFolded')).toEqual(true)
+
+    // check that arrow rotation is correct
+    expect(wrapper.childAt(1)).toHaveStyleRule('transform', 'rotate(0deg)')
   })
 
   test('should handle onClick correctly', () => {

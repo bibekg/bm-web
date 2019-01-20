@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
+import AnimateHeight from 'react-animate-height'
 import { Text, Subtitle } from 'components/typography'
 import { ExpandMoreIcon } from 'components/icons'
 
@@ -69,11 +70,11 @@ class FAQItem extends React.Component<PropsType, StateType> {
           </AccordionSwitchDiv>
         </AccordionHeaderDiv>
 
-        {this.state.isOpen && (
+        <AnimateHeight height={this.state.isOpen ? 'auto' : 0}>
           <DropdownDiv>
             <Text paragraph>{innerText}</Text>
           </DropdownDiv>
-        )}
+        </AnimateHeight>
       </AccordionDiv>
     )
   }

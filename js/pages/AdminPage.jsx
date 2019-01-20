@@ -56,7 +56,7 @@ class AdminPage extends React.Component<PropsType> {
           <Route exact path="/admin" component={AdminMainView} />
           <Route exact path="/admin/apidocs" component={AdminAPIDocsView} />
           <Route exact path="/admin/components" component={AdminComponentsView} />
-          {showAdminTools && <Route exact path="/admin/tools" component={AdminToolsView} />}
+          {showAdminTools && <Route path="/admin/tools" component={AdminToolsView} />}
         </ContentWrapper>
       </AdminPageWrapper>
     )

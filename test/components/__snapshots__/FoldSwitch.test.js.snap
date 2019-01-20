@@ -4,11 +4,33 @@ exports[`<FoldSwitch /> should refold and rerender text when isFolded set to tru
 <styled.div
   onClick={[Function]}
 >
-  <styled.p
-    isFolded={true}
+  <AnimateHeight
+    animateOpacity={true}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={200}
+    easing="ease"
+    height="auto"
+    style={Object {}}
   >
-    Test text
-  </styled.p>
+    <styled.p>
+      Test text
+    </styled.p>
+  </AnimateHeight>
   <styled.div
     isFolded={true}
   >
@@ -24,11 +46,33 @@ exports[`<FoldSwitch /> should render correctly folded with options 1`] = `
 <styled.div
   onClick={[Function]}
 >
-  <styled.p
-    isFolded={true}
+  <AnimateHeight
+    animateOpacity={true}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={200}
+    easing="ease"
+    height="auto"
+    style={Object {}}
   >
-    Test text
-  </styled.p>
+    <styled.p>
+      Test text
+    </styled.p>
+  </AnimateHeight>
   <styled.div
     isFolded={true}
   >
@@ -59,11 +103,33 @@ exports[`<FoldSwitch /> should unfold and unrender text when isFolded set to fal
 <styled.div
   onClick={[Function]}
 >
-  <styled.p
-    isFolded={false}
+  <AnimateHeight
+    animateOpacity={true}
+    animationStateClasses={
+      Object {
+        "animating": "rah-animating",
+        "animatingDown": "rah-animating--down",
+        "animatingToHeightAuto": "rah-animating--to-height-auto",
+        "animatingToHeightSpecific": "rah-animating--to-height-specific",
+        "animatingToHeightZero": "rah-animating--to-height-zero",
+        "animatingUp": "rah-animating--up",
+        "static": "rah-static",
+        "staticHeightAuto": "rah-static--height-auto",
+        "staticHeightSpecific": "rah-static--height-specific",
+        "staticHeightZero": "rah-static--height-zero",
+      }
+    }
+    applyInlineTransitions={true}
+    delay={0}
+    duration={200}
+    easing="ease"
+    height={0}
+    style={Object {}}
   >
-    Test text
-  </styled.p>
+    <styled.p>
+      Test text
+    </styled.p>
+  </AnimateHeight>
   <styled.div
     isFolded={false}
   >
