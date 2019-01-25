@@ -19,6 +19,7 @@ const MessageWrapper = styled.div`
 const Img = styled.img`
   display: block;
   margin: auto;
+  width: 40%;
 `
 
 type PropsType = {
@@ -72,7 +73,7 @@ export default class MatchActionControl extends React.Component<PropsType, State
   static LikedMatch = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.likedMatch}</Title>
-      <Img src={HoneyPot} alt="bear" height={'40%'} width={'40%'} />
+      <Img src={HoneyPot} alt="bear" />
     </MessageWrapper>
   )
 
