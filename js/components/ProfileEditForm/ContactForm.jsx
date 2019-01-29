@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 
-import Button from 'components/Button'
 import * as Form from 'components/form'
 import { Text } from 'components/typography'
 
@@ -96,12 +95,14 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
     <form onSubmit={handleSubmit}>
       {fields}
 
-      <Button primary onClick={previousPage}>
-        Previous
-      </Button>
-      <Button primary type="submit">
-        Save
-      </Button>
+      <FormItems.ButtonWrapper>
+        <FormItems.PageButton primary onClick={previousPage}>
+          Previous
+        </FormItems.PageButton>
+        <FormItems.PageButton primary type="submit">
+          Next
+        </FormItems.PageButton>
+      </FormItems.ButtonWrapper>
     </form>
   )
 }

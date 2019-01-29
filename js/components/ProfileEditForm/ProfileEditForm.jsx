@@ -31,10 +31,8 @@ const PageMenu = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 25px;
-  margin-bottom: 50px;
   @media (max-width: ${breakpoints.navFold - 1}px) {
     margin-top: 20px;
-    margin-bottom: 40px;
   }
 `
 
@@ -175,9 +173,13 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
     const profileEditFormPage = [
       <ProfileEditFormBasicPage onSubmit={this.nextPage} />,
-      <ProfileEditFormPersonalPage previousPage={this.previousPage} onSubmit={this.nextPage} />,
       <ProfileEditFormPreferencePage previousPage={this.previousPage} onSubmit={this.nextPage} />,
-      <ProfileEditFormContactPage previousPage={this.previousPage} onSubmit={this.submitForm} />
+      <ProfileEditFormContactPage
+        previousPage={this.previousPage}
+        onSubmit={this.nextPage}
+        requiredFieldsOnly={this.requiredFieldsOnly}
+      />,
+      <ProfileEditFormPersonalPage previousPage={this.previousPage} onSubmit={this.submitForm} />
     ]
 
     return (

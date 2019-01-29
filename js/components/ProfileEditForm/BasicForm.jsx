@@ -3,7 +3,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import Button from 'components/Button'
+// import Button from 'components/Button'
 import * as USER_PROPS from 'constants/user-props'
 import { formatHeight, formatUserYear, formatGender } from 'utilities/user-formatters'
 import { DropdownItem } from 'components/Dropdown'
@@ -153,9 +153,11 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
           )
       )}
 
-      <Button primary type="submit">
-        Next
-      </Button>
+      <FormItems.ButtonWrapper>
+        <FormItems.PageButton primary type="submit">
+          Next
+        </FormItems.PageButton>
+      </FormItems.ButtonWrapper>
     </form>
   )
 }

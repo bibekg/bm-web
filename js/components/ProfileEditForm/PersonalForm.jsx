@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 
-import Button from 'components/Button'
 import * as USER_PROPS from 'constants/user-props'
 
 import { Field, reduxForm } from 'redux-form'
@@ -44,12 +43,14 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
         />
       ))}
 
-      <Button primary onClick={previousPage}>
-        Previous
-      </Button>
-      <Button primary type="submit">
-        Next
-      </Button>
+      <FormItems.ButtonWrapper>
+        <FormItems.PageButton primary onClick={previousPage}>
+          Previous
+        </FormItems.PageButton>
+        <FormItems.PageButton primary type="submit">
+          Save
+        </FormItems.PageButton>
+      </FormItems.ButtonWrapper>
     </form>
   )
 }

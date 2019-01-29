@@ -69,7 +69,9 @@ export const createFormInitialValues = (state: ReduxStateType): any | null => {
     ethnicityPreference: buildFieldArrayInitialValues('ethnicityPreference', state),
     yearPreference: buildFieldArrayInitialValues('yearPreference', state),
     collegePreference: buildFieldArrayInitialValues('collegePreference', state),
-    heightPreference: user.heightPreference ? [user.heightPreference.min, user.heightPreference.max] : [],
+    heightPreference: user.heightPreference
+      ? [user.heightPreference.min, user.heightPreference.max]
+      : [USER_PROPS.MIN_HEIGHT, USER_PROPS.MAX_HEIGHT],
 
     // Contact Page
     phone: user.phone,
@@ -120,7 +122,7 @@ export const createSubmitData = (editedUser: UserType, formValue: UserFormType):
     ethnicityPreference: buildSubmitFieldArray('ethnicityPreference', formValue),
     yearPreference: buildSubmitFieldArray('yearPreference', formValue),
     collegePreference: buildSubmitFieldArray('collegePreference', formValue),
-    heightPreference: formValue.heightPreference,
+    heightPreference: { min: formValue.heightPreference[0], max: formValue.heightPreference[1] },
 
     // Contact Page
     phone: formValue.phone,

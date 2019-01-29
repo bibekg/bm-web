@@ -1,10 +1,12 @@
 // @flow
 import * as React from 'react'
 import styled from 'styled-components'
+import { breakpoints } from 'styles'
 
 import * as Form from 'components/form'
 import Slider from 'components/Slider'
 import Dropdown, { DropdownItem } from 'components/Dropdown'
+import Button from 'components/Button'
 
 const FormItemWrapper = styled.div`
   margin: 20px 0;
@@ -13,6 +15,20 @@ const FormItemWrapper = styled.div`
 const FormItemChildrenWrapper = styled.div`
   & > * {
     margin: 10px 0;
+  }
+`
+
+export const ButtonWrapper = styled.div`
+  text-align: center;
+`
+
+export const PageButton = styled(Button)`
+  display: inline-block;
+  margin-left: 25px;
+  margin-right: 25px;
+  @media (max-width: ${breakpoints.navFold - 1}px) {
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 `
 

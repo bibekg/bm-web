@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 
-import Button from 'components/Button'
 import * as USER_PROPS from 'constants/user-props'
 import { formatRelationshipType, formatHeight, formatUserYear, formatGender } from 'utilities/user-formatters'
 
@@ -79,7 +78,6 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     },
     validate: FormValidators.requiredValueArray
   }
-
   const heightPreference: FormSliderFieldType = {
     fieldName: 'heightPreference',
     component: FormItems.FormSliderItem,
@@ -122,12 +120,14 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
           )
       )}
 
-      <Button primary onClick={previousPage}>
-        Previous
-      </Button>
-      <Button primary type="submit">
-        Next
-      </Button>
+      <FormItems.ButtonWrapper>
+        <FormItems.PageButton primary onClick={previousPage}>
+          Previous
+        </FormItems.PageButton>
+        <FormItems.PageButton primary type="submit">
+          Next
+        </FormItems.PageButton>
+      </FormItems.ButtonWrapper>
     </form>
   )
 }
