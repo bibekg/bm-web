@@ -99,18 +99,18 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     this.setState({ editedUser: createSubmitData(editedUser, formValue) })
 
     if (editedUser) {
-      this.props.editUser(editedUser, err => {
-        if (err) {
-          const { status, invalidValues } = err.response.data
-          if (status === 'invalid' && invalidValues) {
-            this.setState({ errorMessage: `Uh oh! You entered an invalid value for: ${invalidValues.join(', ')}` })
+      this.props
+        .editUser(editedUser)
+        .then(() => {
+          this.setState({ editComplete: true })
+        })
+        .catch(err => {
+          if (err.name === 'InvalidValues') {
+            this.setState({ errorMessage: `Uh oh! You entered an invalid value for: ${err.invalidValues.join(', ')}` })
           } else {
             this.setState({ errorMessage: 'Unknown server error.' })
           }
-        } else {
-          this.setState({ editComplete: true })
-        }
-      })
+        })
     }
   }
 

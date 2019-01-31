@@ -69,7 +69,7 @@ type EditUserResponseType = {
 }
 
 // eslint-disable-next-line flowtype/no-weak-types
-export const editUser = (user: UserType, callback?: ReduxCallbackType<*>) => (dispatch: *, getState: *) =>
+export const editUser = (user: UserType) => (dispatch: *, getState: *) =>
   axios({
     method: API.EDIT_CURRENT_USER.METHOD,
     url: API.EDIT_CURRENT_USER.URL,
@@ -78,16 +78,18 @@ export const editUser = (user: UserType, callback?: ReduxCallbackType<*>) => (di
     },
     data: { user }
   })
-    .then((res: EditUserResponseType) => {
+    .then((res: EditUserResponseType): Promise<*> => {
       dispatch(getUserSuccess(res.data.user))
-      if (callback) {
-        callback(null, res)
-      }
+      return Promise.resolve(res.data.user)
     })
-    .catch(err => {
-      if (callback) {
-        callback(err, null)
+    .catch((err): Promise<*> => {
+      if (err.response && err.response.data && err.response.data.status === 'invalid') {
+        const invalidError = new Error()
+        invalidError.name = 'InvalidValues'
+        invalidError.invalidValues = err.response.data.invalidValues
+        return Promise.reject(invalidError)
       }
+      return Promise.reject(err)
     })
 
 // eslint-disable-next-line flowtype/no-weak-types
