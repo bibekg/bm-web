@@ -9,7 +9,7 @@ import { Subtitle, Text } from 'components/typography'
 import Button from 'components/Button'
 import Modal from 'components/Modal'
 import * as Form from 'components/form'
-import SecureUserImage from 'components/SecureUserImage'
+import UserImage from 'components/UserImage'
 import * as actions from 'actions'
 import { copy } from 'product-copy'
 
@@ -169,7 +169,7 @@ class DislikeMatchFeedbackModal extends React.Component<PropsType, StateType> {
       <Modal onOutClick={this.props.onOutClick}>
         <FeedbackCardWrapper>
           <Subtitle>{copy.dislikeMatch.apology}</Subtitle>
-          <SecureUserImage size={100} userId={this.props.match.participants.match.user._id} />
+          <UserImage size={100} src={this.props.match.participants.match.user.profilePic} />
           <Text>{copy.dislikeMatch.feedback}</Text>
 
           <FormWrapper>

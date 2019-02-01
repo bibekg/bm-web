@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Card from 'components/Card'
 import Button from 'components/Button'
 import { Text, Title } from 'components/typography'
-import SecureUserImage from 'components/SecureUserImage'
+import UserImage from 'components/UserImage'
 import ProfileTextInfo from 'components/ProfileTextInfo'
 import {
   formatHeight,
@@ -159,7 +159,8 @@ class ProfileCard extends React.Component<PropsType, StateType> {
       yearPreference,
       agePreference,
       relationshipType,
-      heightPreference
+      heightPreference,
+      profilePic
     } = this.props.user
 
     return (
@@ -167,7 +168,7 @@ class ProfileCard extends React.Component<PropsType, StateType> {
         {this.state.deactivation && <DeactivateModal onOutClick={this.closeDeactivateModal} />}
         <InfoBannerDiv>
           <div>
-            <SecureUserImage editable userId={_id} />
+            <UserImage editable src={profilePic} />
           </div>
           <div>
             <ProfileTextInfo user={this.props.user} />
