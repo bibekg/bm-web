@@ -10,6 +10,10 @@ export const getMatchSuccess = (match: MatchType) => ({
   payload: match
 })
 
+export const clearMatch = () => ({
+  type: ACTIONS.CLEAR_MATCH
+})
+
 export const setRendezvousTime = (time: RendezvousTimeType) => ({
   type: ACTIONS.SET_RENDEZVOUS_TIME,
   payload: time
@@ -47,8 +51,8 @@ export const getMatch = (callback: ReduxCallbackType<*>) => (dispatch: *, getSta
     }
   })
     .then(response => {
-      const { status, match } = response.data
-      if (status === 'success' && match) {
+      const { match } = response.data
+      if (match) {
         dispatch(getMatchSuccess(match))
         if (typeof callback === 'function') callback(null, response.data)
       }

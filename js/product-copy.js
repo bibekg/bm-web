@@ -5,6 +5,7 @@ export const copy = {
     haveMatch: 'You have a match!',
     matchWaiting: 'Currently waiting for your match to respond',
     matchFinding: 'Finding you a match!',
+    likedMatch: 'Thanks for adding some more honey to the pot!',
     haveDate: 'You have a date!',
     dateWaiting: 'Currently waiting for your match to RSVP',
     mutualLike: 'What now? Message each other and pick a place or activity!',
@@ -20,6 +21,10 @@ export const copy = {
     message:
       "Share a little bit more about yourself with your match. Unfortunately, this pop-up won't go away until you do."
   },
+  matchActionButtons: {
+    like: 'Like',
+    pass: 'Pass'
+  },
   matchCard: {
     missingFunQuestions: 'Your match has not yet filled out any fun fact questions ):',
     about: 'About Me',
@@ -33,5 +38,14 @@ export const copy = {
   profileCard: {
     funQuestionsMissing: "It looks like you don't have any!",
     funQuestionsCallToAction: "Click 'Edit' and fill out your fun fact questions under 'Bio'"
+  },
+  foldSwitch: {
+    text: 'Learn more about your match by clicking below!'
+  },
+  siteDownPage: {
+    header: '',
+    title: '',
+    subtitle:
+      "Hey Bruins, we are currently reviewing our privacy policy so we can continue to maintain a high level of security and privacy for all our users. We'll be back with a ton of fun, new features, so stay tuned ❤️"
   }
 }

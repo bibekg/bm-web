@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `
 
 const DropdownWrapper = styled.div`
-  min-width: 500px;
+  max-width: 500px;
 `
 
 type PropsType = {

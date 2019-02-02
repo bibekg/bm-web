@@ -42,10 +42,12 @@
     "express": "4.15.3",
     "immer": "^1.0.3",
     "moment": "^2.20.1",
+    "polished": "^2.3.0",
     "prop-types": "15.5.10",
     "rc-slider": "^8.5.0",
     "react": "15.5.4",
     "react-addons-perf": "15.4.2",
+    "react-animate-height": "^2.0.7",
     "react-chartjs": "^1.2.0",
     "react-countdown-now": "^1.2.0",
     "react-dom": "15.5.4",
@@ -78,6 +80,8 @@
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.7",
     "enzyme": "^3.5.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.0.1",
     "eslint-config-prettier": "^2.9.0",
@@ -112,6 +116,13 @@
     "tabWidth": 2
   },
   "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setupTests.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/__mocks__/fileMock.js"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx"

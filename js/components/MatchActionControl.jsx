@@ -11,9 +11,15 @@ import MatchFeedbackModal from 'components/MatchFeedbackModal'
 import moment from 'moment'
 import DislikeMatchFeedbackModal from 'components/DislikeMatchFeedbackModal'
 import { copy } from 'product-copy'
+import HoneyPot from 'svg/honey-pot.svg'
 
 const MessageWrapper = styled.div`
   margin: 50px 30px;
+`
+const Img = styled.img`
+  display: block;
+  margin: auto;
+  width: 40%;
 `
 
 type PropsType = {
@@ -27,8 +33,6 @@ type StateType = {
 }
 
 export default class MatchActionControl extends React.Component<PropsType, StateType> {
-  matchedUser: UserType
-
   constructor(props: PropsType) {
     super(props)
     this.state = {
@@ -36,17 +40,11 @@ export default class MatchActionControl extends React.Component<PropsType, State
       // it's ok to just update state on startup for this, since we only want users to see it once anyway
       showDislikeFeedbackModal: !props.match.participants.self.sawDislikeFeedbackModal
     }
-    this.matchedUser = props.match.participants.match.user
   }
 
-  componentWillReceiveProps(nextProps: PropsType) {
-    // In the case that either a match becomes mutual and API sends back hidden informationa,
-    // or a new match is sent while this component is still active,
-    // update the "cached" matchedUser value
-    // eslint-disable-next-line no-underscore-dangle
-    if (!this.props.match.participants.match.user.name.first || nextProps.match._id !== this.props.match._id) {
-      this.matchedUser = nextProps.match.participants.match.user
-    }
+  getMatchedUser(): UserType {
+    // Helper method just for avoiding long dot notation
+    return this.props.match.participants.match.user
   }
 
   closeDislikeMatchModal = () => {
@@ -59,55 +57,57 @@ export default class MatchActionControl extends React.Component<PropsType, State
     this.setState({ availability: newAvailability })
   }
 
-  static renderHaveMatch = (): React.Element<*> => (
+  static HaveMatch = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.haveMatch}</Title>
       <MatchActionButtons />
     </MessageWrapper>
   )
 
-  static renderWaitingForMatch = (): React.Element<*> => (
+  static WaitingForMatch = (): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.matchWaiting}</Title>
     </MessageWrapper>
   )
 
-  // both user and match like each other
-  renderMatchMade = (): React.Element<*> => (
+  static LikedMatch = (): React.Element<*> => (
     <MessageWrapper>
-      <Title>{`Congrats! You and ${this.matchedUser.name.first} both liked each other!`}</Title>
-      <Text center>{copy.matchActionControl.mutualLike}</Text>
+      <Title>{copy.matchActionControl.likedMatch}</Title>
+      <Img src={HoneyPot} alt="bear" />
     </MessageWrapper>
   )
 
   // both user and match like each other
-  renderRendezvousScheduled = (): React.Element<*> => {
-    const { rendezvousTime } = this.props.match
-    return (
-      <MessageWrapper>
-        <Title>
-          {rendezvousTime
-            ? `Congrats! You and ${this.matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
-                'dddd M/D/Y [at] hA'
-              )}`
-            : `Congrats! You and ${this.matchedUser.name.first} both liked each other!`}
-        </Title>
-        <Text center>{copy.matchActionControl.mutualLike}</Text>
-      </MessageWrapper>
-    )
-  }
+  static RendezvousScheduled = ({
+    matchedUser,
+    rendezvousTime
+  }: {
+    matchedUser: UserType,
+    rendezvousTime: Date
+  }): React.Element<*> => (
+    <MessageWrapper>
+      <Title>
+        {rendezvousTime
+          ? `Congrats! You and ${matchedUser.name.first} have a date on ${moment(rendezvousTime).format(
+              'dddd M/D/Y [at] hA'
+            )}`
+          : `Congrats! You and ${matchedUser.name.first} both liked each other!`}
+      </Title>
+      <Text center>{copy.matchActionControl.mutualLike}</Text>
+    </MessageWrapper>
+  )
 
-  renderUnschedulableRendezvous = (): React.Element<*> => (
+  static UnschedulableRendezvous = ({ matchedUser }: { matchedUser: UserType }): React.Element<*> => (
     <MessageWrapper>
       <Title>{copy.matchActionControl.scheduleBad}</Title>
-      <Text center>{`Message ${this.matchedUser.name.first} to ask when they are available for a date!`}</Text>
+      <Text center>{`Message ${matchedUser.name.first} to ask when they are available for a date!`}</Text>
     </MessageWrapper>
   )
 
   shouldUserSeeMatchCard(): boolean {
     const { match } = this.props
-    // Hide match if the user has disliked their match
-    if (match.participants.self.likeState === 'disliked') return false
+    // Hide match if the user has responsed to their match in that cycle
+    if (match.participants.self.likeState !== 'pending' && match.rendezvousState === 'schedule-next-cycle') return false
     // Otherwise, show match if it isn't ended
     return match.state !== 'ended'
   }
@@ -146,20 +146,29 @@ export default class MatchActionControl extends React.Component<PropsType, State
           <UnmatchedCountdownTimer />
         )
       } else if (participants.self.likeState === 'pending') {
-        return MatchActionControl.renderHaveMatch()
+        return <MatchActionControl.HaveMatch />
       } else if (participants.self.likeState === 'liked') {
         // Check matched users's like state
         if (participants.match.likeState === 'disliked' || participants.match.likeState === 'pending') {
-          return MatchActionControl.renderWaitingForMatch()
+          return <MatchActionControl.LikedMatch />
         } else if (participants.match.likeState === 'liked') {
           if (rendezvousState === 'unschedulable') {
-            return this.renderUnschedulableRendezvous()
+            return <MatchActionControl.UnschedulableRendezvous matchedUser={this.getMatchedUser()} />
           } else if (rendezvousState === 'scheduled') {
-            return this.renderRendezvousScheduled()
-          } else if (participants.self.updatedAvailability) {
-            return MatchActionControl.renderWaitingForMatch()
-          } else if (user.availability) {
-            return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
+            return (
+              <MatchActionControl.RendezvousScheduled
+                matchedUser={this.getMatchedUser()}
+                rendezvousTime={this.props.match.rendezvousTime}
+              />
+            )
+          } else if (rendezvousState === 'schedule-next-cycle') {
+            return <MatchActionControl.LikedMatch />
+          } else if (rendezvousState === 'unscheduled') {
+            if (participants.self.updatedAvailability) {
+              return <MatchActionControl.WaitingForMatch />
+            } else if (user.availability) {
+              return <AutoDateCard availability={user.availability} onChange={this.handleAvailabilityChange} />
+            }
           }
         }
       }
@@ -179,9 +188,10 @@ export default class MatchActionControl extends React.Component<PropsType, State
         {this.renderMatchAction()}
         {this.shouldUserSeeMatchCard() && (
           <MatchCard
-            user={this.matchedUser}
+            user={this.getMatchedUser()}
             matchBasis={this.props.match.matchBasis}
             hideContactInfo={!showContactInfo}
+            foldable
           />
         )}
       </div>
