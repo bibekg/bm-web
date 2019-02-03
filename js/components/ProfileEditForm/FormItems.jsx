@@ -60,10 +60,12 @@ export const FormItem = (props: FormItemPropsType) => (
 
 export const FormTextInputItem = ({
   input,
+  meta: { error },
   options: { itemName, ...componentOptions }
 }: FormTextInputItemArgumentType) => (
   <FormItem name={itemName}>
     <Form.TextInput {...input} {...componentOptions} type="text" />
+    {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
 

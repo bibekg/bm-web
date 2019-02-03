@@ -11,7 +11,7 @@ import * as FormValidators from './FormValidators'
 import { FIELD_ARRAY_COMPONENTS } from './FormHelpers'
 
 const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, createNavButtons } = props
+  const { handleSubmit, invalid, createNavButtons } = props
 
   // required fields
   const genderPreferenceField: FormCheckboxFieldType = {
@@ -120,7 +120,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
           )
       )}
 
-      {createNavButtons()}
+      {createNavButtons(invalid)}
     </form>
   )
 }

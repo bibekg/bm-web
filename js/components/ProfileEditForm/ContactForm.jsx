@@ -26,7 +26,7 @@ const FormTextInputItemRaw = ({ input, meta: { error }, options }) => (
 const FormCheckboxInputItemRaw = ({ input, options }) => <Form.CheckboxInput {...input} {...options} />
 
 const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, createNavButtons } = props
+  const { handleSubmit, invalid, createNavButtons } = props
 
   // required fields
   // note they are not directly mapped to redux-form Fields due to the special structure
@@ -95,7 +95,7 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
   return (
     <form onSubmit={handleSubmit}>
       {fields}
-      {createNavButtons()}
+      {createNavButtons(invalid)}
     </form>
   )
 }

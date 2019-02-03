@@ -12,6 +12,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import * as FormItems from './FormItems'
 import { FIELD_ARRAY_COMPONENTS, createFormInitialValues } from './FormHelpers'
+import * as FormValidators from './FormValidators'
 
 const DropdownWrapper = styled.div`
   & > * {
@@ -28,7 +29,7 @@ const DropdownWrapper = styled.div`
 `
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, createNavButtons } = props
+  const { handleSubmit, invalid, createNavButtons } = props
 
   const firstNameField: FormTextInputFieldType = {
     fieldName: 'firstName',
@@ -36,7 +37,8 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'First Name',
       placeholder: 'Joe'
-    }
+    },
+    validate: FormValidators.requiredValue
   }
   const lastNameField: FormTextInputFieldType = {
     fieldName: 'lastName',
@@ -44,7 +46,8 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Last Name',
       placeholder: 'Bruin'
-    }
+    },
+    validate: FormValidators.requiredValue
   }
   const ageField: FormSliderFieldType = {
     fieldName: 'age',
@@ -111,7 +114,8 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Ethnicity',
       options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
-    }
+    },
+    validate: FormValidators.requiredValueArray
   }
 
   const requiredFields = [firstNameField, lastNameField, ageField, yearField, genderField]
@@ -128,10 +132,17 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
               name={field.fieldName}
               options={field.options}
               component={field.component}
+              validate={field.validate}
               formProps={props}
             />
           ) : (
-            <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+            <Field
+              key={field.fieldName}
+              name={field.fieldName}
+              options={field.options}
+              component={field.component}
+              validate={field.validate}
+            />
           )
       )}
 
@@ -148,14 +159,21 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
               name={field.fieldName}
               options={field.options}
               component={field.component}
+              validate={field.validate}
               formProps={props}
             />
           ) : (
-            <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
+            <Field
+              key={field.fieldName}
+              name={field.fieldName}
+              options={field.options}
+              component={field.component}
+              validate={field.validate}
+            />
           )
       )}
 
-      {createNavButtons()}
+      {createNavButtons(invalid)}
     </form>
   )
 }

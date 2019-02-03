@@ -9,7 +9,7 @@ import * as FormItems from './FormItems'
 import * as FormValidators from './FormValidators'
 
 const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, createNavButtons } = props
+  const { handleSubmit, invalid, createNavButtons } = props
 
   const bioField = {
     fieldName: 'bio',
@@ -42,7 +42,7 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
           validate={field.validate}
         />
       ))}
-      {createNavButtons()}
+      {createNavButtons(invalid)}
     </form>
   )
 }

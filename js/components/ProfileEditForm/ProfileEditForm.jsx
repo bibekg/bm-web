@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { isValid } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import { Subtitle } from 'components/typography'
 import * as actions from 'actions'
@@ -37,15 +38,20 @@ const PageMenu = styled.div`
   }
 `
 
+/* eslint-disable no-nested-ternary */
 const PageButton = styled.div`
-  color: ${props => (props.active ? colors.blue : colors.grey)};
-  font-weight: ${props => (props.active ? 400 : 300)};
+  color: ${props => (props.active ? (props.valid ? colors.blue : colors.red) : colors.grey)};
+  font-weight: ${props => (props.active ? 600 : 300)};
   margin-left: 20px;
   margin-right: 20px;
 
   &:hover {
     cursor: pointer;
-    font-weight: 400;
+    ${props =>
+      props.valid &&
+      `
+      font-weight: 600;
+    `};
   }
 
   @media (max-width: ${breakpoints.navFold - 1}px) {
@@ -53,6 +59,7 @@ const PageButton = styled.div`
     margin-right: 10px;
   }
 `
+/* eslint-enable no-nested-ternary */
 
 type FormPageType = 'basic' | 'personal' | 'preferences' | 'contact'
 
@@ -152,13 +159,18 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     }
   }
 
-  renderPageMenu(): React.Node {
+  renderPageMenu(isFormValid: boolean): React.Node {
     const { pageIndex } = this.state
     const page = pageIndex != null ? this.PAGES[pageIndex] : null
     const labels = ['Basic', 'Preferences', 'Contact', 'Personal']
 
     const renderPageButton = (p: string) => (
-      <PageButton active={page === p.toLowerCase()} key={p} onClick={() => this.selectPage(p.toLowerCase())}>
+      <PageButton
+        active={page === p.toLowerCase()}
+        key={p}
+        onClick={() => isFormValid && this.selectPage(p.toLowerCase())}
+        valid={isFormValid}
+      >
         {p}
       </PageButton>
     )
@@ -167,14 +179,14 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   // create the navigation buttons on the bottom of each page
-  createNavButtons = (): React.Node => {
+  createNavButtons = (invalid: boolean): React.Node => {
     const { paginate } = this.props
     const { pageIndex } = this.state
 
     if (paginate === 'menu') {
       return (
         <ButtonWrapper>
-          <NavButton primary type="submit">
+          <NavButton primary type="submit" disabled={invalid}>
             Save
           </NavButton>
         </ButtonWrapper>
@@ -187,7 +199,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
           </NavButton>
         ) : null
       const nextButton = (
-        <NavButton primary type="submit">
+        <NavButton primary type="submit" disabled={invalid}>
           {pageIndex < this.PAGES.length - 1 ? 'Next' : 'Save'}
         </NavButton>
       )
@@ -202,7 +214,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
   }
 
   render(): ?React.Element<*> {
-    const { redirect, paginate } = this.props
+    const { redirect, paginate, isFormValid } = this.props
     const { editComplete, pageIndex } = this.state
 
     if (editComplete) return <Redirect push to={redirect} />
@@ -224,7 +236,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     return (
       <FormWrapper>
         {paginate === 'process' && <Subtitle>{this.getPageMessage()}</Subtitle>}
-        {paginate === 'menu' && this.renderPageMenu()}
+        {paginate === 'menu' && this.renderPageMenu(isFormValid)}
         {profileEditFormPage[pageIndex]}
       </FormWrapper>
     )
@@ -232,7 +244,8 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 }
 
 const mapStateToProps = (state: ReduxStateType) => ({
-  user: state.user
+  user: state.user,
+  isFormValid: isValid('profileEdit')(state)
 })
 
 export default connect(mapStateToProps, actions)(ProfileEditForm)
