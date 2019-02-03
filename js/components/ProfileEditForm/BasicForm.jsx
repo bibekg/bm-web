@@ -14,22 +14,13 @@ import * as FormItems from './FormItems'
 import { FIELD_ARRAY_COMPONENTS, createFormInitialValues } from './FormHelpers'
 import * as FormValidators from './FormValidators'
 
-const DropdownWrapper = styled.div`
-  & > * {
-    position: relative;
-    &:nth-child(1) {
-      z-index: 2;
-    }
-    &:nth-child(2) {
-      z-index: 1;
-    }
-  }
-  position: relative;
-  z-index: 1;
+const FormBasicPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
 `
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, invalid, createNavButtons } = props
+  const { handleSubmit, invalid, requiredFieldsOnly, createNavButtons } = props
 
   const firstNameField: FormTextInputFieldType = {
     fieldName: 'firstName',
@@ -114,65 +105,42 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     options: {
       itemName: 'Ethnicity',
       options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e }))
-    },
-    validate: FormValidators.requiredValueArray
+    }
   }
 
   const requiredFields = [firstNameField, lastNameField, ageField, yearField, genderField]
-  const nonrequiredFields = [heightField, ethnicityField]
+  const nonrequiredFields = [majorField, collegeField, heightField, ethnicityField]
+  // A trick to set the z-index of a later DOM element to be lower
+  // than the z-index of a previous element
+  // so the Dropdown menu of the previous element would not be overlapped by the field of the next element
+  // Use "flex-direction: column-reverse" with all fields in the reversed order
+  const fields = (requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)).reverse()
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Required Fields */}
-      {requiredFields.map(
-        field =>
-          FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
-            <FieldArray
-              key={field.fieldName}
-              name={field.fieldName}
-              options={field.options}
-              component={field.component}
-              validate={field.validate}
-              formProps={props}
-            />
-          ) : (
-            <Field
-              key={field.fieldName}
-              name={field.fieldName}
-              options={field.options}
-              component={field.component}
-              validate={field.validate}
-            />
-          )
-      )}
-
-      {/* Non-required Fields */}
-      <DropdownWrapper>
-        <Field name="major" options={majorField.options} component={FormItems.FormDropdownItem} />
-        <Field name="college" options={collegeField.options} component={FormItems.FormDropdownItem} />
-      </DropdownWrapper>
-      {nonrequiredFields.map(
-        field =>
-          FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
-            <FieldArray
-              key={field.fieldName}
-              name={field.fieldName}
-              options={field.options}
-              component={field.component}
-              validate={field.validate}
-              formProps={props}
-            />
-          ) : (
-            <Field
-              key={field.fieldName}
-              name={field.fieldName}
-              options={field.options}
-              component={field.component}
-              validate={field.validate}
-            />
-          )
-      )}
-
+      <FormBasicPageWrapper>
+        {fields.map(
+          field =>
+            FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
+              <FieldArray
+                key={field.fieldName}
+                name={field.fieldName}
+                options={field.options}
+                component={field.component}
+                validate={field.validate}
+                formProps={props}
+              />
+            ) : (
+              <Field
+                key={field.fieldName}
+                name={field.fieldName}
+                options={field.options}
+                component={field.component}
+                validate={field.validate}
+              />
+            )
+        )}
+      </FormBasicPageWrapper>
       {createNavButtons(invalid)}
     </form>
   )

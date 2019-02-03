@@ -11,7 +11,7 @@ import * as FormValidators from './FormValidators'
 import { FIELD_ARRAY_COMPONENTS } from './FormHelpers'
 
 const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, invalid, createNavButtons } = props
+  const { handleSubmit, invalid, requiredFieldsOnly, createNavButtons } = props
 
   // required fields
   const genderPreferenceField: FormCheckboxFieldType = {
@@ -93,8 +93,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
 
   const requiredFields = [genderPreferenceField, agePreferenceField, relationshipTypeField]
   const nonrequiredFields = [ethnicityPreferenceField, yearPreferenceField, collegePreference, heightPreference]
-  // TODO: checking non-required field display option
-  const fields = true ? requiredFields.concat(nonrequiredFields) : requiredFields
+  const fields = requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)
 
   return (
     <form onSubmit={handleSubmit}>

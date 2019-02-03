@@ -112,13 +112,9 @@ export const FormDropdownItem = ({
   </FormItem>
 )
 
-export const FormTextareaItem = ({
-  input,
-  meta: { touched, error },
-  options: { itemName }
-}: FormTextareaItemArgumentType) => (
+export const FormTextareaItem = ({ input, meta: { error }, options: { itemName } }: FormTextareaItemArgumentType) => (
   <FormItem name={itemName}>
     <Form.Textarea {...input} rows={5} />
-    {touched && error && <FieldValidationError>{error}</FieldValidationError>}
+    {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )

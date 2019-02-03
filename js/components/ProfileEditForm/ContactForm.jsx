@@ -26,7 +26,7 @@ const FormTextInputItemRaw = ({ input, meta: { error }, options }) => (
 const FormCheckboxInputItemRaw = ({ input, options }) => <Form.CheckboxInput {...input} {...options} />
 
 const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit, invalid, createNavButtons } = props
+  const { handleSubmit, invalid, requiredFieldsOnly, createNavButtons } = props
 
   // required fields
   // note they are not directly mapped to redux-form Fields due to the special structure
@@ -89,8 +89,7 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
         <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
       )
   )
-  // TODO: checking non-required field display option
-  const fields = true ? requiredFields.concat(nonrequiredFields) : requiredFields
+  const fields = requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)
 
   return (
     <form onSubmit={handleSubmit}>

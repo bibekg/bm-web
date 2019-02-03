@@ -21,7 +21,6 @@ const userDataMapperCreator = (user: UserType | UserFormType) => ({
 const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boolean] | null => {
   const { user } = state
   if (user === undefined || user === null) {
-    console.warn('No user object found.')
     return null
   }
   const userDataMapper = userDataMapperCreator(user)
@@ -35,7 +34,6 @@ const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boo
 export const createFormInitialValues = (state: ReduxStateType): any | null => {
   const { user } = state
   if (user === undefined || user === null) {
-    console.warn('No user object found.')
     return null
   }
 

@@ -27,9 +27,7 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
       }
     })
   })
-  let fields = []
-  fields.push(bioField)
-  fields = fields.concat(questionFields)
+  const fields = [bioField, ...questionFields]
 
   return (
     <form onSubmit={handleSubmit}>
