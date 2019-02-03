@@ -13,6 +13,7 @@ import ProfileEditFormPersonalPage from './PersonalForm'
 import ProfileEditFormPreferencePage from './PreferenceForm'
 import ProfileEditFormContactPage from './ContactForm'
 import { createSubmitData } from './FormHelpers'
+import { ButtonWrapper, NavButton } from './FormItems'
 
 const FormWrapper = styled.div`
   display: flex;
@@ -165,21 +166,59 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     return <PageMenu>{labels.map(renderPageButton)}</PageMenu>
   }
 
+  // create the navigation buttons on the bottom of each page
+  createNavButtons = (): React.Node => {
+    const { paginate } = this.props
+    const { pageIndex } = this.state
+
+    if (paginate === 'menu') {
+      return (
+        <ButtonWrapper>
+          <NavButton primary type="submit">
+            Save
+          </NavButton>
+        </ButtonWrapper>
+      )
+    } else if (paginate === 'process') {
+      const previousButton =
+        pageIndex > 0 ? (
+          <NavButton primary onClick={this.previousPage}>
+            Previous
+          </NavButton>
+        ) : null
+      const nextButton = (
+        <NavButton primary type="submit">
+          {pageIndex < this.PAGES.length - 1 ? 'Next' : 'Save'}
+        </NavButton>
+      )
+      return (
+        <ButtonWrapper>
+          {previousButton}
+          {nextButton}
+        </ButtonWrapper>
+      )
+    }
+    return null
+  }
+
   render(): ?React.Element<*> {
     const { redirect, paginate } = this.props
     const { editComplete, pageIndex } = this.state
 
     if (editComplete) return <Redirect push to={redirect} />
 
+    const options = {
+      requiredFieldsOnly: this.props.requiredFieldsOnly,
+      createNavButtons: this.createNavButtons
+    }
+
+    const onSubmitNonFinalPage = paginate === 'menu' ? this.submitForm : this.nextPage
+    const onSubmitFinalPage = this.submitForm
     const profileEditFormPage = [
-      <ProfileEditFormBasicPage onSubmit={this.nextPage} />,
-      <ProfileEditFormPreferencePage previousPage={this.previousPage} onSubmit={this.nextPage} />,
-      <ProfileEditFormContactPage
-        previousPage={this.previousPage}
-        onSubmit={this.nextPage}
-        requiredFieldsOnly={this.requiredFieldsOnly}
-      />,
-      <ProfileEditFormPersonalPage previousPage={this.previousPage} onSubmit={this.submitForm} />
+      <ProfileEditFormBasicPage onSubmit={onSubmitNonFinalPage} {...options} />,
+      <ProfileEditFormPreferencePage previousPage={this.previousPage} onSubmit={onSubmitNonFinalPage} {...options} />,
+      <ProfileEditFormContactPage previousPage={this.previousPage} onSubmit={onSubmitNonFinalPage} {...options} />,
+      <ProfileEditFormPersonalPage previousPage={this.previousPage} onSubmit={onSubmitFinalPage} {...options} />
     ]
 
     return (

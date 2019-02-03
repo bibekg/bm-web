@@ -28,7 +28,7 @@ const DropdownWrapper = styled.div`
 `
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
-  const { handleSubmit } = props
+  const { handleSubmit, createNavButtons } = props
 
   const firstNameField: FormTextInputFieldType = {
     fieldName: 'firstName',
@@ -54,7 +54,8 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       min: USER_PROPS.MIN_AGE,
       max: USER_PROPS.MAX_AGE,
       marks: USER_PROPS.AGE_LABELS,
-      formatter: (n: ?number) => String(n)
+      formatter: (n: ?number) => String(n),
+      showLabel: true
     }
   }
   const yearField: FormRadioGroupFieldType = {
@@ -100,7 +101,8 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
       min: USER_PROPS.MIN_HEIGHT,
       max: USER_PROPS.MAX_HEIGHT,
       marks: USER_PROPS.HEIGHT_LABELS,
-      formatter: (n: ?number) => (n ? formatHeight(n) : '')
+      formatter: (n: ?number) => (n ? formatHeight(n) : ''),
+      showLabel: true
     }
   }
   const ethnicityField: FormCheckboxFieldType = {
@@ -153,11 +155,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
           )
       )}
 
-      <FormItems.ButtonWrapper>
-        <FormItems.PageButton primary type="submit">
-          Next
-        </FormItems.PageButton>
-      </FormItems.ButtonWrapper>
+      {createNavButtons()}
     </form>
   )
 }

@@ -9,7 +9,7 @@ import CheckboxInput from './CheckboxInput'
 import type { OptionType } from './CheckboxInput'
 
 const CheckboxGroupDiv = styled.div`
-  padding: 10px 0;
+  padding-top: 10px;
 `
 
 type PropsType = {

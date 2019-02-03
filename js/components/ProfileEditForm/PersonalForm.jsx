@@ -9,7 +9,7 @@ import * as FormItems from './FormItems'
 import * as FormValidators from './FormValidators'
 
 const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
-  const { previousPage, handleSubmit } = props
+  const { handleSubmit, createNavButtons } = props
 
   const bioField = {
     fieldName: 'bio',
@@ -42,15 +42,7 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
           validate={field.validate}
         />
       ))}
-
-      <FormItems.ButtonWrapper>
-        <FormItems.PageButton primary onClick={previousPage}>
-          Previous
-        </FormItems.PageButton>
-        <FormItems.PageButton primary type="submit">
-          Save
-        </FormItems.PageButton>
-      </FormItems.ButtonWrapper>
+      {createNavButtons()}
     </form>
   )
 }

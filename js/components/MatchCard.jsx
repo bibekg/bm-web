@@ -121,7 +121,7 @@ class MatchCard extends React.Component<PropsType, StateType> {
   }
 
   render(): ?React.Element<*> {
-    const { _id, bio } = this.props.user
+    const { bio } = this.props.user
 
     return (
       <ProfileCardDiv foldable={this.props.foldable}>

@@ -45,15 +45,16 @@ export const createFormInitialValues = (state: ReduxStateType): any | null => {
   })
 
   const initialValues = {
+    /* eslint-disable eqeqeq */
     // Basic Page
     firstName: user.name.first,
     lastName: user.name.last,
-    age: user.age,
+    age: user.age != undefined ? user.age : USER_PROPS.MIN_AGE,
     year: user.year ? user.year.toString() : null,
     gender: user.gender,
     major: user.major,
     college: user.college,
-    height: user.height,
+    height: user.height != undefined ? user.height : USER_PROPS.MIN_HEIGHT,
     ethnicity: buildFieldArrayInitialValues('ethnicity', state),
 
     // Personal Page
@@ -79,6 +80,7 @@ export const createFormInitialValues = (state: ReduxStateType): any | null => {
     instagram: user.instagram,
     snapchat: user.snapchat
   }
+  /* eslint-enable eqeqeq */
 
   return initialValues
 }

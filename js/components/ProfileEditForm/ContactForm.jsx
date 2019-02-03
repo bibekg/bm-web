@@ -15,18 +15,18 @@ const DisclaimerText = Text.extend`
   padding-bottom: 10px;
 `
 
-const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
-  const { previousPage, handleSubmit } = props
+// "helper components" not wrapped by <FormItem>, due to our special structure of
+// adding multiple nodes inside a FormItem in this page
+const FormTextInputItemRaw = ({ input, meta: { error }, options }) => (
+  <div>
+    <Form.TextInput {...input} {...options} type="text" />
+    {error && <FormItems.FieldValidationError>{error}</FormItems.FieldValidationError>}
+  </div>
+)
+const FormCheckboxInputItemRaw = ({ input, options }) => <Form.CheckboxInput {...input} {...options} />
 
-  // "helper components" not wrapped by <FormItem>, due to our special structure of
-  // adding multiple nodes inside a FormItem in this page
-  const FormTextInputItemRaw = ({ input, meta: { touched, error }, options }) => (
-    <div>
-      <Form.TextInput {...input} {...options} type="text" />
-      {touched && error && <FormItems.FieldValidationError>{error}</FormItems.FieldValidationError>}
-    </div>
-  )
-  const FormCheckboxInputItemRaw = ({ input, options }) => <Form.CheckboxInput {...input} {...options} />
+const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
+  const { handleSubmit, createNavButtons } = props
 
   // required fields
   // note they are not directly mapped to redux-form Fields due to the special structure
@@ -66,6 +66,7 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
         component={FormTextInputItemRaw}
         validate={FormValidators.phoneNumberFormat}
         options={phoneFieldOptions}
+        type="text"
       />
       <Field
         name="receiveTexts"
@@ -94,15 +95,7 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
   return (
     <form onSubmit={handleSubmit}>
       {fields}
-
-      <FormItems.ButtonWrapper>
-        <FormItems.PageButton primary onClick={previousPage}>
-          Previous
-        </FormItems.PageButton>
-        <FormItems.PageButton primary type="submit">
-          Next
-        </FormItems.PageButton>
-      </FormItems.ButtonWrapper>
+      {createNavButtons()}
     </form>
   )
 }

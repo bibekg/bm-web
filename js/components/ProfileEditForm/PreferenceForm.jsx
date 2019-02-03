@@ -11,7 +11,7 @@ import * as FormValidators from './FormValidators'
 import { FIELD_ARRAY_COMPONENTS } from './FormHelpers'
 
 const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
-  const { previousPage, handleSubmit } = props
+  const { handleSubmit, createNavButtons } = props
 
   // required fields
   const genderPreferenceField: FormCheckboxFieldType = {
@@ -120,14 +120,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
           )
       )}
 
-      <FormItems.ButtonWrapper>
-        <FormItems.PageButton primary onClick={previousPage}>
-          Previous
-        </FormItems.PageButton>
-        <FormItems.PageButton primary type="submit">
-          Next
-        </FormItems.PageButton>
-      </FormItems.ButtonWrapper>
+      {createNavButtons()}
     </form>
   )
 }

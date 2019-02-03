@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import styled from 'styled-components'
-import { breakpoints } from 'styles'
+import { colors, breakpoints } from 'styles'
 
 import * as Form from 'components/form'
 import Slider from 'components/Slider'
@@ -22,7 +22,8 @@ export const ButtonWrapper = styled.div`
   text-align: center;
 `
 
-export const PageButton = styled(Button)`
+// Navigation button at the bottom of each page
+export const NavButton = styled(Button)`
   display: inline-block;
   margin-left: 25px;
   margin-right: 25px;
@@ -35,7 +36,9 @@ export const PageButton = styled(Button)`
 export const FieldValidationError = styled.span`
   border: none;
   font-weight: 700;
-  color: #700;
+  color: ${colors.red};
+  display: block;
+  padding-bottom: 15px;
 
   &:before {
     display: inline-block;
