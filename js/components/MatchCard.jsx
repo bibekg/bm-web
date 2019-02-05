@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import AnimateHeight from 'react-animate-height'
 import Card from 'components/Card'
 import { Text, Title } from 'components/typography'
-import SecureUserImage from 'components/SecureUserImage'
+import UserImage from 'components/UserImage'
 import ProfileTextInfo from 'components/ProfileTextInfo'
 import { colors, breakpoints } from 'styles'
 import { formatQuestion, formatRelationshipType } from 'utilities/user-formatters'
@@ -121,14 +121,14 @@ class MatchCard extends React.Component<PropsType, StateType> {
   }
 
   render(): ?React.Element<*> {
-    const { _id, bio } = this.props.user
+    const { bio } = this.props.user
 
     return (
       <ProfileCardDiv foldable={this.props.foldable}>
         <InfoBannerDiv>
           <MatchedCountdownTimer />
           <div>
-            <SecureUserImage userId={_id} />
+            <UserImage src={this.props.user.profilePic} />
           </div>
           <ProfileTextInfo user={this.props.user} hideContactInfo={this.props.hideContactInfo} />
         </InfoBannerDiv>

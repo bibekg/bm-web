@@ -133,6 +133,7 @@ class DeactivateModal extends React.Component<PropsType, StateType> {
       } else if (res && res.data.status === 'success') {
         // Log user out here; this way account will still be deactivated even if e.g. user closes tab
         this.props.updateAuth(false, null, null)
+        this.props.clearMatch()
         FB.logout()
 
         swal({
@@ -201,4 +202,8 @@ class DeactivateModal extends React.Component<PropsType, StateType> {
   }
 }
 
-export default connect(() => ({}), actions)(DeactivateModal)
+export default connect(() => ({}), {
+  deactivateUser: actions.deactivateUser,
+  updateAuth: actions.updateAuth,
+  clearMatch: actions.clearMatch
+})(DeactivateModal)

@@ -75,28 +75,9 @@ export const SUBMIT_DISLIKE_MATCH_FEEDBACK = {
 // Admin APIs
 // ///////////////////////////
 
+// User related
 export const GET_ALL_USERS = {
   URL: `${BASE.admin}/users`,
-  METHOD: 'GET'
-}
-
-export const GET_ALL_MATCHES = {
-  URL: `${BASE.admin}/matches`,
-  METHOD: 'GET'
-}
-
-export const RESET_MATCHES = {
-  URL: `${BASE.admin}/matchmaking`,
-  METHOD: 'DELETE'
-}
-
-export const POST_AUTO_MATCHMAKING = {
-  URL: `${BASE.admin}/makematches`,
-  METHOD: 'POST'
-}
-
-export const GET_ADMIN_STATS = {
-  URL: `${BASE.admin}/stats`,
   METHOD: 'GET'
 }
 
@@ -105,9 +86,13 @@ export const HARD_DELETE_USER = {
   METHOD: 'DELETE'
 }
 
-// /admin/match
+// Match related
+export const GET_ALL_MATCHES = {
+  URL: `${BASE.admin}/match`,
+  METHOD: 'GET'
+}
 
-export const MATCH_USERS = {
+export const CREATE_MATCH = {
   URL: `${BASE.admin}/match`,
   METHOD: 'POST'
 }
@@ -122,9 +107,20 @@ export const DELETE_MATCH = {
   METHOD: 'DELETE'
 }
 
+export const RESET_MATCHES = {
+  URL: `${BASE.admin}/matchmaking`,
+  METHOD: 'DELETE'
+}
+
 export const RUN_MATCHMAKING = {
   URL: `${BASE.admin}/matchmaking`,
   METHOD: 'POST'
+}
+
+// Miscellaneous
+export const GET_ADMIN_STATS = {
+  URL: `${BASE.admin}/stats`,
+  METHOD: 'GET'
 }
 
 // ///////////////////////////

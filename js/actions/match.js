@@ -10,6 +10,10 @@ export const getMatchSuccess = (match: MatchType) => ({
   payload: match
 })
 
+export const clearMatch = () => ({
+  type: ACTIONS.CLEAR_MATCH
+})
+
 export const setRendezvousTime = (time: RendezvousTimeType) => ({
   type: ACTIONS.SET_RENDEZVOUS_TIME,
   payload: time

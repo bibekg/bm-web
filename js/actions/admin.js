@@ -60,8 +60,8 @@ export const createNewMatch = (userIds: Array<string>, variants: Array<string>, 
   getState: *
 ) =>
   axios({
-    method: API.MATCH_USERS.METHOD,
-    url: API.MATCH_USERS.URL,
+    method: API.CREATE_MATCH.METHOD,
+    url: API.CREATE_MATCH.URL,
     headers: {
       Authorization: `Bearer ${getState().auth.accessToken}`
     },
@@ -94,29 +94,6 @@ export const resetMatches = (callback?: (?Error, ?Object) => void) => (dispatch:
   axios({
     method: API.RESET_MATCHES.METHOD,
     url: API.RESET_MATCHES.URL,
-    headers: {
-      Authorization: `Bearer ${getState().auth.accessToken}`
-    }
-  })
-    .then(res => {
-      if (res && res.data && res.data.status === 'success') {
-        if (callback) {
-          callback(null, res)
-        }
-      } else if (callback) {
-        callback(new Error(res.data.message), null)
-      }
-    })
-    .catch(err => {
-      if (callback) {
-        callback(err, null)
-      }
-    })
-
-export const postAutoMatchmaking = (callback: (?Error, *) => void) => (dispatch: *, getState: *) =>
-  axios({
-    method: API.POST_AUTO_MATCHMAKING.METHOD,
-    url: API.POST_AUTO_MATCHMAKING.URL,
     headers: {
       Authorization: `Bearer ${getState().auth.accessToken}`
     }

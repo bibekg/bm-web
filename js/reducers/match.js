@@ -8,7 +8,8 @@ import {
   MARK_AVAILABILITY_SUBMITTED,
   UPDATE_LIKE_STATUS,
   MARK_MATCH_FEEDBACK_SUBMITTED,
-  MARK_DISLIKE_MATCH_FEEDBACK_SUBMITTED
+  MARK_DISLIKE_MATCH_FEEDBACK_SUBMITTED,
+  CLEAR_MATCH
 } from 'actions/types'
 
 const DEFAULT_MATCH_STATE = null
@@ -48,6 +49,8 @@ const matchReducer = (state: MatchStateType = DEFAULT_MATCH_STATE, action: Match
   const { type, payload } = action
   if (type === GET_MATCH_SUCCESS) {
     return payload
+  } else if (type === CLEAR_MATCH) {
+    return null
   } else if (state != null) {
     return matchProducer(state, action)
   }
