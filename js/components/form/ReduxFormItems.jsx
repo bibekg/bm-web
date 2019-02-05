@@ -7,6 +7,7 @@ import * as Form from 'components/form'
 import Slider from 'components/Slider'
 import Dropdown, { DropdownItem } from 'components/Dropdown'
 import Button from 'components/Button'
+import { FieldInvalidIcon } from 'components/icons'
 
 export const FormPageWrapper = styled.div`
   display: flex;
@@ -39,20 +40,19 @@ export const NavButton = styled(Button)`
   }
 `
 
-export const FieldValidationError = styled.span`
+export const FieldValidationError = styled(({ className, children }) => (
+  <span className={className}>
+    <FieldInvalidIcon size={12} />
+    {children}
+  </span>
+))`
   border: none;
   font-weight: 700;
   color: ${colors.red};
   display: block;
   padding-bottom: 15px;
 
-  &:before {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    content: '\\F06A';
+  & > * {
     margin-right: 5px;
   }
 `
