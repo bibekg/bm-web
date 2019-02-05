@@ -97,7 +97,7 @@ export const FormCheckboxItem = ({
   formProps
 }: FormCheckboxItemArgumentType) => (
   <FormItem name={itemName}>
-    <Form.CheckboxGroup name={fields.name} {...componentOptions} fields={fields} formProps={formProps} />
+    <Form.CheckboxGroup name={fields.name} {...componentOptions} fields={fields} formProps={formProps} inForm />
     {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )

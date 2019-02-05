@@ -10,6 +10,7 @@ export default styled.textarea`
   border-radius: 3px;
   width: 100%;
   padding: 15px;
+  margin-top: 10px;
 
   &::placeholder {
     color: ${colors.grey};
