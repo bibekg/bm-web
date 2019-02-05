@@ -5,7 +5,7 @@ import * as USER_PROPS from 'constants/user-props'
 
 import { Field, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
-import * as FormItems from './FormItems'
+import * as FormItems from '../form/ReduxFormItems'
 import * as FormValidators from './FormValidators'
 
 const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {

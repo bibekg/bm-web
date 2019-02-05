@@ -1,6 +1,6 @@
 // @flow
 import * as USER_PROPS from 'constants/user-props'
-import * as FormItems from './FormItems'
+import * as FormItems from '../form/ReduxFormItems'
 
 // Components that require a FieldArray instead of a Field in redux-form
 export const FIELD_ARRAY_COMPONENTS = [FormItems.FormCheckboxItem]

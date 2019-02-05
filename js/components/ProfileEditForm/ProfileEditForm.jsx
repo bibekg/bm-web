@@ -14,7 +14,7 @@ import ProfileEditFormPersonalPage from './PersonalForm'
 import ProfileEditFormPreferencePage from './PreferenceForm'
 import ProfileEditFormContactPage from './ContactForm'
 import { createSubmitData } from './FormHelpers'
-import { ButtonWrapper, NavButton } from './FormItems'
+import { ButtonWrapper, NavButton } from '../form/ReduxFormItems'
 
 const FormWrapper = styled.div`
   display: flex;

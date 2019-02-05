@@ -6,7 +6,7 @@ import { formatRelationshipType, formatHeight, formatUserYear, formatGender } fr
 
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
-import * as FormItems from './FormItems'
+import * as FormItems from '../form/ReduxFormItems'
 import * as FormValidators from './FormValidators'
 import { FIELD_ARRAY_COMPONENTS } from './FormHelpers'
 
