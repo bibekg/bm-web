@@ -152,7 +152,6 @@ class ProfileCard extends React.Component<PropsType, StateType> {
 
   render(): ?React.Element<*> {
     const {
-      _id,
       active,
       bio,
       genderPreference,
