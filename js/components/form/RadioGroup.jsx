@@ -1,14 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import styled from 'styled-components'
 import RadioInput from './RadioInput'
 import type { OptionType } from './RadioInput'
-
-const RadioGroupDiv = styled.div`
-  padding: 10px 0;
-  margin-bottom: 30px;
-`
 
 type PropsType = {
   required: boolean,
@@ -20,7 +14,7 @@ type PropsType = {
 
 export default function RadioGroup(props: PropsType): React.Element<*> {
   return (
-    <RadioGroupDiv>
+    <div>
       {props.options.map(option => (
         <RadioInput
           required={props.required}
@@ -31,7 +25,7 @@ export default function RadioGroup(props: PropsType): React.Element<*> {
           onChange={props.onChange}
         />
       ))}
-    </RadioGroupDiv>
+    </div>
   )
 }
 

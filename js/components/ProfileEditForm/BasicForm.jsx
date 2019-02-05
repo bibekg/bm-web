@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 
 // import Button from 'components/Button'
 import * as USER_PROPS from 'constants/user-props'
@@ -13,11 +12,6 @@ import type { FormProps } from 'redux-form'
 import * as FormItems from './FormItems'
 import { FIELD_ARRAY_COMPONENTS, createFormInitialValues } from './FormHelpers'
 import * as FormValidators from './FormValidators'
-
-const FormBasicPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-`
 
 let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
   const { handleSubmit, invalid, requiredFieldsOnly, createNavButtons } = props
@@ -118,7 +112,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormBasicPageWrapper>
+      <FormItems.FormPageWrapper>
         {fields.map(
           field =>
             FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
@@ -140,7 +134,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
               />
             )
         )}
-      </FormBasicPageWrapper>
+      </FormItems.FormPageWrapper>
       {createNavButtons(invalid)}
     </form>
   )

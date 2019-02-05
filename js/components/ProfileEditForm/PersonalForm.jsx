@@ -27,19 +27,23 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
       }
     })
   })
-  const fields = [bioField, ...questionFields]
+  // The z-index trick with flex-direction: column-reverse
+  // See BasicForm.jsx for details
+  const fields = [bioField, ...questionFields].reverse()
 
   return (
     <form onSubmit={handleSubmit}>
-      {fields.map(field => (
-        <Field
-          key={field.fieldName}
-          name={field.fieldName}
-          options={field.options}
-          component={FormItems.FormTextareaItem}
-          validate={field.validate}
-        />
-      ))}
+      <FormItems.FormPageWrapper>
+        {fields.map(field => (
+          <Field
+            key={field.fieldName}
+            name={field.fieldName}
+            options={field.options}
+            component={FormItems.FormTextareaItem}
+            validate={field.validate}
+          />
+        ))}
+      </FormItems.FormPageWrapper>
       {createNavButtons(invalid)}
     </form>
   )

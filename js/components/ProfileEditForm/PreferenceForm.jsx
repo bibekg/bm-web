@@ -93,32 +93,35 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
 
   const requiredFields = [genderPreferenceField, agePreferenceField, relationshipTypeField]
   const nonrequiredFields = [ethnicityPreferenceField, yearPreferenceField, collegePreference, heightPreference]
-  const fields = requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)
+  // The z-index trick with flex-direction: column-reverse
+  // See BasicForm.jsx for details
+  const fields = (requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)).reverse()
 
   return (
     <form onSubmit={handleSubmit}>
-      {fields.map(
-        field =>
-          FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
-            <FieldArray
-              key={field.fieldName}
-              name={field.fieldName}
-              options={field.options}
-              component={field.component}
-              validate={field.validate}
-              formProps={props}
-            />
-          ) : (
-            <Field
-              key={field.fieldName}
-              name={field.fieldName}
-              options={field.options}
-              component={field.component}
-              validate={field.validate}
-            />
-          )
-      )}
-
+      <FormItems.FormPageWrapper>
+        {fields.map(
+          field =>
+            FIELD_ARRAY_COMPONENTS.indexOf(field.component) >= 0 ? (
+              <FieldArray
+                key={field.fieldName}
+                name={field.fieldName}
+                options={field.options}
+                component={field.component}
+                validate={field.validate}
+                formProps={props}
+              />
+            ) : (
+              <Field
+                key={field.fieldName}
+                name={field.fieldName}
+                options={field.options}
+                component={field.component}
+                validate={field.validate}
+              />
+            )
+        )}
+      </FormItems.FormPageWrapper>
       {createNavButtons(invalid)}
     </form>
   )

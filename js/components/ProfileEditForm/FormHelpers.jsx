@@ -16,8 +16,10 @@ const userDataMapperCreator = (user: UserType | UserFormType) => ({
   collegePreference: [user.collegePreference, USER_PROPS.COLLEGE]
 })
 
-// Build the initial values for a FieldArray based on
+// Build the initial values for a FieldArray (an array of booleans) based on
 // currently selected options and all possible options
+// Eg. All Options = [A, B, C, D, E], Selected Options = [A, C]
+// Return: [true, false, true, false, false]
 const buildFieldArrayInitialValues = (name: string, state: ReduxStateType): [boolean] | null => {
   const { user } = state
   if (user === undefined || user === null) {

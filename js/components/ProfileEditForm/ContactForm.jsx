@@ -89,11 +89,13 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
         <Field key={field.fieldName} name={field.fieldName} options={field.options} component={field.component} />
       )
   )
-  const fields = requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)
+  // The z-index trick with flex-direction: column-reverse
+  // See BasicForm.jsx for details
+  const fields = (requiredFieldsOnly ? requiredFields : requiredFields.concat(nonrequiredFields)).reverse()
 
   return (
     <form onSubmit={handleSubmit}>
-      {fields}
+      <FormItems.FormPageWrapper>{fields}</FormItems.FormPageWrapper>
       {createNavButtons(invalid)}
     </form>
   )

@@ -8,17 +8,23 @@ import Slider from 'components/Slider'
 import Dropdown, { DropdownItem } from 'components/Dropdown'
 import Button from 'components/Button'
 
+export const FormPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+`
+
 const FormItemWrapper = styled.div`
-  margin: 20px 0;
+  margin: 10px 0;
 `
 
 const FormItemChildrenWrapper = styled.div`
   & > * {
-    margin: 10px 0;
+    margin-top: 10px;
   }
 `
 
 export const ButtonWrapper = styled.div`
+  padding-top: 10px;
   text-align: center;
 `
 
