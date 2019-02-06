@@ -19,6 +19,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormCheckboxItem,
     options: {
       itemName: 'Interested In',
+      required: true,
       options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) })),
       anyable: true
     },
@@ -31,7 +32,8 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
       itemName: 'Age Preference',
       min: USER_PROPS.MIN_AGE,
       max: USER_PROPS.MAX_AGE,
-      marks: USER_PROPS.AGE_LABELS
+      marks: USER_PROPS.AGE_LABELS,
+      showLabel: true
     }
   }
   const relationshipTypeField: FormCheckboxFieldType = {
@@ -39,6 +41,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormCheckboxItem,
     options: {
       itemName: 'Looking For',
+      required: true,
       options: USER_PROPS.RELATIONSHIP_TYPE.map(r => ({ id: r, text: formatRelationshipType(r) })),
       anyable: true
     },
@@ -51,6 +54,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormCheckboxItem,
     options: {
       itemName: 'Ethnicity Preference',
+      required: true,
       options: USER_PROPS.ETHNICITY.map(e => ({ id: e, text: e })),
       anyable: true
     },
@@ -62,6 +66,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormCheckboxItem,
     options: {
       itemName: 'Class Year Preference',
+      required: true,
       options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) })),
       anyable: true
     },
@@ -73,6 +78,7 @@ const ProfileEditFormPreferencePage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormCheckboxItem,
     options: {
       itemName: 'College Preference',
+      required: true,
       options: USER_PROPS.COLLEGE.map(c => ({ id: c, text: c })),
       anyable: true
     },

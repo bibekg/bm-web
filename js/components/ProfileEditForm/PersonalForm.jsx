@@ -14,7 +14,8 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   const bioField = {
     fieldName: 'bio',
     options: {
-      itemName: 'Bio'
+      itemName: 'Bio',
+      required: true
     },
     validate: FormValidators.requiredValue
   }
@@ -22,9 +23,11 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
     questionFields.push({
       fieldName: `questions[${entry[0]}]`,
+      required: true,
       options: {
         itemName: entry[1]
-      }
+      },
+      validate: FormValidators.requiredValue
     })
   })
   // The z-index trick with flex-direction: column-reverse

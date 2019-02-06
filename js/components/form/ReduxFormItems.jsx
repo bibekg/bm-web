@@ -59,7 +59,7 @@ export const FieldValidationError = styled(({ className, children }) => (
 
 export const FormItem = (props: FormItemPropsType) => (
   <FormItemWrapper>
-    <Form.Label>{props.name}</Form.Label>
+    <Form.Label required={props.required}>{props.name}</Form.Label>
     <FormItemChildrenWrapper>{props.children}</FormItemChildrenWrapper>
   </FormItemWrapper>
 )
@@ -67,9 +67,9 @@ export const FormItem = (props: FormItemPropsType) => (
 export const FormTextInputItem = ({
   input,
   meta: { error },
-  options: { itemName, ...componentOptions }
+  options: { itemName, required, ...componentOptions }
 }: FormTextInputItemArgumentType) => (
-  <FormItem name={itemName}>
+  <FormItem name={itemName} required={required}>
     <Form.TextInput {...input} {...componentOptions} type="text" />
     {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
@@ -83,20 +83,22 @@ export const FormSliderItem = ({ input, options: { itemName, ...componentOptions
 
 export const FormRadioGroupItem = ({
   input,
-  options: { itemName, ...componentOptions }
+  meta: { error },
+  options: { itemName, required, ...componentOptions }
 }: FormRadioGroupItemArgumentType) => (
-  <FormItem name={itemName}>
+  <FormItem name={itemName} required={required}>
     <Form.RadioGroup {...input} {...componentOptions} selected={input.value} />
+    {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
 
 export const FormCheckboxItem = ({
   fields,
   meta: { error },
-  options: { itemName, ...componentOptions },
+  options: { itemName, required, ...componentOptions },
   formProps
 }: FormCheckboxItemArgumentType) => (
-  <FormItem name={itemName}>
+  <FormItem name={itemName} required={required}>
     <Form.CheckboxGroup name={fields.name} {...componentOptions} fields={fields} formProps={formProps} inForm />
     {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
@@ -118,8 +120,12 @@ export const FormDropdownItem = ({
   </FormItem>
 )
 
-export const FormTextareaItem = ({ input, meta: { error }, options: { itemName } }: FormTextareaItemArgumentType) => (
-  <FormItem name={itemName}>
+export const FormTextareaItem = ({
+  input,
+  meta: { error },
+  options: { itemName, required }
+}: FormTextareaItemArgumentType) => (
+  <FormItem name={itemName} required={required}>
     <Form.Textarea {...input} rows={5} />
     {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>

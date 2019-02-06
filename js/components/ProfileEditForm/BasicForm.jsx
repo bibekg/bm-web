@@ -21,6 +21,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormTextInputItem,
     options: {
       itemName: 'First Name',
+      required: true,
       placeholder: 'Joe'
     },
     validate: FormValidators.requiredValue
@@ -30,6 +31,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormTextInputItem,
     options: {
       itemName: 'Last Name',
+      required: true,
       placeholder: 'Bruin'
     },
     validate: FormValidators.requiredValue
@@ -51,16 +53,20 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormRadioGroupItem,
     options: {
       itemName: 'Year',
+      required: true,
       options: USER_PROPS.YEAR.map(y => ({ id: String(y), text: formatUserYear(y) }))
-    }
+    },
+    validate: FormValidators.requiredValue
   }
   const genderField: FormRadioGroupFieldType = {
     fieldName: 'gender',
     component: FormItems.FormRadioGroupItem,
     options: {
       itemName: 'Gender',
+      required: true,
       options: USER_PROPS.GENDER.map(g => ({ id: g, text: formatGender(g) }))
-    }
+    },
+    validate: FormValidators.requiredValue
   }
 
   const majorField: FormDropdownFieldType = {

@@ -128,7 +128,7 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
     return page
       ? {
           basic: 'Tell us about yourself.',
-          personal: 'Tell us more about yourself',
+          personal: 'Tell us more about yourself.',
           preferences: "Tell us what you're looking for.",
           contact: 'Let your matches know how to contact you.'
         }[page]

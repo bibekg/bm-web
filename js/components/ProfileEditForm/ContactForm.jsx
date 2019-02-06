@@ -58,9 +58,9 @@ const ProfileEditFormContactPage = (props: FormProps): React.Element<*> => {
 
   const requiredFields = [
     <DisclaimerText key="disclaimer">
-      No worries! Your contact information will not be shared until you and your match like each other
+      No worries! Your contact information will not be shared until you and your match like each other.
     </DisclaimerText>,
-    <FormItems.FormItem name="Phone Number" key="form">
+    <FormItems.FormItem name="Phone Number" key="form" required>
       <Field
         name="phone"
         component={FormTextInputItemRaw}

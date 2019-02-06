@@ -49,12 +49,12 @@ export const createFormInitialValues = (state: ReduxStateType): any | null => {
     // Basic Page
     firstName: user.name.first,
     lastName: user.name.last,
-    age: user.age != undefined ? user.age : USER_PROPS.MIN_AGE,
+    age: user.age != undefined ? user.age : null,
     year: user.year ? user.year.toString() : null,
     gender: user.gender,
     major: user.major,
     college: user.college,
-    height: user.height != undefined ? user.height : USER_PROPS.MIN_HEIGHT,
+    height: user.height != undefined ? user.height : null,
     ethnicity: buildFieldArrayInitialValues('ethnicity', state),
 
     // Personal Page
@@ -94,9 +94,12 @@ const buildSubmitFieldArray = (name: string, user: UserFormType) => {
 }
 
 export const createSubmitData = (editedUser: UserType, formValue: UserFormType): UserType => {
-  const answersValues = editedUser.answers
-  answersValues.forEach(faq => {
-    faq.answer = formValue.questions[faq.question]
+  const answersValues = []
+  Object.keys(formValue.questions).forEach(key => {
+    // Workaround: seems like one key in this object is always "undefined" with associated value "undefined"
+    if (key !== 'undefined') {
+      answersValues.push({ question: key, answer: formValue.questions[key] })
+    }
   })
 
   const submitValues = {
