@@ -1,8 +1,6 @@
 // @flow
 import * as React from 'react'
-
 import * as USER_PROPS from 'constants/user-props'
-
 import { Field, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import * as FormItems from '../form/ReduxFormItems'

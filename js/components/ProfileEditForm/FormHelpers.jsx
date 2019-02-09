@@ -136,41 +136,6 @@ export const createSubmitData = (editedUser: UserType, formValue: UserFormType):
     snapchat: formValue.snapchat
   }
 
-  // editUser is frozen so we recursively copy every leaf-level values in the nested objects
-  // from source (submitValues) to destination (editedUser)
-  /*
-  const assignValues = (src, dst) => {
-    // Copy the value (a string, number, etc.) directly if at leaf-level
-    if (typeof src !== 'object') {
-      if (typeof dst !== 'object') {
-        dst = src
-      }
-      // Go one level deeper into the object if not
-    } else {
-      Object.keys(src).forEach(key => {
-        if (typeof dst === 'object' && key in dst) {
-          assignValues(src[key], dst[key])
-        }
-      })
-    }
-  }
-  */
-  /*
-  const assignValues = (src, dst) => {
-    // Copy the value (a string, number, etc.) directly if the key does not contain a nested object
-    Object.keys(src).forEach(key => {
-      if (typeof src[key] !== 'object') {
-        if (key in dst && typeof dst[key] !== 'object') {
-          dst[key] = src[key]
-        }
-        // Go one level deeper into the object if not
-      } else if (key in dst && typeof dst[key] === 'object') {
-        assignValues(src[key], dst[key])
-      }
-    })
-  }
-  assignValues(submitValues, editedUser)
-  */
   Object.keys(submitValues).forEach(field => {
     // eslint-disable-next-line flowtype/no-weak-types
     editedUser[field] = (submitValues: Object)[field]

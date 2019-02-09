@@ -9,10 +9,12 @@ import { Subtitle } from 'components/typography'
 import * as actions from 'actions'
 import { colors, breakpoints } from 'styles'
 
-import ProfileEditFormBasicPage from './BasicForm'
-import ProfileEditFormPersonalPage from './PersonalForm'
-import ProfileEditFormPreferencePage from './PreferenceForm'
-import ProfileEditFormContactPage from './ContactForm'
+import {
+  ProfileEditFormBasicPage,
+  ProfileEditFormPreferencePage,
+  ProfileEditFormContactPage,
+  ProfileEditFormPersonalPage
+} from '.'
 import { createSubmitData } from './FormHelpers'
 import { ButtonWrapper, NavButton } from '../form/ReduxFormItems'
 
@@ -46,10 +48,11 @@ const PageButton = styled.div`
   margin-right: 20px;
 
   &:hover {
-    cursor: pointer;
+    cursor: default;
     ${props =>
       props.valid &&
       `
+      cursor: pointer;
       font-weight: 600;
     `};
   }

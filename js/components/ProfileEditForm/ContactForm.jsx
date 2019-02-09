@@ -1,9 +1,7 @@
 // @flow
 import * as React from 'react'
-
 import * as Form from 'components/form'
 import { Text } from 'components/typography'
-
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import * as FormItems from '../form/ReduxFormItems'

@@ -1,9 +1,7 @@
 // @flow
 import * as React from 'react'
-
 import * as USER_PROPS from 'constants/user-props'
 import { formatRelationshipType, formatHeight, formatUserYear, formatGender } from 'utilities/user-formatters'
-
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import * as FormItems from '../form/ReduxFormItems'

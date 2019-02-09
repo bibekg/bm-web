@@ -1,12 +1,9 @@
 // @flow
 import * as React from 'react'
 import { connect } from 'react-redux'
-
-// import Button from 'components/Button'
 import * as USER_PROPS from 'constants/user-props'
 import { formatHeight, formatUserYear, formatGender } from 'utilities/user-formatters'
 import { DropdownItem } from 'components/Dropdown'
-
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import type { FormProps } from 'redux-form'
 import * as FormItems from '../form/ReduxFormItems'
@@ -150,7 +147,7 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
 
 ProfileEditFormBasicPage = reduxForm({
   form: 'profileEdit',
-  destroyOnUnmount: false, // preserve form data
+  destroyOnUnmount: false, // preserve form data, necessary for our form of multiple pages
   forceUnregisterOnUnmount: true // unregister fields on unmount
 })(ProfileEditFormBasicPage)
 

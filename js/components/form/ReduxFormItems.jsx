@@ -2,7 +2,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { colors, breakpoints } from 'styles'
-
 import * as Form from 'components/form'
 import Slider from 'components/Slider'
 import Dropdown, { DropdownItem } from 'components/Dropdown'
