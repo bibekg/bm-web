@@ -104,13 +104,13 @@ class ProfileEditForm extends React.Component<PropsType, StateType> {
 
   submitForm = formValue => {
     const { editedUser } = this.state
-    this.setState({ editedUser: createSubmitData(editedUser, formValue) })
+    const editedUserUpdated = createSubmitData(editedUser, formValue)
 
-    if (editedUser) {
+    if (editedUserUpdated) {
       this.props
-        .editUser(editedUser)
+        .editUser(editedUserUpdated)
         .then(() => {
-          this.setState({ editComplete: true })
+          this.setState({ editedUser: editedUserUpdated, editComplete: true })
         })
         .catch(err => {
           if (err.name === 'InvalidValues') {

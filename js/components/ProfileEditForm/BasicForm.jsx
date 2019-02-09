@@ -41,12 +41,14 @@ let ProfileEditFormBasicPage = (props: FormProps): React.Element<*> => {
     component: FormItems.FormSliderItem,
     options: {
       itemName: 'Age',
+      required: true,
       min: USER_PROPS.MIN_AGE,
       max: USER_PROPS.MAX_AGE,
       marks: USER_PROPS.AGE_LABELS,
       formatter: (n: ?number) => String(n),
       showLabel: true
-    }
+    },
+    validate: FormValidators.requiredValue
   }
   const yearField: FormRadioGroupFieldType = {
     fieldName: 'year',

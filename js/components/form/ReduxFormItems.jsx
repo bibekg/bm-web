@@ -75,9 +75,14 @@ export const FormTextInputItem = ({
   </FormItem>
 )
 
-export const FormSliderItem = ({ input, options: { itemName, ...componentOptions } }: FormSliderItemArgumentType) => (
-  <FormItem name={itemName}>
+export const FormSliderItem = ({
+  input,
+  meta: { error },
+  options: { itemName, required, ...componentOptions }
+}: FormSliderItemArgumentType) => (
+  <FormItem name={itemName} required={required}>
     <Slider {...input} {...componentOptions} />
+    {error && <FieldValidationError>{error}</FieldValidationError>}
   </FormItem>
 )
 

@@ -23,9 +23,9 @@ const ProfileEditFormPersonalPage = (props: FormProps): React.Element<*> => {
   Object.entries(USER_PROPS.QUESTIONS).forEach(entry => {
     questionFields.push({
       fieldName: `questions[${entry[0]}]`,
-      required: true,
       options: {
-        itemName: entry[1]
+        itemName: entry[1],
+        required: true
       },
       validate: FormValidators.requiredValue
     })
