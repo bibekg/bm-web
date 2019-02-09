@@ -8,6 +8,8 @@ type UserHeightType = number
 
 type UserAgeType = number
 
+type UserQuestionType = 'HOBBIES' | 'FUTURE_PLANS' | 'ASK_ME_ABOUT' | 'IDEAL_FIRST_DATE'
+
 type UserEthnicityType =
   | 'Asian'
   | 'South Asian'
@@ -218,7 +220,7 @@ type UserPreferenceStackType = {
 }
 
 type UserAnswerType = {
-  question: string,
+  question: UserQuestionType,
   answer: string
 }
 
@@ -300,4 +302,37 @@ type RendezvousStateType = 'unscheduled' | 'scheduled' | 'unschedulable'
 type RendezvousTimeType = {
   date: string,
   hour: number
+}
+
+// Type of the User profile form
+type UserFormType = {
+  // Basic Page
+  firstName: string,
+  lastName: string,
+  age: UserAgeType,
+  year: UserYearType,
+  gender: UserGenderType,
+  major: UserMajorType,
+  college: UserCollegeType,
+  height: UserHeightType,
+  ethnicity: Array<boolean>,
+
+  // Personal Page
+  bio: string,
+  questions: { [UserQuestionType]: string },
+
+  // Preference Page
+  genderPreference: Array<boolean>,
+  agePreference: [number, number],
+  relationshipType: Array<boolean>,
+  ethnicityPreference: Array<boolean>,
+  yearPreference: Array<boolean>,
+  collegePreference: Array<boolean>,
+  heightPreference: [number, number],
+
+  // Contact Page
+  phone: string,
+  receiveTexts: boolean,
+  instagram: string,
+  snapchat: string
 }

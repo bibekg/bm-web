@@ -111,14 +111,11 @@ class FunProfileModal extends React.Component<PropsType, StateType> {
     const editedUser = { ...this.props.user, ...{ answers: editedAnswers } }
 
     if (this.isFormValid() && editedAnswers) {
-      this.props.editUser(editedUser, err => {
-        if (err) {
-          const { status, invalidValues } = err.response.data
-          if (status === 'invalid' && invalidValues) {
-            this.setState({ errorMessage: `Uh oh! You entered an invalid value for: ${invalidValues.join(', ')}` })
-          } else {
-            this.setState({ errorMessage: 'Unknown server error.' })
-          }
+      this.props.editUser(editedUser).catch(err => {
+        if (err.name === 'InvalidValues') {
+          this.setState({ errorMessage: `Uh oh! You entered an invalid value for: ${err.invalidValues.join(', ')}` })
+        } else {
+          this.setState({ errorMessage: 'Unknown server error.' })
         }
       })
     }

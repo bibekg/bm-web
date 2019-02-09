@@ -7,6 +7,7 @@ import { placeholderMixin } from 'styles/mixins'
 export default styled.input`
   width: 100%;
   padding: 10px 5px;
+  margin-bottom: 10px;
   box-sizing: border-box;
   border: none;
   background-color: ${colors.white};

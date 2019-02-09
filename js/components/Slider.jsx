@@ -65,7 +65,7 @@ export default function SliderComponent<W: ValueType>(props: PropsType<W>): Reac
       {props.showLabel && <SliderLabel>{getLabelText()}</SliderLabel>}
       <Slider
         {...props}
-        value={getRenderValue()}
+        value={getRenderValue() || null} // returns null if render value is falsy (Eg. an empty string)
         allowCross={props.allowCross}
         dots={false}
         tipFormatter={props.formatter}
