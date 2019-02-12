@@ -205,5 +205,6 @@ class DeactivateModal extends React.Component<PropsType, StateType> {
 export default connect(() => ({}), {
   deactivateUser: actions.deactivateUser,
   updateAuth: actions.updateAuth,
-  clearMatch: actions.clearMatch
+  clearMatch: actions.clearMatch,
+  postFeedback: actions.postFeedback
 })(DeactivateModal)
