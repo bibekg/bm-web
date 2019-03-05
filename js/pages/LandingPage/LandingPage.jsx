@@ -7,9 +7,11 @@ import { Redirect } from 'react-router-dom'
 import { Title, Text } from 'components/typography'
 import LogInButton from 'components/LogInButton'
 import FeatureCard from 'components/FeatureCard'
+import HowItWorksItem from 'components/HowItWorksItem'
 import { BlueWaveBackground, TopWave, BottomWave } from 'components/waves'
 import { breakpoints, colors } from 'styles'
 import features from './feature-data'
+import descriptions from './how-it-works-data'
 
 const FOLDING_BREAKPOINT = 700
 
@@ -87,6 +89,12 @@ const FeatureCardsWrapper = styled.div`
   }
 `
 
+const HowItWorksWrapper = styled.div`
+  width: 90%;
+  max-width: 960px;
+  margin: auto;
+`
+
 type PropsType = {
   isLoggedIn: boolean
 }
@@ -94,6 +102,10 @@ type PropsType = {
 const LandingPage = (props: PropsType): ?React.Element<*> => {
   const renderFeature = ({ image, title, description }) => (
     <FeatureCard key={title} image={image} title={title} text={description} />
+  )
+
+  const renderDiscItem = ({ image, title, description, arrangement }) => (
+    <HowItWorksItem key={title} image={image} title={title} text={description} arrangement={arrangement} />
   )
 
   if (props.isLoggedIn === null) {
@@ -120,6 +132,10 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
             }
           </Text>
         </MessageWrapper>
+        <HowItWorksWrapper>
+          <Title>How It Works</Title>
+          {descriptions.map(renderDiscItem)}
+        </HowItWorksWrapper>
         <FeatureWrapper>
           <Title>Features</Title>
           <TopWaveDiv />
