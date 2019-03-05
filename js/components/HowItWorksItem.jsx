@@ -21,8 +21,12 @@ const Row = styled.div`
 `
 
 const RowItem = styled.div`
-  padding: 15px;
-  width: 44%;
+  padding: 15px 50px;
+  flex: 1 50%;
+
+  @media (max-width: 800px) {
+    flex: 1 100%;
+  }
 `
 
 const Subtitle = styled.h2`
@@ -44,7 +48,7 @@ const Text = styled.p`
   margin: 5px 0;
 `
 
-export default function DescriptionItem(props: PropsType): React.Element<*> {
+export default function HowItWorksItem(props: PropsType): React.Element<*> {
   return (
     <Row arragement={props.arrangement}>
       <RowItem>

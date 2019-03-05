@@ -91,7 +91,7 @@ const FeatureCardsWrapper = styled.div`
 
 const HowItWorksWrapper = styled.div`
   width: 90%;
-  max-width: 960px;
+  max-width: 1050px;
   margin: auto;
 `
 
