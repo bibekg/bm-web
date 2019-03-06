@@ -111,7 +111,7 @@ export default class AdminComponentsView extends React.Component<PropsType, Stat
           onChange={this.handleCheckboxChange}
         />
         <Break verticalSpacing="10px" invisible />
-        <Toggle enabled={this.state.toggleEnabled} onClick={this.handleToggleChange} />
+        <Toggle enabled={'4'} onClick={this.handleToggleChange} />
 
         <Break verticalSpacing="50px" />
 

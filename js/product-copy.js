@@ -43,9 +43,8 @@ export const copy = {
     text: 'Learn more about your match by clicking below!'
   },
   siteDownPage: {
-    header: '',
+    header: 'Gone fishing... 🎣',
     title: '',
-    subtitle:
-      "Hey Bruins, we are currently reviewing our privacy policy so we can continue to maintain a high level of security and privacy for all our users. We'll be back with a ton of fun, new features, so stay tuned ❤️"
+    subtitle: "Hey Bruins, we're doing some quick maintenance and will be back within the hour!"
   }
 }
