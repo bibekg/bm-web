@@ -75,7 +75,7 @@ function LogInButton(props: PropsType): * {
   const getDisplayText = (): string => {
     switch (props.override) {
       case 'signup':
-        return 'Sign Up Now'
+        return 'Find Love'
       case 'login':
         return 'Log In'
       case 'logout':

@@ -8,28 +8,41 @@ import { Title, Text } from 'components/typography'
 import LogInButton from 'components/LogInButton'
 import FeatureCard from 'components/FeatureCard'
 import HowItWorksItem from 'components/HowItWorksItem'
-import { BlueWaveBackground, TopWave, BottomWave } from 'components/waves'
+import { TopWave, BottomWave } from 'components/waves'
 import { breakpoints, colors } from 'styles'
 import features from './feature-data'
 import descriptions from './how-it-works-data'
+import img from './img/landing-clouds.svg'
 
 const FOLDING_BREAKPOINT = 700
 
 const LandingText = styled(Text).attrs({
   paragraph: true
 })`
-  color: ${colors.white};
+  color: ${colors.blue};
   margin: 10px 0;
   @media (min-width: ${FOLDING_BREAKPOINT}px) {
-    font-size: 30px;
+    font-size: ${props => (props.large ? 48 : 32)}px;
+    line-height: 40px;
   }
   @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
-    font-size: 26px;
+    font-size: ${props => (props.large ? 32 : 24)}px;
   }
 `
+
+const CloudBackground = styled.div`
+  height: 80vh;
+  padding: 5%;
+  box-sizing: border-box;
+  background-image: url(${img});
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: pink;
+`
+
 const TagDiv = styled.div`
-  position: relative;
-  top: 40vh;
+  position: absolute;
+  top: 35vh;
 `
 
 const MessageWrapper = styled.div`
@@ -39,11 +52,11 @@ const MessageWrapper = styled.div`
 
   @media (min-width: ${FOLDING_BREAKPOINT}px) {
     width: 75%;
-    padding: 10%;
+    padding: 5%;
   }
   @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
     width: 90%;
-    padding: 50px 10px;
+    padding: 40px 10px;
   }
 `
 
@@ -115,14 +128,14 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
   } else {
     return (
       <div>
-        <BlueWaveBackground>
+        <CloudBackground>
           <TagDiv>
-            <LandingText>Make the First Move.</LandingText>
+            <LandingText large>Make the First Move</LandingText>
             <LandingText>Find Your True Bruin.</LandingText>
             <br />
-            <LogInButton override="signup" />
+            <LogInButton plain override="signup" />
           </TagDiv>
-        </BlueWaveBackground>
+        </CloudBackground>
         <MessageWrapper>
           <Title>From Us To You</Title>
           <br />
