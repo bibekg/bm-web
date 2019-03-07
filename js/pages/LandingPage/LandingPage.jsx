@@ -32,16 +32,18 @@ const LandingText = styled(Text).attrs({
 
 const CloudBackground = styled.div`
   height: 80vh;
+  min-height: 600px;
   padding: 5%;
   box-sizing: border-box;
   background-image: url(${img});
   background-size: cover;
+  background-position: top right;
   /* background-attachment: fixed; */
 `
 
 const TagDiv = styled.div`
-  position: absolute;
-  top: 35vh;
+  position: relative;
+  top: 40%;
 `
 
 const MessageWrapper = styled.div`
