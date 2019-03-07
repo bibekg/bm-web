@@ -36,8 +36,7 @@ const CloudBackground = styled.div`
   box-sizing: border-box;
   background-image: url(${img});
   background-size: cover;
-  background-attachment: fixed;
-  background-color: pink;
+  /* background-attachment: fixed; */
 `
 
 const TagDiv = styled.div`
