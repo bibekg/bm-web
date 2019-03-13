@@ -12,7 +12,7 @@ import { TopWave, BottomWave } from 'components/waves'
 import { breakpoints, colors } from 'styles'
 import features from './feature-data'
 import descriptions from './how-it-works-data'
-import img from './img/landing-clouds.svg'
+import img from './img/landing-clouds-2.svg'
 
 const FOLDING_BREAKPOINT = 700
 
