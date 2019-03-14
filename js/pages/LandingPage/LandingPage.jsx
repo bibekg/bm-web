@@ -38,12 +38,19 @@ const CloudBackground = styled.div`
   background-image: url(${img});
   background-size: cover;
   background-position: top right;
-  /* background-attachment: fixed; */
+
+  @media (max-width: ${breakpoints.navFold - 1}px) {
+    background-position: top 80px right;
+  }
 `
 
 const TagDiv = styled.div`
   position: relative;
   top: 40%;
+
+  @media (max-width: ${breakpoints.navFold - 1}px) {
+    top: 10%;
+  }
 `
 
 const MessageWrapper = styled.div`
