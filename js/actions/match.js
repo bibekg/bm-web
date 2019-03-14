@@ -10,6 +10,11 @@ export const getMatchSuccess = (match: MatchType) => ({
   payload: match
 })
 
+export const getRecentMatchesSuccess = (recent: Array<MatchType>) => ({
+  type: ACTIONS.GET_RECENT_MATCHES_SUCESS,
+  payload: recent
+})
+
 export const clearMatch = () => ({
   type: ACTIONS.CLEAR_MATCH
 })
@@ -54,6 +59,25 @@ export const getMatch = (callback: ReduxCallbackType<*>) => (dispatch: *, getSta
       const { match } = response.data
       if (match) {
         dispatch(getMatchSuccess(match))
+        if (typeof callback === 'function') callback(null, response.data)
+      }
+    })
+    .catch(error => {
+      if (typeof callback === 'function') callback(error, null)
+    })
+
+export const getRecentMatches = (callback: ReduxCallbackType<*>) => (dispatch: *, getState: *) =>
+  axios({
+    method: API.GET_RECENT_MATCHES.METHOD,
+    url: API.GET_RECENT_MATCHES.URL,
+    headers: {
+      Authorization: `Bearer ${getState().auth.accessToken}`
+    }
+  })
+    .then(response => {
+      const { mutualMatches } = response.data
+      if (mutualMatches) {
+        dispatch(getRecentMatchesSuccess(mutualMatches))
         if (typeof callback === 'function') callback(null, response.data)
       }
     })
