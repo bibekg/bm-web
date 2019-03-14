@@ -3,7 +3,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { colors } from 'styles'
 import PageContainer from 'components/PageContainer'
-import { Title } from 'components/typography'
+import { Title, Subtitle } from 'components/typography'
 import * as actions from 'actions'
 import RecentMatchesActionControl from '../../components/RecentMatchesActionControl'
 
@@ -31,6 +31,9 @@ class RecentMatchesPage extends React.Component<PropsType, StateType> {
   }
 
   static RecentMatchesTitle = (): React.Element<*> => <Title>{'Recent Matches'}</Title>
+  static NoRecentMatchesTitle = (): React.Element<*> => (
+    <Subtitle>{'Oops...looks like you have no recent matches!'}</Subtitle>
+  )
 
   render(): React.Element<*> {
     const { user, recent } = this.props
@@ -38,7 +41,11 @@ class RecentMatchesPage extends React.Component<PropsType, StateType> {
       <div>
         <ContentWrapper>
           <RecentMatchesPage.RecentMatchesTitle />
-          {recent && user && <RecentMatchesActionControl user={user} matches={recent} />}
+          {recent && user ? (
+            <RecentMatchesActionControl user={user} matches={recent} />
+          ) : (
+            <RecentMatchesPage.NoRecentMatchesTitle />
+          )}
         </ContentWrapper>
       </div>
     )
