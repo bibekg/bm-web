@@ -15,7 +15,8 @@ const descriptions: Array<DescriptionType> = [
   {
     image: group,
     title: 'Profile',
-    description: 'Customize and edit your profile. Customize and edit your profile. Customize and edit your profile.',
+    description:
+      'Customize your bio with a mix of basic and fun questions. Add your dating preferences to help our algorithm find you the perfect match.',
     arrangement: 'row'
   },
   {
@@ -29,8 +30,15 @@ const descriptions: Array<DescriptionType> = [
     image: heart,
     title: 'Recent Matches',
     description:
-      'View all your recent matches on one page. View all your recent matches on one page. View all your recent matches on one page.',
+      "Introducing our newest feature: Forget to contact a match? View all your recent matches on a single page and reach out to them whenever you'd like. 😉",
     arrangement: 'row'
+  },
+  {
+    image: group,
+    title: 'Scheduler',
+    description:
+      "Our built-in, simple scheduler feature helps you and your match schedule a date hassle-free. Once you and your match enter your availabilities, you'll receive an email for a scheduled date.",
+    arrangement: 'row-reverse'
   }
 ]
 

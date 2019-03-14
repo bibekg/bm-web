@@ -105,8 +105,16 @@ const FeatureCardsWrapper = styled.div`
 
 const HowItWorksWrapper = styled.div`
   width: 90%;
-  max-width: 1050px;
+  max-width: 1150px;
   margin: auto;
+`
+
+const HowItWorksTitle = Title.extend`
+  font-size: 42px;
+
+  @media (max-width: 700px) {
+    font-size: 30px;
+  }
 `
 
 type PropsType = {
@@ -147,7 +155,7 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
           </Text>
         </MessageWrapper>
         <HowItWorksWrapper>
-          <Title>How It Works</Title>
+          <HowItWorksTitle>How It Works</HowItWorksTitle>
           {descriptions.map(renderDiscItem)}
         </HowItWorksWrapper>
         <FeatureWrapper>
