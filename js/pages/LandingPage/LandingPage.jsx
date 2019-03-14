@@ -14,6 +14,8 @@ import features from './feature-data'
 import descriptions from './how-it-works-data'
 import landingClouds from './img/landing-clouds-2.svg'
 import backgroundClouds from './img/background-clouds.svg'
+import video from './video/bruinmeet.mp4'
+import poster from './video/poster.png'
 
 const FOLDING_BREAKPOINT = 700
 
@@ -170,13 +172,10 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
         <BackgroundCloudBackground>
           <LighterHeader>BruinMeet in Action</LighterHeader>
           <VideoWrapper>
-            <iframe
-              title="BruinMeet Video"
-              src="https://drive.google.com/file/d/1IaSVRWEcv4Ns8w7G-0lKytm2vnz9IFBq/preview"
-              frameBorder="0"
-              height="480"
-              width="854"
-            />
+            <video height="480" width="854" controls preload="metadata" poster={poster}>
+              <source src={video} type="video/mp4" />
+              Your browser does not support this video.
+            </video>
           </VideoWrapper>
           <Subtitle color={colors.lightishGrey}>
             {
