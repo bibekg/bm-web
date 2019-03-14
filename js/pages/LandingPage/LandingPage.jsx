@@ -12,7 +12,8 @@ import { TopWave, BottomWave } from 'components/waves'
 import { breakpoints, colors } from 'styles'
 import features from './feature-data'
 import descriptions from './how-it-works-data'
-import LandingClouds from './img/landing-clouds-2.svg'
+import LandingClouds1 from './img/landing-clouds-1.svg'
+import LandingClouds2 from './img/landing-clouds-2.svg'
 import BackgroundClouds from './img/background-clouds.svg'
 import video from './video/bruinmeet.mp4'
 import poster from './video/poster.png'
@@ -41,7 +42,7 @@ const LandingCloudBackground = styled.div`
   height: 80vh;
   padding: 5%;
   box-sizing: border-box;
-  background-image: url(${LandingClouds});
+  background-image: url(${Math.random >= 0.5 ? LandingClouds1 : LandingClouds2});
   background-size: cover;
   background-position: top right;
 
