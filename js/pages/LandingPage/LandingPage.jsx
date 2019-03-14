@@ -55,8 +55,8 @@ const LandingCloudBackground = styled.div`
   }
 `
 const VideoCloudBackground = styled.div`
-  height: 80vh;
-  min-height: 827px;
+  display: flex;
+  flex-direction: column;
   padding: 5%;
   box-sizing: border-box;
   background-image: url(${BackgroundClouds});
@@ -65,18 +65,28 @@ const VideoCloudBackground = styled.div`
   background-color: #f4faff;
 `
 
-const VideoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-`
-
 const TagDiv = styled.div`
   position: relative;
   top: 40%;
 
   @media (max-width: ${breakpoints.navFold - 1}px) {
     top: 10%;
+  }
+`
+
+const VideoWrapper = styled.div`
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const LandingVideo = styled.video`
+  max-width: 80%;
+  height: auto;
+
+  @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
+    max-width: 100%;
   }
 `
 
@@ -182,10 +192,10 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
         <VideoCloudBackground>
           <LighterHeader>BruinMeet in Action</LighterHeader>
           <VideoWrapper>
-            <video height="480" width="854" controls preload="metadata" poster={poster}>
+            <LandingVideo controls preload="metadata" poster={poster}>
               <source src={video} type="video/mp4" />
               Your browser does not support this video.
-            </video>
+            </LandingVideo>
           </VideoWrapper>
           <Subtitle color={colors.lightishGrey}>
             {
