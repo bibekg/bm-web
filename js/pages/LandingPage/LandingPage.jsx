@@ -4,7 +4,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Title, Text } from 'components/typography'
+import { Header, Title, Text, Subtitle } from 'components/typography'
 import LogInButton from 'components/LogInButton'
 import FeatureCard from 'components/FeatureCard'
 import HowItWorksItem from 'components/HowItWorksItem'
@@ -12,9 +12,14 @@ import { TopWave, BottomWave } from 'components/waves'
 import { breakpoints, colors } from 'styles'
 import features from './feature-data'
 import descriptions from './how-it-works-data'
-import img from './img/landing-clouds-2.svg'
+import landingClouds from './img/landing-clouds-2.svg'
+import backgroundClouds from './img/background-clouds.svg'
 
 const FOLDING_BREAKPOINT = 700
+
+const LighterHeader = styled(Header)`
+  font-weight: lighter;
+`
 
 const LandingText = styled(Text).attrs({
   paragraph: true
@@ -30,15 +35,32 @@ const LandingText = styled(Text).attrs({
   }
 `
 
-const CloudBackground = styled.div`
+const LandingCloudBackground = styled.div`
   height: 80vh;
   min-height: 600px;
   padding: 5%;
   box-sizing: border-box;
-  background-image: url(${img});
+  background-image: url(${landingClouds});
   background-size: cover;
   background-position: top right;
   /* background-attachment: fixed; */
+`
+const BackgroundCloudBackground = styled.div`
+  height: 80vh;
+  min-height: 827px;
+  padding: 5%;
+  box-sizing: border-box;
+  background-image: url(${backgroundClouds});
+  background-size: cover;
+  background-position: top right;
+  background-color: #f4faff;
+  /* background-attachment: fixed; */
+`
+
+const VideoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 `
 
 const TagDiv = styled.div`
@@ -137,14 +159,31 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
   } else {
     return (
       <div>
-        <CloudBackground>
+        <LandingCloudBackground>
           <TagDiv>
             <LandingText large>Make the First Move</LandingText>
             <LandingText>Find Your True Bruin.</LandingText>
             <br />
             <LogInButton plain override="signup" />
           </TagDiv>
-        </CloudBackground>
+        </LandingCloudBackground>
+        <BackgroundCloudBackground>
+          <LighterHeader>BruinMeet in Action</LighterHeader>
+          <VideoWrapper>
+            <iframe
+              title="BruinMeet Video"
+              src="https://drive.google.com/file/d/1IaSVRWEcv4Ns8w7G-0lKytm2vnz9IFBq/preview"
+              frameBorder="0"
+              height="480"
+              width="854"
+            />
+          </VideoWrapper>
+          <Subtitle color={colors.lightishGrey}>
+            {
+              "BruinMeet makes dating fun and easy. Spending all day swiping through people isn't what dating should be. Instead of swiping or crazy algorithms, we believe the best way to tell if there's a spark is to meet in person."
+            }
+          </Subtitle>
+        </BackgroundCloudBackground>
         <MessageWrapper>
           <Title>From Us To You</Title>
           <br />
