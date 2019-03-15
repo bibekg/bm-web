@@ -16,6 +16,7 @@ const Row = styled.div`
   flex-direction: ${props => props.arragement};
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin: 60px 0;
 
@@ -38,7 +39,6 @@ const RowItem = styled.div`
 `
 
 const RowWords = RowItem.extend`
-  padding-top: 60px;
   max-width: 500px;
   @media (max-width: 800px) {
     padding-top: 15px;
@@ -48,6 +48,7 @@ const RowWords = RowItem.extend`
 const HowItWorksImage = styled.img`
   width: 100%;
   border-radius: 20px;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.125);
 `
 
 const RowText = Text.extend`
