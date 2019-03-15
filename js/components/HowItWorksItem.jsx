@@ -2,8 +2,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
-import { Text } from 'components/typography'
-import { colors } from 'styles'
+import { Text, Subtitle } from 'components/typography'
 
 type PropsType = {
   image: string,
@@ -48,17 +47,16 @@ const RowWords = RowItem.extend`
 
 const HowItWorksImage = styled.img`
   width: 100%;
-  border-radius: 50px;
+  border-radius: 20px;
 `
 
 const RowText = Text.extend`
   line-height: 30px;
 `
 
-const Subtitle = styled.h2`
+const RowSubtitle = Subtitle.extend`
+  text-align: left;
   font-size: 35px;
-  line-height: 30px;
-  color: ${props => props.color || colors.grey};
 
   @media (max-width: 700px) {
     font-size: 24px;
@@ -69,10 +67,10 @@ export default function HowItWorksItem(props: PropsType): React.Element<*> {
   return (
     <Row arragement={props.arrangement}>
       <RowItem>
-        <HowItWorksImage src={props.image} alt={props.title} border-radius="20px" />
+        <HowItWorksImage src={props.image} alt={props.title} />
       </RowItem>
       <RowWords>
-        <Subtitle>{props.title}</Subtitle>
+        <RowSubtitle>{props.title}</RowSubtitle>
         <RowText size="20" paragraph>
           {props.text}
         </RowText>

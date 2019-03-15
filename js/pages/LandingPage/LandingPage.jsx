@@ -30,7 +30,7 @@ const LandingText = styled(Text).attrs({
 })`
   color: ${colors.blue};
   margin: 10px 0;
-  line-height: 40px;
+  line-height: 45px;
   @media (min-width: ${FOLDING_BREAKPOINT}px) {
     font-size: ${props => (props.large ? 50 : 40)}px;
   }
@@ -44,7 +44,7 @@ const LandingCloudBackground = styled.div`
   height: 80vh;
   padding: 5%;
   box-sizing: border-box;
-  background-image: url(${Math.random >= 0.5 ? LandingClouds1 : LandingClouds2});
+  background-image: url(${Math.random() >= 0.5 ? LandingClouds1 : LandingClouds2});
   background-size: cover;
   background-position: top right;
 
