@@ -22,6 +22,7 @@ const FOLDING_BREAKPOINT = 700
 
 const LighterHeader = styled(Header)`
   font-weight: lighter;
+  letter-spacing: 2px;
 `
 
 const LandingText = styled(Text).attrs({
@@ -92,17 +93,8 @@ const LandingVideo = styled.video`
 `
 
 const HowItWorksWrapper = styled.div`
-  width: 90%;
-  max-width: 1150px;
-  margin: auto;
-`
-
-const HowItWorksTitle = Title.extend`
-  font-size: 42px;
-
-  @media (max-width: 700px) {
-    font-size: 30px;
-  }
+  padding: 5%;
+  margin: 20px auto;
 `
 
 type PropsType = {
@@ -148,7 +140,7 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
           </Subtitle>
         </VideoCloudBackground>
         <HowItWorksWrapper>
-          <HowItWorksTitle>How It Works</HowItWorksTitle>
+          <LighterHeader>How It Works</LighterHeader>
           {descriptions.map(renderDiscItem)}
         </HowItWorksWrapper>
       </div>
