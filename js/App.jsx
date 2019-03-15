@@ -92,11 +92,7 @@ class App extends React.Component<PropsType> {
                   // the exact component to render
                   let componentToRender = component
                   if (showNavBar) {
-                    if (path === '/') {
-                      componentToRender = navBarWrapper(componentToRender)
-                    } else {
-                      componentToRender = navBarWrapper(componentToRender, true)
-                    }
+                    componentToRender = navBarWrapper(componentToRender, true)
                   }
                   // Make sure we wrap with requireAuth LAST so it is checked FIRST
                   if (requireAuth) {
