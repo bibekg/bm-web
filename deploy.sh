@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AWS_S3_REGION="us-west-2"
-STAGING_BRANCH="master"
+STAGING_BRANCH="george/landing-page" # TODO: temporary!
 PRODUCTION_BRANCH="production"
 
 # Determine the environment to deploy to based on the branch
