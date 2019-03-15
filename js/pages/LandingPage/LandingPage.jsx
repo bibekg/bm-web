@@ -29,12 +29,14 @@ const LandingText = styled(Text).attrs({
 })`
   color: ${colors.blue};
   margin: 10px 0;
+  line-height: 40px;
   @media (min-width: ${FOLDING_BREAKPOINT}px) {
-    font-size: ${props => (props.large ? 48 : 32)}px;
-    line-height: 40px;
+    font-size: ${props => (props.large ? 50 : 40)}px;
+    letter-spacing: 1px;
   }
+
   @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
-    font-size: ${props => (props.large ? 32 : 24)}px;
+    font-size: ${props => (props.large ? 40 : 30)}px;
   }
 `
 
