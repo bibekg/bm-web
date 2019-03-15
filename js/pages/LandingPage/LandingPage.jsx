@@ -94,6 +94,7 @@ const LandingVideo = styled.video`
 
 const HowItWorksWrapper = styled.div`
   padding: 5%;
+  max-width: 1400px;
   margin: 20px auto;
 `
 

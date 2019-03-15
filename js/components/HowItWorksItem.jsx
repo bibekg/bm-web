@@ -18,8 +18,7 @@ const Row = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-  padding: 20px, 0, 50px;
-  margin-bottom: 25px;
+  margin: 60px 0;
 
   @media (max-width: 800px) {
     justify-content: center;
@@ -29,7 +28,7 @@ const Row = styled.div`
 const RowItem = styled.div`
   padding: 15px 50px;
   flex: 1 50%;
-  max-width: 600px;
+  max-width: 700px;
 
   @media (max-width: 800px) {
     flex: 1 100%;
@@ -45,6 +44,11 @@ const RowWords = RowItem.extend`
   @media (max-width: 800px) {
     padding-top: 15px;
   }
+`
+
+const HowItWorksImage = styled.img`
+  width: 100%;
+  border-radius: 50px;
 `
 
 const RowText = Text.extend`
@@ -65,7 +69,7 @@ export default function HowItWorksItem(props: PropsType): React.Element<*> {
   return (
     <Row arragement={props.arrangement}>
       <RowItem>
-        <img src={props.image} alt={props.title} width="100%" />
+        <HowItWorksImage src={props.image} alt={props.title} border-radius="20px" />
       </RowItem>
       <RowWords>
         <Subtitle>{props.title}</Subtitle>
