@@ -41,6 +41,11 @@ export const GET_CURRENT_MATCH = {
   METHOD: 'GET'
 }
 
+export const GET_RECENT_MATCHES = {
+  URL: `${BASE.user}/mutual-matches`,
+  METHOD: 'GET'
+}
+
 export const SUBMIT_FEEDBACK = {
   URL: `${BASE.user}/feedback`,
   METHOD: 'POST'
