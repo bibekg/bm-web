@@ -71,7 +71,7 @@ const HowItWorksCloudBackground = styled.div`
   flex-direction: column;
   padding: 5%;
   max-width: 1400px;
-  margin: 20px auto;
+  margin: 20px auto 0;
   box-sizing: border-box;
   background-image: url(${HowItWorksClouds});
   background-position: top right;
