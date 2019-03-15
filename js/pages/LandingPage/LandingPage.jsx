@@ -12,6 +12,7 @@ import descriptions from './how-it-works-data'
 import LandingClouds1 from './img/landing-clouds-1.svg'
 import LandingClouds2 from './img/landing-clouds-2.svg'
 import BackgroundClouds from './img/background-clouds.svg'
+import HowItWorksClouds from './img/how-it-works-clouds.svg'
 import video from './video/bruinmeet.mp4'
 import poster from './video/poster.png'
 
@@ -53,6 +54,7 @@ const LandingCloudBackground = styled.div`
     background-position: top 80px right;
   }
 `
+
 const VideoCloudBackground = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +64,17 @@ const VideoCloudBackground = styled.div`
   background-size: cover;
   background-position: top right;
   background-color: #f4faff;
+`
+
+const HowItWorksCloudBackground = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  max-width: 1400px;
+  margin: 20px auto;
+  box-sizing: border-box;
+  background-image: url(${HowItWorksClouds});
+  background-position: top right;
 `
 
 const TagDiv = styled.div`
@@ -87,12 +100,6 @@ const LandingVideo = styled.video`
   @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
     max-width: 100%;
   }
-`
-
-const HowItWorksWrapper = styled.div`
-  padding: 5%;
-  max-width: 1400px;
-  margin: 20px auto;
 `
 
 type PropsType = {
@@ -133,10 +140,10 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
             }
           </Subtitle>
         </VideoCloudBackground>
-        <HowItWorksWrapper>
+        <HowItWorksCloudBackground>
           <LighterHeader>How It Works</LighterHeader>
           {descriptions.map(renderDiscItem)}
-        </HowItWorksWrapper>
+        </HowItWorksCloudBackground>
       </div>
     )
   }
