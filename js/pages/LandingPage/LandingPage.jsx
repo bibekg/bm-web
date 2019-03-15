@@ -6,11 +6,8 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Header, Text, Subtitle } from 'components/typography'
 import LogInButton from 'components/LogInButton'
-// import FeatureCard from 'components/FeatureCard'
 import HowItWorksItem from 'components/HowItWorksItem'
-// import { TopWave, BottomWave } from 'components/waves'
 import { breakpoints, colors } from 'styles'
-// import features from './feature-data'
 import descriptions from './how-it-works-data'
 import LandingClouds1 from './img/landing-clouds-1.svg'
 import LandingClouds2 from './img/landing-clouds-2.svg'
@@ -103,10 +100,6 @@ type PropsType = {
 }
 
 const LandingPage = (props: PropsType): ?React.Element<*> => {
-  // const renderFeature = ({ image, title, description }) => (
-  //   <FeatureCard key={title} image={image} title={title} text={description} />
-  // )
-
   const renderDiscItem = ({ image, title, description, arrangement }) => (
     <HowItWorksItem key={title} image={image} title={title} text={description} arrangement={arrangement} />
   )
