@@ -51,7 +51,7 @@ const LandingCloudBackground = styled.div`
   }
 
   @media (max-width: ${breakpoints.navFold - 1}px) {
-    background-position: top 80px right;
+    background-position: top 100px right;
   }
 `
 
