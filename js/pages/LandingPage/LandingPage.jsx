@@ -4,86 +4,101 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Title, Text } from 'components/typography'
+import { Header, Text, Subtitle } from 'components/typography'
 import LogInButton from 'components/LogInButton'
-import FeatureCard from 'components/FeatureCard'
-import { BlueWaveBackground, TopWave, BottomWave } from 'components/waves'
+import HowItWorksItem from 'components/HowItWorksItem'
 import { breakpoints, colors } from 'styles'
-import features from './feature-data'
+import descriptions from './how-it-works-data'
+import LandingClouds1 from './img/landing-clouds-1.svg'
+import LandingClouds2 from './img/landing-clouds-2.svg'
+import BackgroundClouds from './img/background-clouds.svg'
+import HowItWorksClouds from './img/how-it-works-clouds.svg'
+import video from './video/bruinmeet.mp4'
+import poster from './video/poster.png'
 
 const FOLDING_BREAKPOINT = 700
+
+const LighterHeader = styled(Header)`
+  font-weight: lighter;
+  letter-spacing: 2px;
+`
 
 const LandingText = styled(Text).attrs({
   paragraph: true
 })`
-  color: ${colors.white};
+  color: ${colors.blue};
   margin: 10px 0;
+  line-height: 45px;
   @media (min-width: ${FOLDING_BREAKPOINT}px) {
-    font-size: 30px;
+    font-size: ${props => (props.large ? 50 : 40)}px;
   }
+
   @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
-    font-size: 26px;
+    font-size: ${props => (props.large ? 40 : 30)}px;
   }
 `
+
+const LandingCloudBackground = styled.div`
+  height: 80vh;
+  padding: 5%;
+  box-sizing: border-box;
+  background-image: url(${Math.random() >= 0.5 ? LandingClouds1 : LandingClouds2});
+  background-size: cover;
+  background-position: top right;
+
+  @media (min-width: ${breakpoints.navFold}px) {
+    min-height: 600px;
+  }
+
+  @media (max-width: ${breakpoints.navFold - 1}px) {
+    background-position: top 100px right;
+  }
+`
+
+const VideoCloudBackground = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  box-sizing: border-box;
+  background-image: url(${BackgroundClouds});
+  background-size: cover;
+  background-position: top right;
+  background-color: #f4faff;
+`
+
+const HowItWorksCloudBackground = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  max-width: 1400px;
+  margin: 20px auto 0;
+  box-sizing: border-box;
+  background-image: url(${HowItWorksClouds});
+  background-position: top right;
+`
+
 const TagDiv = styled.div`
   position: relative;
-  top: 40vh;
-`
+  top: 40%;
 
-const MessageWrapper = styled.div`
-  box-sizing: border-box;
-  margin: auto;
-  text-align: center;
-
-  @media (min-width: ${FOLDING_BREAKPOINT}px) {
-    width: 75%;
-    padding: 10%;
-  }
-  @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
-    width: 90%;
-    padding: 50px 10px;
-  }
-`
-
-const TopWaveDiv = TopWave.extend`
-  width: 100%;
-  @media (min-width: ${breakpoints.navFold}px) {
-    height: 10vw;
-  }
   @media (max-width: ${breakpoints.navFold - 1}px) {
-    height: 120px;
+    top: 10%;
   }
 `
 
-const BottomWaveDiv = BottomWave.extend`
-  width: 100%;
-  @media (min-width: ${breakpoints.navFold}px) {
-    height: 10vw;
-  }
-  @media (max-width: ${breakpoints.navFold - 1}px) {
-    height: 120px;
-  }
-`
-
-const FeatureWrapper = styled.div`
-  text-align: center;
-  padding: 5% 0 0 0;
-`
-
-const FeatureCardsWrapper = styled.div`
+const VideoWrapper = styled.div`
+  margin: 20px auto;
   display: flex;
-  padding: 0 5%;
-  background-color: #75adfa;
+  align-items: center;
+  justify-content: center;
+`
 
-  @media (min-width: ${FOLDING_BREAKPOINT}px) {
-    flex-direction: row;
-  }
+const LandingVideo = styled.video`
+  max-width: 80%;
+  height: auto;
+
   @media (max-width: ${FOLDING_BREAKPOINT - 1}px) {
-    flex-direction: column;
-
-    > div:first-child {
-      margin-top: -50px;
-    }
+    max-width: 100%;
   }
 `
 
@@ -92,8 +107,8 @@ type PropsType = {
 }
 
 const LandingPage = (props: PropsType): ?React.Element<*> => {
-  const renderFeature = ({ image, title, description }) => (
-    <FeatureCard key={title} image={image} title={title} text={description} />
+  const renderDiscItem = ({ image, title, description, arrangement }) => (
+    <HowItWorksItem key={title} image={image} title={title} text={description} arrangement={arrangement} />
   )
 
   if (props.isLoggedIn === null) {
@@ -103,29 +118,32 @@ const LandingPage = (props: PropsType): ?React.Element<*> => {
   } else {
     return (
       <div>
-        <BlueWaveBackground>
+        <LandingCloudBackground>
           <TagDiv>
-            <LandingText>Make the First Move.</LandingText>
+            <LandingText large>Make the First Move</LandingText>
             <LandingText>Find Your True Bruin.</LandingText>
             <br />
-            <LogInButton override="signup" />
+            <LogInButton plain override="signup" />
           </TagDiv>
-        </BlueWaveBackground>
-        <MessageWrapper>
-          <Title>From Us To You</Title>
-          <br />
-          <Text paragraph>
+        </LandingCloudBackground>
+        <VideoCloudBackground>
+          <LighterHeader>BruinMeet in Action</LighterHeader>
+          <VideoWrapper>
+            <LandingVideo controls preload="metadata" poster={poster}>
+              <source src={video} type="video/mp4" />
+              Your browser does not support this video.
+            </LandingVideo>
+          </VideoWrapper>
+          <Subtitle color={colors.lightishGrey}>
             {
               "BruinMeet makes dating fun and easy. Spending all day swiping through people isn't what dating should be. Instead of swiping or crazy algorithms, we believe the best way to tell if there's a spark is to meet in person."
             }
-          </Text>
-        </MessageWrapper>
-        <FeatureWrapper>
-          <Title>Features</Title>
-          <TopWaveDiv />
-          <FeatureCardsWrapper>{features.map(renderFeature)}</FeatureCardsWrapper>
-          <BottomWaveDiv />
-        </FeatureWrapper>
+          </Subtitle>
+        </VideoCloudBackground>
+        <HowItWorksCloudBackground>
+          <LighterHeader>How It Works</LighterHeader>
+          {descriptions.map(renderDiscItem)}
+        </HowItWorksCloudBackground>
       </div>
     )
   }
