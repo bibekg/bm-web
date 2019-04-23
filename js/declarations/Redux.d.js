@@ -21,7 +21,8 @@ type ReduxStateType = {
   auth: AuthenticationStateType,
   user: UserStateType,
   admin: AdminStateType,
-  match: MatchStateType
+  match: MatchStateType,
+  recent: RecentStateType
 }
 
 // Authentication State
@@ -80,6 +81,16 @@ type AdminStateType = {
   feedback: Array<any>,
   stats: ?AdminStatsType
 }
+
+// Recent Matches State
+type GetRecentMatchesSuccessActionType = {
+  type: ACTIONS.GET_RECENT_MATCHES_SUCESS,
+  payload: Array<MatchType>
+}
+
+type RecentActionType = GetRecentMatchesSuccessActionType
+
+type RecentStateType = ?Array<MatchType>
 
 // Match State
 type GetMatchSuccessActionType = {

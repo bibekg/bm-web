@@ -80,6 +80,7 @@ const NavItem = (props: { link: string, name: string }) => (
 function LoggedInLinks(): React.Element<*> {
   return (
     <StyledList>
+      <NavItem link="/recent" name="Recent Matches" />
       <NavItem link="/main" name="Main" />
       <NavItem link="/profile" name="Profile" />
       <NavItem link="/faq" name="FAQs" />

@@ -13,6 +13,7 @@ import SignUpPage from './SignUpPage'
 import UserVerificationPage from './UserVerificationPage'
 import TermsOfServicePage from './TermsOfServicePage'
 import ErrorPage from './ErrorPage'
+import RecentMatchesPage from './RecentMatchesPage'
 
 const pageRoutes: { [string]: PageRouteType } = {
   about: {
@@ -90,6 +91,13 @@ const pageRoutes: { [string]: PageRouteType } = {
     path: '/terms',
     exact: true,
     requireAuth: false,
+    showNavBar: true
+  },
+  recentMatches: {
+    component: RecentMatchesPage,
+    path: '/recent',
+    exact: true,
+    requireAuth: true,
     showNavBar: true
   },
   error: {
